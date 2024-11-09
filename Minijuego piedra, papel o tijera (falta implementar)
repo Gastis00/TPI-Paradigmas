@@ -18,7 +18,7 @@ Transcript cr. "para que se vea mejor"
 	respuesta1:= (UIManager default requestPassword: 'Teclas asignadas A S D respectivamente: elija piedra, papel o tijera'). 
 
 	"si presiona boton cancel"
-	[respuesta1 = nil] whileTrue: [ 
+	[respuesta1 isNil] whileTrue: [ 
 		respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
 		].
 
@@ -29,7 +29,7 @@ Transcript cr. "para que se vea mejor"
 		respuesta1:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente A S D').
 	
 		"si presiona boton cancel"
-		[respuesta1 = nil] whileTrue: [ 
+		[respuesta1 isNil] whileTrue: [ 
 			respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
 			].
 		].
@@ -39,7 +39,7 @@ Transcript cr. "para que se vea mejor"
 	respuesta2:= (UIManager default requestPassword: 'Teclas asignadas U I O respectivamente: elija piedra, papel o tijera'). 
 
 	"si presiona boton cancel"
-	[respuesta2 = nil] whileTrue: [ 
+	[respuesta2 isNil] whileTrue: [ 
 		respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
 		].
 
@@ -50,7 +50,7 @@ Transcript cr. "para que se vea mejor"
 		respuesta2:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente U I O').
 	
 		"si presiona boton cancel"
-		[respuesta2 = nil] whileTrue: [ 
+		[respuesta2 isNil] whileTrue: [ 
 			respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
 			].
 		].
