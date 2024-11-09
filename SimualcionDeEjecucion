@@ -29,3 +29,9 @@
 -Aumento ronda
 
 -Sorteo el jugador que empieza
+	llamo a tablero tirarDadoJugador y lo asigno a una variable
+	tengo el jugador que tiene que elegir contrincante.
+
+-Llamo al metodo para elegir el contrincante 
+
+
