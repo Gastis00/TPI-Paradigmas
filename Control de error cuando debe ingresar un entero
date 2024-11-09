@@ -1,4 +1,4 @@
 	"controla los errores"
 	[respuesta = nil] whileTrue: [ 
-		respuesta:= (UIManager default requestPassword: 'Error, vuelva a intentarlo ingrese un entero') asInteger.
+		respuesta:= (UIManager default request: 'Error, vuelva a intentarlo ingrese un entero') asInteger.
 		].
