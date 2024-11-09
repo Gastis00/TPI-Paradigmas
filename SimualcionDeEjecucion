@@ -1,0 +1,31 @@
+-Empieza el programa
+
+-Instancio un objeto de Tablero --> Maneja la ejecución
+	lista Iniciales creada y vacía
+	lista Casilleros creada y vacia 
+  lista Jugadores creada y vacia
+  ronda en 0
+
+-Pido al usuario que me ingrese que modo de juego va a jugar.
+
+-Llamo cantJugadores con el input del usuario
+  cantJugares queda con la cantidad
+  dimension queda con su valor
+  lista Iniciales queda cargada con objetos de casillero correspondientes
+
+-Para la cantidad de jugadores hago un bucle:
+  pido por teclado nombre de jugador
+  numero de minijuego que elige 
+  objeto de tablero en el que se esta ejecutando
+  ----
+  llamo a la funcion inicializarJugador con estos valores
+  carga la lista de jugadores con instancias de jugadores 
+  a cada jugador le asigna nombre, id, minijuego, contrincantes
+  una casilla de territorio --> Que a su vez se guarda en la lista Territorio y se borra de la lista Iniciales
+
+-Tengo a todos los jugadores cargados y con sus atributos listos, tengo las listas de jugadores
+  y casilleros completas y listos.
+
+-Aumento ronda
+
+-Sorteo el jugador que empieza
