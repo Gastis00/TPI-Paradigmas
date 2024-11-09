@@ -1,0 +1,135 @@
+| jugador1 jugador2 victorias1 victorias2 respuesta1 respuesta2 |
+
+"INICIALIZO VARIABLES"
+victorias1:= 0.
+jugador1:= 1.
+
+victorias2:= 0.
+jugador2:= 2.
+
+Transcript clear.
+Transcript show: '---MINIJUEGO PIEDRA, PAPEL O TIJERA---' ; cr.
+Transcript cr. "para que se vea mejor"
+[(victorias1 ~= 3) and: (victorias2 ~= 3) ] whileTrue: [
+	
+	"SELECCIONA PIEDRA, PAPEL O TIJERA"
+	
+	"JUGADOR 1"
+	respuesta1:= (UIManager default requestPassword: 'Teclas asignadas A S D respectivamente: elija piedra, papel o tijera'). 
+
+	"si presiona boton cancel"
+	[respuesta1 = nil] whileTrue: [ 
+		respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
+		].
+
+	respuesta1:= respuesta1 asLowercase. "lo convierte a minuscula y string"
+
+	[(respuesta1 ~= 'a') and: ((respuesta1 ~= 's') and: (respuesta1 ~= 'd'))] whileTrue: [ 
+		respuesta1:= respuesta1 asLowercase.
+		respuesta1:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente A S D').
+	
+		"si presiona boton cancel"
+		[respuesta1 = nil] whileTrue: [ 
+			respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
+			].
+		].
+
+	
+	"JUGADOR 2"
+	respuesta2:= (UIManager default requestPassword: 'Teclas asignadas U I O respectivamente: elija piedra, papel o tijera'). 
+
+	"si presiona boton cancel"
+	[respuesta2 = nil] whileTrue: [ 
+		respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
+		].
+
+	respuesta2:= respuesta2 asLowercase. "lo convierte a minuscula y string"
+
+	[(respuesta2 ~= 'u') and: ((respuesta2 ~= 'i') and: (respuesta2 ~= 'o'))] whileTrue: [ 
+		respuesta2:= respuesta2 asLowercase.
+		respuesta2:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente U I O').
+	
+		"si presiona boton cancel"
+		[respuesta2 = nil] whileTrue: [ 
+			respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
+			].
+		].
+	
+	
+	"ENFRENTAMIENTO PARA VER QUIEN GANA"
+	
+	respuesta1 caseOf: {
+	"JUGADOR1 PIEDRA"	['a'] -> [
+		"JUGADOR2 PIEDRA"
+		(respuesta2 = 'u') ifTrue: [ 
+			Transcript show: 'Empate, ambos sacaron piedra' ; cr.
+			]
+		ifFalse: [ 
+			"JUGADOR2 PAPEL"
+			(respuesta2 = 'i') ifTrue: [ 
+				victorias2:= victorias2 + 1.
+				Transcript show: 'Victoria jugador' , (jugador2 asString) , ', papel le gana a piedra' ; cr.
+				]
+			ifFalse: [ 
+				"JUGADOR2 TIJERA"
+				victorias1:= victorias1 + 1.
+				Transcript show: 'Victoria jugador' , (jugador1 asString), ', piedra le gana a tijera' ; cr.
+				].
+			].
+		].
+
+	"JUGADOR1 PAPEL" ['s'] -> [
+		"JUGADOR2 SACA PIEDRA"
+		(respuesta2 = 'u') ifTrue: [ 
+			victorias1:= victorias1 + 1.
+			Transcript show: 'Victoria jugador' , (jugador1 asString), ', papel le gana a piedra' ; cr.
+			]
+		ifFalse: [ 
+			"JUGADOR2 SACA PAPEL"
+			(respuesta2 = 'i') ifTrue: [ 
+				Transcript show: 'Empate, ambos sacaron papel' ; cr.
+				]
+			ifFalse: [ 
+				"JUGADOR2 SACA TIJERA"
+				victorias2:= victorias2 + 1.
+				Transcript show: 'Victoria jugador' , (jugador2 asString), ', tijera le gana a papel' ; cr.
+				].
+			].
+		].
+
+   "JUGADOR1 TIJERA" ['d'] -> [
+		"JUGADOR2 SACA PIEDRA"
+		(respuesta2 = 'u') ifTrue: [ 
+			victorias2:= victorias2 + 1.
+			Transcript show: 'Victoria jugador' , (jugador2 asString), ', piedra le gana a tijera' ; cr.
+			]
+		ifFalse: [ 
+			"JUGADOR2 SACA PAPEL"
+			(respuesta2 = 'i') ifTrue: [ 
+				victorias1:= victorias1 + 1.
+				Transcript show: 'Victoria jugador' , (jugador1 asString), ', tijera le gana a papel' ; cr.
+				]
+			ifFalse: [ 
+				"JUGADOR2 SACA TIJERA"
+				Transcript show: 'Empate, ambos sacaron tijera' ; cr.
+				].
+			].
+		]
+
+	} otherwise: ['Error']. "nunca deberia ejecutarse el error"
+	
+	
+	].
+
+"TERMINA EL DUELO, INFORMO GANADOR"
+Transcript cr. "para que se vea mejor"
+
+"pregunto por victorias1 = 3, sino es 3 es porque gano el otro"
+(victorias1 = 3) ifTrue: [
+	Transcript show: 'Duelo finalizado, el resultado fue ', (victorias1 asString), '-' , (victorias2 asString) ; cr.
+	Transcript show: 'El ganador es el jugador', (jugador1 asString) ; cr.
+	]
+ifFalse: [ 
+	Transcript show: 'Duelo finalizado, el resultado fue ', (victorias2 asString), '-' , (victorias1 asString) ; cr.
+	Transcript show: 'El ganador es el jugador', (jugador2 asString) ; cr.
+	].
