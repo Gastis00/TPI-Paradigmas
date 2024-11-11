@@ -114,9 +114,9 @@ Transcript cr. "para que se vea mejor"
 				Transcript show: 'Empate, ambos sacaron tijera' ; cr.
 				].
 			].
-		]
+		].
 
-	} otherwise: ['Error']. "nunca deberia ejecutarse el error"
+	}.
 	
 	
 	].
