@@ -1,3 +1,4 @@
+
 | jugador1 jugador2 victorias1 victorias2 respuesta1 respuesta2 |
 
 "INICIALIZO VARIABLES"
@@ -9,6 +10,7 @@ jugador2:= 2.
 
 Transcript clear.
 Transcript show: '---MINIJUEGO PIEDRA, PAPEL O TIJERA---' ; cr.
+Transcript show: '-AL MEJOR DE 5-' ; cr.
 Transcript cr. "para que se vea mejor"
 [(victorias1 ~= 3) and: (victorias2 ~= 3) ] whileTrue: [
 	
