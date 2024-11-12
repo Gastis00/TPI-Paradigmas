@@ -1,0 +1,56 @@
+"mostrarlo como una matriz"
+| columnas filas k arreglo var |
+
+filas:= (UIManager default request: 'Ingrese la cantidad de filas de la matriz') asInteger.
+"si ingresa una letra tiene nil"
+"si ingresa un float lo redondea para abajo"
+"si ingresa numeros y caracteres toma desde el primer numero que encuentra hasta que haya otro caracter"
+"verifico que las filas del arreglo sea un entero positivo"
+[filas isNil or: [filas < 0]] whileTrue:  [ 
+	filas:= (UIManager default request: 'El valor ingresado es incorrecto, ingrese un numero entero') asInteger.
+	].
+
+columnas:= (UIManager default request: 'Ingrese la cantidad de columnas de la matriz') asInteger.
+"verifico que la columnas del arreglo sea un entero positivo"
+[(columnas isNil) or: (columnas < 0)] whileTrue:  [ 
+	columnas:= (UIManager default request: 'El valor ingresado es incorrecto, ingrese un numero entero') asInteger.
+	].
+
+arreglo:= Array new: (columnas * filas). "creo el arreglo de tantos elementos indique"
+
+k:= 1. "inicializo"
+"cargo la matriz en un arreglo"
+1 to: filas do: [:i|  
+	1 to: columnas do: [:j| 
+		var:= (UIManager default request: 'Ingrese el elemento de la fila: ', i asString , 
+		' y columna: ', j asString ,' de la matriz') asNumber.
+		arreglo at: (k) asInteger put: var.
+		k:= k + 1.
+		
+		].
+].
+
+"cargo en el transcript para poder mostrar la matriz"
+Transcript clear. "vacia"
+k:=1.
+1 to: filas do: [:i|
+	Transcript show: '| '. "agrega al principio de la fila"
+	1 to: columnas do: [:j|
+		(k <= 9) ifTrue: [ 
+			Transcript show: ' ' , (arreglo at: k) asString. "carga cada elemento"
+			]
+		ifFalse: [ 
+			"entre 10 y 64 en el caso maximo"
+			Transcript show: (arreglo at: k) asString. "carga cada elemento"
+			].
+		
+		"para que en la ultima posicion no copie el guion"
+		(j ~= columnas) ifTrue: [ 
+			Transcript show: ' - '. 
+			].
+		
+		k:= k + 1.
+		
+		].
+	Transcript show: ' |' ; cr. "agrega al final"
+	].
