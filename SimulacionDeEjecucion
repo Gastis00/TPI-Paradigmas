@@ -43,5 +43,17 @@
 -Pregunto al vencedor si quiere seguir combatiendo (elegir otro rival) o si 
 	deseea que se tire el dado.
 
+-Aumentar numero de ronda
 
+-Actualizar el mapa
+
+-Preguntar cantidad de jugadores
+	si es igual a dos correr metodo de combate final
+	sino avanzar
+
+-Preguntar numero de rondas
+	si es el necesario para el duelo extra correr el metodo
+	sino correr proximo combate
+
+-Termina el duelo final, mostrar ganador 
 
