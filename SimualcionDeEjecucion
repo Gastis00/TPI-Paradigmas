@@ -3,28 +3,28 @@
 -Instancio un objeto de Tablero --> Maneja la ejecución
 	lista Iniciales creada y vacía
 	lista Casilleros creada y vacia 
-  lista Jugadores creada y vacia
-  ronda en 0
+  	lista Jugadores creada y vacia
+  	ronda en 0
 
 -Pido al usuario que me ingrese que modo de juego va a jugar.
 
 -Llamo cantJugadores con el input del usuario
-  cantJugares queda con la cantidad
-  dimension queda con su valor
-  lista Iniciales queda cargada con objetos de casillero correspondientes
+  	cantJugares queda con la cantidad
+ 	dimension queda con su valor
+ 	lista Iniciales queda cargada con objetos de casillero correspondientes
 
 -Para la cantidad de jugadores hago un bucle:
-  pido por teclado nombre de jugador
-  numero de minijuego que elige 
-  objeto de tablero en el que se esta ejecutando
-  ----
-  llamo a la funcion inicializarJugador con estos valores
-  carga la lista de jugadores con instancias de jugadores 
-  a cada jugador le asigna nombre, id, minijuego, contrincantes
-  una casilla de territorio --> Que a su vez se guarda en la lista Territorio y se borra de la lista Iniciales
+	  pido por teclado nombre de jugador
+	  numero de minijuego que elige 
+	  objeto de tablero en el que se esta ejecutando
+  	----------
+	  llamo a la funcion inicializarJugador con estos valores
+	  carga la lista de jugadores con instancias de jugadores 
+	  a cada jugador le asigna nombre, id, minijuego, contrincantes
+	  una casilla de territorio --> Que a su vez se guarda en la lista Territorio y se borra de la lista Iniciales
 
 -Tengo a todos los jugadores cargados y con sus atributos listos, tengo las listas de jugadores
-  y casilleros completas y listos.
+  	y casilleros completas y listas.
 
 -Aumento ronda
 
@@ -32,6 +32,16 @@
 	llamo a tablero tirarDadoJugador y lo asigno a una variable
 	tengo el jugador que tiene que elegir contrincante.
 
--Llamo al metodo para elegir el contrincante 
+-Llamo al metodo para elegir el contrincante y lo asigno a una variable
+
+-Cargo el atributo de juego con el atcante y el defensor
+
+-Inicio el combate con el minijuego del defensor
+
+-Actualizo los estados de las listas propias del tablero  del jugador vencedor
+
+-Pregunto al vencedor si quiere seguir combatiendo (elegir otro rival) o si 
+	deseea que se tire el dado.
+
 
 
