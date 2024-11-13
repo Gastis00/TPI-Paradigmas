@@ -1,6 +1,9 @@
-modoEntrada: tipo input: entrada
+modoEntrada: tipo input: entradausuario
 	"controla que sea del tipo entero"
 	"ingresa con el UIManager, y la variable llama al metodo"
+| array entrada |
+
+entrada := entradausuario.
 (tipo = 1) ifTrue: [
 			array:= #(1 2 3) ]
 		ifFalse: [
@@ -17,4 +20,4 @@ modoEntrada: tipo input: entrada
 		entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 		].
 	].
-^respuesta.
+^entrada.
