@@ -1,20 +1,22 @@
-| empateTotal intentosAdivina numRonda ganador empate distancia1 distancia2 intentos1 intentos2  numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 |
+| empateTotal intentosAdivina numRonda ganador empate acerto1 acerto2 distancia1 distancia2 intentos1 intentos2  numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 |
 
 jugador1:= 1.
 numAdivinar1:= (1 to: 200) atRandom.
-intentos1:= 3.
+intentos1:= 0.
 distancia1:= 0.
+acerto1:= false.
 
 jugador2:= 2.
 numAdivinar2:= (1 to: 200) atRandom.
-intentos2:= 3.
+intentos2:= 0.
 distancia2:= 0.
+acerto2:= false.
 
 numRonda:= 0.
 ganador:= 0.
 empate:= true. "guarda si hay empate en la ronda"
 empateTotal:= false. "guarda si hay empate en el juego completo"
-intentosAdivina:= 0. "resguarda los intentos del que adivino, para poder hacer la resta"
+
 Transcript clear.
 Transcript show: '---ADIVINAR NUMERO---' ; cr.
 Transcript show: 'El numero a divinar es entre 1 y 200' ; cr.
@@ -24,7 +26,7 @@ Transcript cr. "para que se vea mejor"
 
 [empate] whileTrue: [ 
 	
-	[(intentos1 ~= 0) and: (intentos2 ~= 0)] whileTrue: [	 
+	[((acerto1 not) and: (acerto2 not)) and: ((intentos1 < 3) and: (intentos2 < 3))] whileTrue: [	 
 		
 		numRonda:= numRonda + 1.
 		Transcript show: '-Ronda ' , (numRonda asString) , '-' ; cr.
@@ -71,13 +73,11 @@ Transcript cr. "para que se vea mejor"
 		
 		"JUGADOR 1"
 		(respuesta1 = numAdivinar1) ifTrue: [ 
-			intentosAdivina:= intentos1. "resguarda los intentos del que adivino, para poder hacer la resta"
-			intentos1:= 0. "para que pueda terminar"
+			acerto1:= true. "para que pueda terminar"
 			Transcript show: 'El jugador' , (jugador1 asString) , ' adivino el numero' ; cr.
 			]
 		ifFalse: [ 
 			"TIRAR PISTAS"
-			intentos1:= intentos1 - 1.
 			(respuesta1 < numAdivinar1) ifTrue: [ 
 				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero que ingresaste es ', (respuesta1 asString); cr.
 				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero a adivinar es mayor' ; cr.
@@ -90,13 +90,11 @@ Transcript cr. "para que se vea mejor"
 	
 		"JUGADOR 2"
 		(respuesta2 = numAdivinar2) ifTrue: [ 
-			intentosAdivina:= intentos2. "resguarda los intentos del que adivino, para poder hacer la resta"
-			intentos2:= 0. "para que pueda terminar"
+			acerto2:= true. "para que pueda terminar"
 			Transcript show: 'El jugador' , (jugador2 asString) , ' - adivino el numero' ; cr.
 			]
 		ifFalse: [ 
 			"TIRAR PISTAS"
-			intentos2:= intentos2 - 1.
 			(respuesta2 < numAdivinar2) ifTrue: [ 
 				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero que ingresaste es ', (respuesta2 asString); cr.
 				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero a adivinar es mayor' ; cr.
@@ -107,16 +105,19 @@ Transcript cr. "para que se vea mejor"
 				].
 			].
 		
+		intentos1:= intentos1 + 1.
+		intentos2:= intentos2 + 1.
+		
 		].
 	
+	
 	"TERMINA EL DUELO, HAGO CALCULO"
-
-	(intentos1 = intentos2) ifTrue: [ 
-	
 		"ANALIZO DISTANCIA QUE QUEDARON DEL NUMERO ADIVINAR"
-		distancia1:= (numAdivinar1 - respuesta1) abs. "abs convierte el numero a positivo"
-		distancia2:= (numAdivinar2 - respuesta2) abs. "abs convierte el numero a positivo"
+	distancia1:= (numAdivinar1 - respuesta1) abs. "abs convierte el numero a positivo"
+	distancia2:= (numAdivinar2 - respuesta2) abs. "abs convierte el numero a positivo"
 	
+	(intentos1 = intentos2) ifTrue: [ 
+		
 		(distancia1 = distancia2) ifTrue: [ 
 			
 			"empate de la ronda queda en verdadero"
@@ -175,7 +176,7 @@ Transcript show: '-Duelo finalizado-' ; cr.
 	ifFalse: [ 
 		"no hubo empate"
 		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Es el ganador y el numero adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Con ', (3 - intentosAdivina) asString , ' intentos y con una distancia de ', (distancia1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Con ', (intentos1) asString , ' intento/s y con una distancia de ', (distancia1 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Perdio y quedo a una distancia de ', (distancia2 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador2 asString) ,' - El numero adivinar era ', (numAdivinar2 asString) ; cr.
 		].
@@ -193,7 +194,7 @@ ifFalse: [
 	ifFalse: [ 
 		"no hubo empate"
 		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el numero adivinar era ', (numAdivinar2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (3 - intentosAdivina) asString , ' intentos y con una distancia de ', (distancia2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2) asString , ' intento/s y con una distancia de ', (distancia2 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y quedo a una distancia de ', (distancia1 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador1 asString) ,' - El numero adivinar era ', (numAdivinar1 asString) ; cr.
 		].
