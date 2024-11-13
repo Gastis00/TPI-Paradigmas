@@ -1,18 +1,17 @@
-enteroError
+modoJuego: entrada
 	"controla que sea del tipo entero"
 	"ingresa con el UIManager, y la variable llama al metodo"
-| respuesta | 
-respuesta := self.
-"controla si presiona cancel"
-[(respuesta isNil)] whileTrue: [ 
+array:= #(1 2 3)
+
+[(entrada isNil)] whileTrue: [ 
 	respuesta:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 	].
-"controla que sea entero"
-[((respuesta asInteger) isInteger)] whileFalse: [ 
+
+[((respuesta asInteger) isInteger) and: (array includes: respuesta)] whileFalse: [ 
 	respuesta:= (UIManager default request: 'Error, vuelva a intentarlo').
-	
-	"controla si presiona cancel"
+
 	[(respuesta isNil)] whileTrue: [ 
 		respuesta:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 		].
 	].
+^respuesta.
