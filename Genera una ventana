@@ -1,0 +1,27 @@
+| window textMorph largeFont |
+window delete.
+window := SystemWindow new.
+window setLabel: 'MAPA'.
+window extent: 800@800. "Ajusta el tamaño de la ventana (ancho x alto)"
+
+"Crear una referencia de fuente con tamaño grande"
+largeFont := LogicalFont familyName: 'Source Sans Pro' pointSize: 20.
+
+"Crear y configurar el TextMorph con la fuente grande"
+textMorph := TextMorph new.
+textMorph contents: 
+'Este es el contenido de la ventana.' , String cr, 
+                '|  1 -  2 -  3 - 2 - 3 - 4 |' , String cr ,
+                '|  4 -  5 -  6 - 2 - 3 - 4 |' , String cr ,
+                '|  7 -  8 -  9 - 2 - 3 - 4 | |  7 -  8 -  9 - 2 - 3 - 4 | |  7 -  8 -  9 - 2 - 3 - 4 | |  7 -  8 -  9 - 2 - 3 - 4 |'.
+textMorph font: largeFont.  "Usar la fuente configurada"
+textMorph wrapFlag: true.
+
+"Agregar el TextMorph al SystemWindow"
+window addMorph: textMorph frame: (0@0 corner: 15@15).
+
+"Mostrar la ventana en el mundo de Pharo"
+window openInWorld.
+
+"Ejecuta un proceso para esperar 10 segundos y luego cerrar la ventana"
+[ (Delay forSeconds: 3) wait. window delete ] fork.
