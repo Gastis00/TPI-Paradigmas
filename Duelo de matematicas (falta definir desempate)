@@ -1,0 +1,173 @@
+| nro semaforo jugador1 jugador2 acerto1 acerto2 distancia1 distancia2 total1 total2 respuesta1 respuesta2 |
+
+"alt + .        esto hace que pare la ejecucion"
+
+total1 := 0.
+jugador1 := 1.
+acerto1 := false.
+
+total2 := 0.
+jugador2 := 2.
+acerto2 := false.
+
+semaforo := Semaphore new.
+nro := (-10 to: 10) atRandom. "inicializo"
+
+Transcript clear.
+Transcript show: '--- DUELO DE MATEMÁTICAS---' ; cr.
+Transcript show: 'Vas a tener 5 numeros para sumar y restar, para despues decir el resultado' ; cr.
+Transcript show: 'El que acierte su numero gana, en caso de que ambos acierten: gana el defensor' ; cr.
+Transcript show: 'Sino aciertan, el que este a menor distancia de su numero gana' ; cr.
+Transcript show: 'En caso de que ambos queden a la misma distancia: gana el defensor' ; cr.
+
+Transcript cr.
+
+"JUEGA EL JUGADOR1"
+Transcript show: '-Turno Jugador1-' ; cr.
+UIManager default request: 'Estas listo?'.
+1 to: 5 do: [ :i|
+	
+	"evita que salga un 0"
+	[nro = 0] whileTrue: [
+		nro := (-10 to: 10) atRandom.
+    	].
+	
+	total1:= total1 + nro. "guardo en la variable a adivinar"
+	
+	Transcript show: i asString, ') El numero a sumar/restar es ', (nro asString) ; cr.
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: 1.75) wait. "espera 1.75 segundos"
+	
+	Transcript clear.
+	nro := 0. "para que vuelva a entrar en el bucle"
+	].
+respuesta1 := (UIManager default request: 'Ingrese resultado final') asInteger.
+
+
+"JUEGA EL JUGADOR 2"
+Transcript show: '-Turno Jugador2-' ; cr.
+UIManager default request: 'Estas listo?'.
+1 to: 5 do: [ :i|
+	
+	"evita que salga un 0"
+	[nro = 0] whileTrue: [
+		nro := (-10 to: 10) atRandom.
+    	].
+	
+	total2:= total2 + nro. "guardo en la variable a adivinar"
+	
+	Transcript show: i asString, ') El numero a sumar/restar es ', (nro asString) ; cr.
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: 1.75) wait. "espera 1.75 segundos"
+	
+	Transcript clear.
+	nro := 0. "para que vuelva a entrar en el bucle"
+	].
+respuesta2 := (UIManager default request: 'Ingrese resultado final') asInteger.
+
+
+
+"CALCULOS QUIEN ACERTO Y/O DISTANCIAS"
+
+"Jugador 1"
+(respuesta1 = total1) ifTrue: [ 
+	acerto1 := true.
+	]
+ifFalse: [ 
+	"ANALIZO DISTANCIA QUE QUEDARON DEL NUMERO ADIVINAR"
+	((total1 >= 0) and: (respuesta1 >= 0)) ifTrue: [
+		distancia1 := (total1 - respuesta1) abs. "abs convierte el numero a positivo"
+		]
+	ifFalse: [ 
+		distancia1 := (total1 - respuesta1) abs. "abs convierte el numero a positivo"
+		].
+	
+	].
+
+"Jugador 2"
+(respuesta2 = total2) ifTrue: [ 
+	acerto2 := true.
+	]
+ifFalse: [ 
+	"ANALIZO DISTANCIA QUE QUEDARON DEL NUMERO ADIVINAR"
+	((total2 >= 0) and: (respuesta2 >= 0)) ifTrue: [
+		distancia2 := (total2 - respuesta2) abs. "abs convierte el numero a positivo"
+		]
+	ifFalse: [ 
+		distancia2 := (total2 - respuesta2) abs. "abs convierte el numero a positivo"
+		].
+	
+	].
+
+
+
+"INFORMO"
+Transcript show: '-Duelo finalizado-' ; cr.
+
+(acerto1 and: acerto2) ifTrue: [ 
+	
+	Transcript show: 'Empate, ambos acertaron el numero entonces el ganador es el defensor(falta ver quien seria)' ; cr.
+	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+	Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+	
+	]
+
+ifFalse: [
+	(acerto1) ifTrue: [
+		
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Acerto entonces es el ganador' ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+		
+		]
+	ifFalse: [ 
+		(acerto2) ifTrue: [ 
+			
+			Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Acerto entonces es el ganador' ; cr.
+			Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+			Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+			Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+			
+			]
+		ifFalse: [ 
+			"ninguno acerto, se define por distancia"
+			(distancia1 < distancia2) ifTrue: [ 
+				
+				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Tiene menor distancia entonces es el ganador' ; cr.
+				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+				Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+				Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+				
+				]
+			ifFalse: [ 
+				(distancia1 > distancia2) ifTrue: [ 
+					
+					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Tiene menor distancia entonces es el ganador' ; cr.
+					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+					
+					]
+				ifFalse: [ 
+					
+					"empataron en distancia"
+					Transcript show: 'Empate, ambos quedaron a la misma distancia del numero entonces el ganador es el defensor(falta ver quien seria)' ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+					
+					].
+				
+				].
+		
+			].
+		
+		].
+	
+	].
