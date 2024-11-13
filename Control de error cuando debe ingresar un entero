@@ -1,4 +1,8 @@
-respuesta:= (UIManager default request: 'Ingrese numero'). 
+enteroError
+	"controla que sea del tipo entero"
+	"ingresa con el UIManager, y la variable llama al metodo"
+| respuesta | 
+respuesta := self.
 "controla si presiona cancel"
 [(respuesta isNil)] whileTrue: [ 
 	respuesta:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
