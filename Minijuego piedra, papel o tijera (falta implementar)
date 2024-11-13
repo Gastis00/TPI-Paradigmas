@@ -1,4 +1,3 @@
-
 | jugador1 jugador2 victorias1 victorias2 respuesta1 respuesta2 |
 
 "INICIALIZO VARIABLES"
@@ -17,43 +16,43 @@ Transcript cr. "para que se vea mejor"
 	"SELECCIONA PIEDRA, PAPEL O TIJERA"
 	
 	"JUGADOR 1"
-	respuesta1:= (UIManager default requestPassword: 'Teclas asignadas A S D respectivamente: elija piedra, papel o tijera'). 
+	respuesta1:= (UIManager default requestPassword: 'Elija una opcion entre parentesis: piedra(A), papel(S) y tijera(D)'). 
 
 	"si presiona boton cancel"
 	[respuesta1 isNil] whileTrue: [ 
-		respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
+		respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(A), papel(S) y tijera(D)').
 		].
 
 	respuesta1:= respuesta1 asLowercase. "lo convierte a minuscula y string"
 
 	[(respuesta1 ~= 'a') and: ((respuesta1 ~= 's') and: (respuesta1 ~= 'd'))] whileTrue: [ 
 		respuesta1:= respuesta1 asLowercase.
-		respuesta1:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente A S D').
+		respuesta1:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente: piedra(A), papel(S) y tijera(D)').
 	
 		"si presiona boton cancel"
 		[respuesta1 isNil] whileTrue: [ 
-			respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo A S D').
+			respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(A), papel(S) y tijera(D)').
 			].
 		].
 
 	
 	"JUGADOR 2"
-	respuesta2:= (UIManager default requestPassword: 'Teclas asignadas U I O respectivamente: elija piedra, papel o tijera'). 
+	respuesta2:= (UIManager default requestPassword: 'Elija una opcion entre parentesis: piedra(U), papel(I) y tijera(O)'). 
 
 	"si presiona boton cancel"
 	[respuesta2 isNil] whileTrue: [ 
-		respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
+		respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(U), papel(I) y tijera(O)').
 		].
 
 	respuesta2:= respuesta2 asLowercase. "lo convierte a minuscula y string"
 
 	[(respuesta2 ~= 'u') and: ((respuesta2 ~= 'i') and: (respuesta2 ~= 'o'))] whileTrue: [ 
 		respuesta2:= respuesta2 asLowercase.
-		respuesta2:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente U I O').
+		respuesta2:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente: piedra(U), papel(I) y tijera(O)').
 	
 		"si presiona boton cancel"
 		[respuesta2 isNil] whileTrue: [ 
-			respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo U I O').
+			respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(U), papel(I) y tijera(O)').
 			].
 		].
 	
