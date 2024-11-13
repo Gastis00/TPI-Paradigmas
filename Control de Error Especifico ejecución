@@ -20,4 +20,4 @@ entrada := entradausuario.
 		entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 		].
 	].
-^entrada.
+^(entrada asInteger).
