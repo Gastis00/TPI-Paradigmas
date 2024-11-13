@@ -1,17 +1,17 @@
-modoJuego: entrada
+modoJuego: entrada	// 	minijuegoEntrada: entrada
 	"controla que sea del tipo entero"
 	"ingresa con el UIManager, y la variable llama al metodo"
-array:= #(1 2 3)
+array:= #(1 2 3)	// 	array tmb seria otro arreglo
 
 [(entrada isNil)] whileTrue: [ 
-	respuesta:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
+	entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 	].
 
-[((respuesta asInteger) isInteger) and: (array includes: respuesta)] whileFalse: [ 
-	respuesta:= (UIManager default request: 'Error, vuelva a intentarlo').
+[((entrada asInteger) isInteger) and: (array includes: entrada)] whileFalse: [ 
+	entrada:= (UIManager default request: 'Error, vuelva a intentarlo').
 
-	[(respuesta isNil)] whileTrue: [ 
-		respuesta:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
+	[(entrada isNil)] whileTrue: [ 
+		entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
 		].
 	].
 ^respuesta.
