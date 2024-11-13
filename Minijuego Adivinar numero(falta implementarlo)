@@ -168,17 +168,17 @@ Transcript show: '-Duelo finalizado-' ; cr.
 (ganador = 1) ifTrue: [ 
 	
 	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Es el ganador con desempate en la ronda ', (numRonda asString) , 'y el numero a adivinar era ', (numAdivinar1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , 'y el numero a adivinar era ', (numAdivinar1 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y quedo a una distancia de ', (distancia2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,' - El numero adivinar era ', (numAdivinar2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar2 asString) ; cr.		
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
 		]
 	ifFalse: [ 
 		"no hubo empate"
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Es el ganador y el numero adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Con ', (intentos1) asString , ' intento/s y con una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Perdio y quedo a una distancia de ', (distancia2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,' - El numero adivinar era ', (numAdivinar2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador y el numero adivinar era ', (numAdivinar1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con ', (intentos1) asString , ' intento/s y con una distancia de ', (distancia1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
 		].
 	
 	]
@@ -186,17 +186,17 @@ Transcript show: '-Duelo finalizado-' ; cr.
 ifFalse: [  
 	
 	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador con desempate en la ronda ', (numRonda asString) , ' y el numero a adivinar era ', (numAdivinar2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , ' y el numero a adivinar era ', (numAdivinar2 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador2 asString) , ' - Con una distancia de ', (distancia2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar1 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador1 asString) , ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,' - El numero adivinar era ', (numAdivinar1 asString) ; cr.
 		]
 	ifFalse: [ 
 		"no hubo empate"
 		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el numero adivinar era ', (numAdivinar2 asString) ; cr.
 		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2) asString , ' intento/s y con una distancia de ', (distancia2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y quedo a una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,' - El numero adivinar era ', (numAdivinar1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y el numero adivinar era ', (numAdivinar1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
 		].
 	
 	].
