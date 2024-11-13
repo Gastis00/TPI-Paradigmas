@@ -1,7 +1,10 @@
-modoJuego: entrada	// 	minijuegoEntrada: entrada
+modoEntrada: tipo input: entrada
 	"controla que sea del tipo entero"
 	"ingresa con el UIManager, y la variable llama al metodo"
-array:= #(1 2 3)	// 	array tmb seria otro arreglo
+(tipo = 1) ifTrue: [
+			array:= #(1 2 3) ]
+		ifFalse: [
+			array:= #(1 2 3 4 5 6)].	"Cantidad de Juegos que tengamos"
 
 [(entrada isNil)] whileTrue: [ 
 	entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
