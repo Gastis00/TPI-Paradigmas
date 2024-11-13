@@ -1,0 +1,22 @@
+enteroError: entradausuario
+	"controla que sea del tipo entero"
+	"ingresa con el UIManager y el tablero llama al metodo"
+	
+| entrada |
+
+entrada := entradausuario.
+
+[(entrada isNil)] whileTrue: [ 
+	entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
+	].
+
+[((entrada asInteger) isInteger)] whileFalse: [ 
+	entrada:= (UIManager default request: 'Error, vuelva a intentarlo').
+
+	[(entrada isNil)] whileTrue: [ 
+		entrada:= (UIManager default request: 'Error, no selecciono nada vuelva a intentarlo').
+		].
+	].
+
+entrada:= entrada asInteger.
+^entrada.
