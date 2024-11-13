@@ -18,6 +18,8 @@ intentosAdivina:= 0. "resguarda los intentos del que adivino, para poder hacer l
 Transcript clear.
 Transcript show: '---ADIVINAR NUMERO---' ; cr.
 Transcript show: 'El numero a divinar es entre 1 y 200' ; cr.
+Transcript show: 'Con 3 intentos (2 pistas)' ; cr.
+Transcript show: 'Gana el que este a menor distancia' ; cr.
 Transcript cr. "para que se vea mejor"
 
 [empate] whileTrue: [ 
@@ -36,7 +38,7 @@ Transcript cr. "para que se vea mejor"
 			respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
 			].
 		"controla que sea entero"
-		[((respuesta1 asInteger) isInteger) and: ((respuesta1 asInteger)between: 1 and: 200)] whileFalse: [ 
+		[(respuesta1 asInteger) isInteger] whileFalse: [ 
 			respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Error, vuelva a intentarlo').
 			
 			"controla si presiona cancel"
@@ -52,7 +54,7 @@ Transcript cr. "para que se vea mejor"
 			respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
 			].
 		"controla que sea entero"
-		[((respuesta2 asInteger) isInteger) and: ((respuesta1 asInteger)between: 1 and: 200)] whileFalse: [ 
+		[(respuesta2 asInteger) isInteger] whileFalse: [ 
 			respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Error, vuelva a intentarlo').
 			
 			"controla si presiona cancel"
