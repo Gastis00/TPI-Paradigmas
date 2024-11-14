@@ -1,13 +1,13 @@
 | numRonda opciones ganador codigo1 codigo2 jugador1 jugador2 cantRegular1 cantRegular2 cantAciertos1 cantAciertos2 acerto1 acerto2 rta1 rta2 intentos1 intentos2 numAcertados1 numAcertados2 empate empateTotal |
 
 acerto1 := false.
-cantAciertos1 :=0.
+cantAciertos1 := 0.
 cantRegular1 := 0.
 numAcertados1 :=''.
 jugador1 := 1. "id jugador, borrar"
 
 acerto2 := false.
-cantAciertos2 :=0.
+cantAciertos2 := 0.
 cantRegular2 := 0.
 numAcertados2 := ''.
 jugador2 := 2. "id jugador, borrar"
@@ -30,32 +30,33 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	intentos2:= 0.
 	numRonda := numRonda + 1.
 	"GENERO CODIGO"
-   Transcript show: 'Jugador ', (jugador2 asString) , ' ingrese el código que debe adivinar el jugador ', jugador1 asString.
+   Transcript show: 'Jugador ', (jugador2 asString) , ' ingrese el código que debe adivinar el jugador ', (jugador1 asString) ; cr.
    
 	opciones:= (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
 	(opciones = 1) ifTrue: [
 		
 		"falta controlar error con el metodo enteroError"
-		codigo1 := (UIManager default request:'Ingrese un código de 4 digitos').
+		codigo1 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
 		[(codigo1 size) = 4] whileFalse: [
-			codigo1 := (UIManager default request:'Respete el formato, ingrese un código de 4 digitos')
+			codigo1 := (UIManager default requestPassword: 'Respete el formato, ingrese un código de 4 digitos')
 			]. 
 		]
 	ifFalse:[
-		codigo1 := (1000 to: 9999) atRandom. 
+		codigo1 := ((1000 to: 9999) atRandom) asString. 
 		].
 	
+	Transcript show: 'Jugador ', (jugador1 asString) , ' ingrese el código que debe adivinar el jugador ', (jugador2 asString) ; cr.
 	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
 	(opciones = 1) ifTrue: [
 		
 		"falta controlar error con el metodo enteroError"
-		codigo2 := (UIManager default request:'Ingrese un código de 4 digitos').
-		[(codigo1 size) = 4] whileFalse: [
-			codigo2 := (UIManager default request:'Respete el formato, ingrese un código de 4 digitos')
+		codigo2 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
+		[(codigo2 size) = 4] whileFalse: [
+			codigo2 := (UIManager default requestPassword: 'Respete el formato, ingrese un código de 4 digitos')
 			]. 
 		]
 	ifFalse:[
-		codigo2 := (1000 to: 9999) atRandom. 
+		codigo2 := ((1000 to: 9999) atRandom) asString. 
 		].
 	
 	
@@ -67,7 +68,7 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 		intentos1:= intentos1 + 1.
 		
 		"BIEN(en posicion)"
-		1 to: codigo1 do: [ :i |
+		1 to: (codigo1 size) do: [ :i |
 			
 			((codigo1 at: i) = (rta1 at: i)) ifTrue: [ 
 				cantAciertos1 := cantAciertos1 + 1.
@@ -77,12 +78,12 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			].
 		
 		"REGULAR(esta el numero, no en la posicion)"
-		1 to: codigo1 do: [ :i|
-			'234' includes: $3.
-    		numAcertados1 do: [ :j|
+		1 to: (codigo1 size) do: [ :i|
+			
+			1 to: (numAcertados1 size) do: [ :j|
 				
 				"pregunta si esta incluido en el codigo pero no esta en su posicion"
-				(((codigo1) includes: (rta1 at: i)) and: ((rta1 at: i) ~= (numAcertados1))) ifTrue: [ 
+				(((codigo1) includes: (rta1 at: i)) and: ((rta1 at: i) ~= (numAcertados1 at: j))) ifTrue: [ 
 					cantRegular1:= cantRegular1 + 1.
 					].
 				
@@ -91,11 +92,11 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			].
 		
 		"JUGADOR 2 JUEGA"
-		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
+		rta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) ,' - Adivine el codigo').
 		intentos2:= intentos2 + 1.
 		
 		"BIEN(en posicion)"
-		1 to: codigo2 do: [ :i |
+		1 to: (codigo2 size) do: [ :i |
 			
 			((codigo2 at: i) = (rta2 at: i)) ifTrue: [ 
 				cantAciertos2 := cantAciertos2 + 1.
@@ -105,12 +106,12 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			].
 		
 		"REGULAR(esta el codigo, no en la posicion)"
-		1 to: codigo2 do: [ :i|
+		1 to: (codigo2 size) do: [ :i|
 			
-    		numAcertados2 do: [ :j|
+    		1 to: (numAcertados2 size) do: [ :j|
 				
 				"pregunta si esta incluido en el codigo pero no esta en su posicion"
-				(((codigo2) includes: (rta2 at: i)) and: ((rta2 at: i) ~= (numAcertados2))) ifTrue: [ 
+				(((codigo2) includes: (rta2 at: i)) and: ((rta2 at: i) ~= (numAcertados2 at: j))) ifTrue: [ 
 					cantRegular2:= cantRegular2 + 1.
 					].
 				
@@ -119,11 +120,14 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			].		
 		
 		"INFORME PARCIAL DE CUANTOS ACERTARON"
+		Transcript cr.
 		Transcript show: '-Intento ', (intentos1 asString) , '-' ; cr. "intentos1 va hacer igual que intentos2"
- 		Transcript show: 'Jugador', (jugador1 asString) , 'acerto ' , (cantAciertos1 asString) , ' en su posicion'.
-		Transcript show: 'Jugador', (jugador1 asString) , 'acerto ' , (cantRegular1 asString) , ' pero no estan en su posicion'.
-		Transcript show: 'Jugador', (jugador2 asString) , 'acerto ' , (cantAciertos2 asString) , ' en su posicion'.
-		Transcript show: 'Jugador', (jugador2 asString) , 'acerto ' , (cantRegular2 asString) , ' pero no estan en su posicion'.
+		Transcript show: 'Jugador', (jugador1 asString) , ' ingresó ' , (rta1 asString) ; cr.
+ 		Transcript show: 'Jugador', (jugador1 asString) , ' acertó ' , (cantAciertos1 asString) , ' en su posicion' ; cr.
+		Transcript show: 'Jugador', (jugador1 asString) , ' acertó ' , (cantRegular1 asString) , ' pero no estan en su posicion' ; cr.
+		Transcript show: 'Jugador', (jugador2 asString) , ' ingresó ' , (rta2 asString) ; cr.
+		Transcript show: 'Jugador', (jugador2 asString) , ' acertó ' , (cantAciertos2 asString) , ' en su posicion' ; cr.
+		Transcript show: 'Jugador', (jugador2 asString) , ' acertó ' , (cantRegular2 asString) , ' pero no estan en su posicion' ; cr.
 		
 		].
 	
@@ -178,7 +182,7 @@ ifFalse: [
 	ifFalse: [ 
 		"no hubo empate"
 		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el codigo adivinar era ', (codigo2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2) asString , ' intento/s ' ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2 asString) , ' intento/s ' ; cr.
 		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y el codigo adivinar era ', (codigo1 asString) ; cr
 		].
 	
