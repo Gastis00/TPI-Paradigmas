@@ -63,6 +63,11 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	"AMBOS JUGADORES PASAN A JUGAR"
 	[(cantAciertos1 ~= 4) and: (cantAciertos2 ~= 4)] whileTrue: [
 		
+		cantAciertos1 := 0.
+		cantRegular1 := 0.
+		cantAciertos2 := 0.
+		cantRegular2 := 0.
+		
 		"JUGADOR 1 JUEGA"
 		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
 		intentos1:= intentos1 + 1.
@@ -80,13 +85,9 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 		"REGULAR(esta el numero, no en la posicion)"
 		1 to: (codigo1 size) do: [ :i|
 			
-			1 to: (numAcertados1 size) do: [ :j|
-				
-				"pregunta si esta incluido en el codigo pero no esta en su posicion"
-				(((codigo1) includes: (rta1 at: i)) and: ((rta1 at: i) ~= (numAcertados1 at: j))) ifTrue: [ 
-					cantRegular1:= cantRegular1 + 1.
-					].
-				
+			"pregunta si esta incluido en el codigo pero no esta en su posicion"
+			(((codigo1) includes: (rta1 at: i)) and: (((numAcertados1) includes: (rta1 at: i)) not)) ifTrue: [ 
+				cantRegular1:= cantRegular1 + 1.
 				].
 			
 			].
@@ -108,15 +109,11 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 		"REGULAR(esta el codigo, no en la posicion)"
 		1 to: (codigo2 size) do: [ :i|
 			
-    		1 to: (numAcertados2 size) do: [ :j|
-				
-				"pregunta si esta incluido en el codigo pero no esta en su posicion"
-				(((codigo2) includes: (rta2 at: i)) and: ((rta2 at: i) ~= (numAcertados2 at: j))) ifTrue: [ 
-					cantRegular2:= cantRegular2 + 1.
-					].
-				
+			"pregunta si esta incluido en el codigo pero no esta en su posicion"
+			(((codigo2) includes: (rta2 at: i)) and: (((numAcertados2) includes: (rta2 at: i)) not)) ifTrue: [ 
+				cantRegular2:= cantRegular2 + 1.
 				].
-			
+
 			].		
 		
 		"INFORME PARCIAL DE CUANTOS ACERTARON"
