@@ -15,7 +15,8 @@ nro := (-10 to: 10) atRandom. "inicializo"
 
 Transcript clear.
 Transcript show: '--- DUELO DE MATEMÁTICAS---' ; cr.
-Transcript show: 'Vas a tener 6 numeros para sumar y restar, para despues decir el resultado' ; cr.
+Transcript show: 'Vas a tener 6 numeros para sumar(si son del mismo signo) y restar(de signos opuestos)' ; cr.
+Transcript show: 'Los numeros van a ir saliendo en la primera linea, y despues decir el resultado' ; cr.
 Transcript show: 'El que acierte su numero gana, en caso de que ambos acierten: gana el defensor' ; cr.
 Transcript show: 'Sino aciertan, el que este a menor distancia de su numero gana' ; cr.
 Transcript show: 'En caso de que ambos queden a la misma distancia: gana el defensor' ; cr.
