@@ -1,184 +1,170 @@
-| empateTotal intentosAdivina numRonda ganador empate acerto1 acerto2 distancia1 distancia2 intentos1 intentos2  numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 |
+| numRonda opciones ganador codigo1 codigo2 jugador1 jugador2 cantRegular1 cantRegular2 cantAciertos1 cantAciertos2 acerto1 acerto2 rta1 rta2 intentos1 intentos2 numAcertados1 numAcertados2 empate empateTotal |
 
-jugador1:= 1.
-numAdivinar1:= (1 to: 200) atRandom.
-intentos1:= 0.
-distancia1:= 0.
-acerto1:= false.
+acerto1 := false.
+cantAciertos1 :=0.
+cantRegular1 := 0.
+numAcertados1 :=''.
+jugador1 := 1. "id jugador, borrar"
 
-jugador2:= 2.
-numAdivinar2:= (1 to: 200) atRandom.
-intentos2:= 0.
-distancia2:= 0.
-acerto2:= false.
+acerto2 := false.
+cantAciertos2 :=0.
+cantRegular2 := 0.
+numAcertados2 := ''.
+jugador2 := 2. "id jugador, borrar"
 
-numRonda:= 0.
-ganador:= 0.
-empate:= true. "guarda si hay empate en la ronda"
-empateTotal:= false. "guarda si hay empate en el juego completo"
-
+empate := false.
+numRonda:= 0. "partidas parciales"
+ganador:= 0. "determina el ganador"
 Transcript clear.
-Transcript show: '---ADIVINAR NUMERO---' ; cr.
-Transcript show: 'El numero a divinar es entre 1 y 200' ; cr.
-Transcript show: 'Con 3 intentos (2 pistas)' ; cr.
-Transcript show: 'Gana el que este a menor distancia' ; cr.
-Transcript cr. "para que se vea mejor"
+Transcript show: '---CODIGO SECRETO---' ; cr.
+Transcript show: 'Debera adivinar un numero de 4 digitos' ; cr.
+Transcript show: 'El primero que adivina gana' ; cr.
+Transcript show: 'Si ambos adivinan a la vez, se volvera a jugar' ; cr.
+Transcript cr.
+UIManager default request: 'Presione ENTER cuando esté listo'.
 
-[empate] whileTrue: [ 
+"mientras no empaten"
+[empate not] whileTrue: [
 	
-	[((acerto1 not) and: (acerto2 not)) and: ((intentos1 < 3) and: (intentos2 < 3))] whileTrue: [	 
+	intentos1:= 0.
+	intentos2:= 0.
+	numRonda := numRonda + 1.
+	"GENERO CODIGO"
+   Transcript show: 'Jugador ', (jugador2 asString) , ' ingrese el código que debe adivinar el jugador ', jugador1 asString.
+   
+	opciones:= (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
+	(opciones = 1) ifTrue: [
 		
-		numRonda:= numRonda + 1.
-		Transcript show: '-Ronda ' , (numRonda asString) , '-' ; cr.
-		
-		"SELECCIONA NUMERO"
+		"falta controlar error con el metodo enteroError"
+		codigo1 := (UIManager default request:'Ingrese un código de 4 digitos').
+		[(codigo1 size) = 4] whileFalse: [
+			codigo1 := (UIManager default request:'Respete el formato, ingrese un código de 4 digitos')
+			]. 
+		]
+	ifFalse:[
+		codigo1 := (1000 to: 9999) atRandom. 
+		].
 	
-		"JUGADOR 1"
-		respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Ingresa numero a adivinar'). 
-		"controla si presiona cancel"
-		[(respuesta1 isNil)] whileTrue: [ 
-			respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
-			].
-		"controla que sea entero"
-		[(respuesta1 asInteger) isInteger] whileFalse: [ 
-			respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Error, vuelva a intentarlo').
-			
-			"controla si presiona cancel"
-			[(respuesta1 isNil)] whileTrue: [ 
-				respuesta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
-				].
-			].
-	
-		"JUGADOR 2"
-		respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Ingresa numero a adivinar'). 
-		"controla si presiona cancel"
-		[(respuesta2 isNil)] whileTrue: [ 
-			respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
-			].
-		"controla que sea entero"
-		[(respuesta2 asInteger) isInteger] whileFalse: [ 
-			respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Error, vuelva a intentarlo').
-			
-			"controla si presiona cancel"
-			[(respuesta2 isNil)] whileTrue: [ 
-				respuesta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) , ' - Error, no selecciono nada vuelva a intentarlo').
-				].
-			].
-	
-	
-		"ANALIZA SI ADIVINO EL NUMERO"
+	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
+	(opciones = 1) ifTrue: [
 		
-		respuesta1:= respuesta1 asInteger.
-		respuesta2:= respuesta2 asInteger.
-		
-		"JUGADOR 1"
-		(respuesta1 = numAdivinar1) ifTrue: [ 
-			acerto1:= true. "para que pueda terminar"
-			Transcript show: 'El jugador' , (jugador1 asString) , ' adivino el numero' ; cr.
-			]
-		ifFalse: [ 
-			"TIRAR PISTAS"
-			(respuesta1 < numAdivinar1) ifTrue: [ 
-				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero que ingresaste es ', (respuesta1 asString); cr.
-				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero a adivinar es mayor' ; cr.
-				]
-			ifFalse: [ 
-				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero que ingresaste es ', (respuesta1 asString); cr.
-				Transcript show: 'Turno jugador' , (jugador1 asString) , ' - El numero a adivinar es menor' ; cr.
-				].
-			].
-	
-		"JUGADOR 2"
-		(respuesta2 = numAdivinar2) ifTrue: [ 
-			acerto2:= true. "para que pueda terminar"
-			Transcript show: 'El jugador' , (jugador2 asString) , ' - adivino el numero' ; cr.
-			]
-		ifFalse: [ 
-			"TIRAR PISTAS"
-			(respuesta2 < numAdivinar2) ifTrue: [ 
-				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero que ingresaste es ', (respuesta2 asString); cr.
-				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero a adivinar es mayor' ; cr.
-				]
-			ifFalse: [ 
-				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero que ingresaste es ', (respuesta2 asString); cr.
-				Transcript show: 'Turno jugador' , (jugador2 asString) , ' - El numero a adivinar es menor' ; cr.
-				].
-			].
-		
-		intentos1:= intentos1 + 1.
-		intentos2:= intentos2 + 1.
-		
+		"falta controlar error con el metodo enteroError"
+		codigo2 := (UIManager default request:'Ingrese un código de 4 digitos').
+		[(codigo1 size) = 4] whileFalse: [
+			codigo2 := (UIManager default request:'Respete el formato, ingrese un código de 4 digitos')
+			]. 
+		]
+	ifFalse:[
+		codigo2 := (1000 to: 9999) atRandom. 
 		].
 	
 	
-	"TERMINA EL DUELO, HAGO CALCULO"
-		"ANALIZO DISTANCIA QUE QUEDARON DEL NUMERO ADIVINAR"
-	distancia1:= (numAdivinar1 - respuesta1) abs. "abs convierte el numero a positivo"
-	distancia2:= (numAdivinar2 - respuesta2) abs. "abs convierte el numero a positivo"
-	
-	(intentos1 = intentos2) ifTrue: [ 
+	"AMBOS JUGADORES PASAN A JUGAR"
+	[(cantAciertos1 ~= 4) and: (cantAciertos2 ~= 4)] whileTrue: [
 		
-		(distancia1 = distancia2) ifTrue: [ 
+		"JUGADOR 1 JUEGA"
+		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
+		intentos1:= intentos1 + 1.
+		
+		"BIEN(en posicion)"
+		1 to: codigo1 do: [ :i |
 			
-			"empate de la ronda queda en verdadero"
-			empateTotal:= true. "empate de todo le juego se pone en verdadero"
-			Transcript cr. 
-			Transcript show: '-EMPATE-' ; cr.
-			Transcript show: 'APLAUSOS!! es muy dificil que pase, pense que hicimos esto y no se iba a usar' ; cr.
-			Transcript show: 'Ambos jugadores quedaron a la misma distancia y mismos intentos' ; cr.
-			Transcript show: 'Se vuelve a realizar el juego pero un solo intento un numero del 1 al 20' ; cr.
-			numAdivinar1:= (1 to: 20) atRandom.
-			numAdivinar2:= (1 to: 20) atRandom.
-			intentos1:= 1.
-			intentos2:= 1.
-			]
-		ifFalse: [ 
-			(distancia1 < distancia2) ifTrue: [ 
-				empate:= false.
-				ganador:= 1.
-				]
-			ifFalse: [ 
-				"distancia 1 > distancia2"
-				empate:= false.
-				ganador:= 2.
-				].
+			((codigo1 at: i) = (rta1 at: i)) ifTrue: [ 
+				cantAciertos1 := cantAciertos1 + 1.
+        		numAcertados1:= (numAcertados1,(rta1 at: i) asString). "para dps no contarlos en el regular"
+        		].
+	
 			].
 		
-		]
-	ifFalse: [ 
+		"REGULAR(esta el numero, no en la posicion)"
+		1 to: codigo1 do: [ :i|
+			'234' includes: $3.
+    		numAcertados1 do: [ :j|
+				
+				"pregunta si esta incluido en el codigo pero no esta en su posicion"
+				(((codigo1) includes: (rta1 at: i)) and: ((rta1 at: i) ~= (numAcertados1))) ifTrue: [ 
+					cantRegular1:= cantRegular1 + 1.
+					].
+				
+				].
+			
+			].
 		
-		(intentos1 < intentos2) ifTrue: [ 
-			empate:= false.
-			ganador:= 1.
-			]
-		ifFalse: [  
-			"intentos1 > intentos2"
-			empate:= false.
-			ganador:= 2.
+		"JUGADOR 2 JUEGA"
+		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
+		intentos2:= intentos2 + 1.
+		
+		"BIEN(en posicion)"
+		1 to: codigo2 do: [ :i |
+			
+			((codigo2 at: i) = (rta2 at: i)) ifTrue: [ 
+				cantAciertos2 := cantAciertos2 + 1.
+        		numAcertados2 := (numAcertados2,(rta2 at: i) asString). "para dps no contarlos en el regular"
+        		].
+	
+			].
+		
+		"REGULAR(esta el codigo, no en la posicion)"
+		1 to: codigo2 do: [ :i|
+			
+    		numAcertados2 do: [ :j|
+				
+				"pregunta si esta incluido en el codigo pero no esta en su posicion"
+				(((codigo2) includes: (rta2 at: i)) and: ((rta2 at: i) ~= (numAcertados2))) ifTrue: [ 
+					cantRegular2:= cantRegular2 + 1.
+					].
+				
+				].
+			
 			].		
+		
+		"INFORME PARCIAL DE CUANTOS ACERTARON"
+		Transcript show: '-Intento ', (intentos1 asString) , '-' ; cr. "intentos1 va hacer igual que intentos2"
+ 		Transcript show: 'Jugador', (jugador1 asString) , 'acerto ' , (cantAciertos1 asString) , ' en su posicion'.
+		Transcript show: 'Jugador', (jugador1 asString) , 'acerto ' , (cantRegular1 asString) , ' pero no estan en su posicion'.
+		Transcript show: 'Jugador', (jugador2 asString) , 'acerto ' , (cantAciertos2 asString) , ' en su posicion'.
+		Transcript show: 'Jugador', (jugador2 asString) , 'acerto ' , (cantRegular2 asString) , ' pero no estan en su posicion'.
+		
+		].
+	
+	"CONTROLO SI HAY UN GANADOR O EMPATE"
+	(intentos1 = intentos2) ifTrue: [ 
+		"empate"
+		empate:= true.
+		empateTotal:= true.
+		]
+	ifFalse: [
+		(intentos1 < intentos2) ifTrue: [ 
+			"gana el jugador1"
+			ganador:= 1.
+			empate:= false.
+			]
+		ifFalse: [ 
+			"gana el jugador2"
+			ganador:= 2.
+			empate:= false.
+			].
 		
 		].
 	
 	].
+"termina si no hay empate"
 
-"YA HAY UN GANADOR ENTONCES INFORMO"
-Transcript cr. "para que se vea mejor"
-Transcript show: '-Duelo finalizado-' ; cr.
+Transcript cr.
+Transcript show: '-Duelo finalizado-'.
+Transcript cr.
 
 (ganador = 1) ifTrue: [ 
 	
 	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , 'y el numero a adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar2 asString) ; cr.		
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , 'y el codigo a adivinar era ', (codigo1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el codigo adivinar era ', (codigo2 asString) ; cr.		
 		]
 	ifFalse: [ 
 		"no hubo empate"
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador y el numero adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con ', (intentos1) asString , ' intento/s y con una distancia de ', (distancia1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador y el codigo adivinar era ', (codigo1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con ', (intentos1 asString) , ' intento/s' ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el codigo adivinar era ', (codigo2 asString) ; cr.
 		].
 	
 	]
@@ -186,17 +172,14 @@ Transcript show: '-Duelo finalizado-' ; cr.
 ifFalse: [  
 	
 	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , ' y el numero a adivinar era ', (numAdivinar2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Con una distancia de ', (distancia2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Perdio y el numero adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , ' y el codigo a adivinar era ', (codigo2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) , ' - Perdio y el codigo adivinar era ', (codigo1 asString) ; cr.
 		]
 	ifFalse: [ 
 		"no hubo empate"
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el numero adivinar era ', (numAdivinar2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2) asString , ' intento/s y con una distancia de ', (distancia2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y el numero adivinar era ', (numAdivinar1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el codigo adivinar era ', (codigo2 asString) ; cr.
+		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2) asString , ' intento/s ' ; cr.
+		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y el codigo adivinar era ', (codigo1 asString) ; cr
 		].
 	
 	].
