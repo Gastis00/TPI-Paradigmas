@@ -1,0 +1,100 @@
+| seg posiciones espacio1 espacio2 caballo1 caballo2 window input1 input2 button1 button2 |
+
+caballo1 := #(
+    '>>>>>\.'
+    '/_  )`.'
+    '/  _)`^)`.'
+    '(_,'' \  `^-'''
+    '`'''
+).
+caballo2 := #(
+    '<<<<\.'
+    '/_  )`.'
+    '/  _)`^)`.'
+    '(_,'' \  `^-'''
+    '`'''
+).
+
+seg := 0.1.
+posiciones := 6. "Número de pasos que se desplazará el caballo"
+espacio1:= ''.
+espacio2:= ''.
+Transcript clear.
+
+"Crear una ventana usando SystemWindow"
+window := SystemWindow new.
+window setLabel: 'Ventana con Botones'.
+
+"Campo de texto 1"
+input1 := TextMorph new.
+input1 position: 10@10.
+input1 extent: 100@20.
+window addMorph: input1.
+
+"Campo de texto 2"
+input2 := TextMorph new.
+input2 position: 10@40.
+input2 extent: 100@20.
+window addMorph: input2.
+
+"Primer botón de acción"
+button1 := PluggableButtonMorph new.
+button1 label: 'Avanzar caballo 1'.
+
+button1 actionBlock: [
+	"avanza el caballo1"
+	Transcript show: ('1').
+	caballo1 do: [:linea |
+		Transcript show: (espacio1,linea) ; cr.
+		].
+	
+	Transcript show: ('2').
+	"se queda quieto"
+	caballo2 do: [:linea |
+		Transcript show: (espacio2,linea) ; cr.
+		].
+	
+	espacio1 := (espacio1,'               '). "Agrega espacios para desplazar el caballo"
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: seg) wait.
+	Transcript clear.
+].
+
+button1 position: 10@70.
+window addMorph: button1.
+
+
+
+"Segundo botón de acción"
+button2 := PluggableButtonMorph new.
+button2 label: 'Avanzar caballo 2'.
+
+button2 actionBlock: [
+	
+	"se queda quieto"	
+	Transcript show: ('1').
+	caballo1 do: [:linea |
+		Transcript show: (espacio1,linea) ; cr.
+		].   
+	
+	Transcript show: ('2').
+	"avanzo el caballo 1"
+	caballo2 do: [:linea |
+		Transcript show: (espacio2,linea) ; cr.
+		].
+	
+	espacio2 := (espacio2,'               '). "Agrega espacios para desplazar el caballo"
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: seg) wait.
+	Transcript clear.
+].
+
+button2 position: 10@100.
+window addMorph: button2.
+
+
+
+"Mostrar la ventana"
+window openInWorld.
