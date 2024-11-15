@@ -1,0 +1,112 @@
+| window ball paddle1 paddle2 ballDirectionX ballDirectionY paddleSpeed player1Score player2Score scoreText gameArea |
+
+"Configuraciones iniciales"
+window := SystemWindow new.
+window setLabel: 'Atari Pong'.
+window extent: 400@300. "Tamaño de la ventana"
+
+paddleSpeed := 10.
+ballDirectionX := 2. "Velocidad de la pelota en X"
+ballDirectionY := 2. "Velocidad de la pelota en Y"
+player1Score := 0.
+player2Score := 0.
+
+"Crear la pelota"
+ball := EllipseMorph new.
+ball color: Color red.
+ball extent: 10@10.
+ball position: 195@145. "Posición inicial al centro"
+window addMorph: ball.
+
+"Crear la primera paleta"
+paddle1 := Morph new.
+paddle1 color: Color blue.
+paddle1 bounds: (10@125 corner: 20@175). "Posición y tamaño de la primera paleta"
+window addMorph: paddle1.
+
+"Crear la segunda paleta"
+paddle2 := Morph new.
+paddle2 color: Color green.
+paddle2 bounds: (380@125 corner: 390@175). "Posición y tamaño de la segunda paleta"
+window addMorph: paddle2.
+
+"Crear el marcador de puntuación"
+scoreText := StringMorph new.
+scoreText contents: 'Jugador 1: 0 - Jugador 2: 0'.
+scoreText position: 150@10.
+window addMorph: scoreText.
+
+"Área de juego (límite de movimiento de la pelota)"
+gameArea := window bounds insetBy: 5.
+
+"Función para mover la pelota y manejar colisiones"
+[
+    [player1Score < 5 and: [player2Score < 5]] whileTrue: [
+        "Mover la pelota"
+        ball position: (ball position + (ballDirectionX@ballDirectionY)).
+
+        "Rebotar en la parte superior o inferior"
+        (ball top < gameArea top or: [ball bottom > gameArea bottom])
+            ifTrue: [ballDirectionY := ballDirectionY negated].
+
+        "Rebotar en las paletas"
+        (ball bounds intersects: paddle1 bounds)
+            ifTrue: [ballDirectionX := ballDirectionX negated].
+        (ball bounds intersects: paddle2 bounds)
+            ifTrue: [ballDirectionX := ballDirectionX negated].
+
+        "Verificar si un jugador anota"
+        (ball left < gameArea left)
+            ifTrue: [
+                player2Score := player2Score + 1.
+                ball position: 195@145. "Reiniciar la pelota al centro"
+                ballDirectionX := 2. "Reiniciar la dirección"
+            ].
+        (ball right > gameArea right)
+            ifTrue: [
+                player1Score := player1Score + 1.
+                ball position: 195@145.
+                ballDirectionX := -2.
+            ].
+
+        "Actualizar el marcador"
+        scoreText contents: 'Jugador 1: ', player1Score asString, ' - Jugador 2: ', player2Score asString.
+
+        World doOneCycle. "Actualizar el mundo"
+        (Delay forMilliseconds: 16) wait. "Controlar la velocidad del juego"
+    ].
+
+    "Mostrar quién ganó"
+    scoreText contents: (player1Score >= 5
+        ifTrue: ['¡Jugador 1 Gana!']
+        ifFalse: ['¡Jugador 2 Gana!']).
+] fork. "Ejecutar el bucle del juego en un proceso separado"
+
+"Detectar las teclas para mover las paletas"
+window on: #keyStroke send: #value: to: [ :event |
+    | key |
+    key := event keyCharacter.
+
+    "Mover la paleta 1 (Jugador 1 usa las teclas 'w' y 's')"
+    key = $w ifTrue: [
+        paddle1 position: (paddle1 position x)@(paddle1 position y - paddleSpeed).
+        (paddle1 top < gameArea top) ifTrue: [paddle1 position: (paddle1 position x)@gameArea top].
+    ].
+    key = $s ifTrue: [
+        paddle1 position: (paddle1 position x)@(paddle1 position y + paddleSpeed).
+        (paddle1 bottom > gameArea bottom) ifTrue: [paddle1 position: (paddle1 position x)@(gameArea bottom - paddle1 height)].
+    ].
+
+    "Mover la paleta 2 (Jugador 2 usa las flechas 'up' y 'down')"
+    key = Character arrowUp ifTrue: [
+        paddle2 position: (paddle2 position x)@(paddle2 position y - paddleSpeed).
+        (paddle2 top < gameArea top) ifTrue: [paddle2 position: (paddle2 position x)@gameArea top].
+    ].
+    key = Character arrowDown ifTrue: [
+        paddle2 position: (paddle2 position x)@(paddle2 position y + paddleSpeed).
+        (paddle2 bottom > gameArea bottom) ifTrue: [paddle2 position: (paddle2 position x)@(gameArea bottom - paddle2 height)].
+    ].
+].
+
+"Mostrar la ventana"
+window openInWorld.
