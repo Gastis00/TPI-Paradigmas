@@ -120,15 +120,14 @@ Transcript show: '-Duelo finalizado-' ; cr.
 
 (acerto1 and: acerto2) ifTrue: [ 
 	
-	Transcript show: 'Empate, ambos acertaron el numero entonces el ganador es el defensor(falta ver quien seria)' ; cr.
-	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
-	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero que ingreso fue ', (respuesta1 asString) ; cr.
-	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - La secuencia era ', sec1 ; cr.
-	Transcript cr.
+	Transcript show: 'Empate, ambos acertaron el numero entonces el ganador es el defensor: ' , (jugador2 asString); cr.
 	Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
 	Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero que ingreso fue ', (respuesta2 asString) ; cr.
 	Transcript show: 'Jugador' , (jugador2 asString) ,  ' - La secuencia era ', sec2 ; cr.
-	
+	Transcript cr.
+	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero que ingreso fue ', (respuesta1 asString) ; cr.
+	Transcript show: 'Jugador' , (jugador1 asString) ,  ' - La secuencia era ', sec1 ; cr.
 	]
 
 ifFalse: [
@@ -193,16 +192,16 @@ ifFalse: [
 				ifFalse: [ 
 					
 					"empataron en distancia"
-					Transcript show: 'Empate, ambos quedaron a la misma distancia del numero entonces el ganador es el defensor(falta ver quien seria)' ; cr.
-					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
-					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero que ingreso fue ', (respuesta1 asString) ; cr.
-					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - La secuencia era ', sec1 ; cr.
-					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
-					Transcript cr.
+					Transcript show: 'Empate, ambos quedaron a la misma distancia del numero entonces el ganador es el defensor: ' , (jugador2 asString) ; cr.
 					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero a acertar era ', (total2 asString) ; cr.
 					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - El numero que ingreso fue ', (respuesta2 asString) ; cr.
 					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - La secuencia era ', sec2 ; cr.
 					Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Quedo a una distancia de ', (distancia2 asString) ; cr.
+					Transcript cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero que ingreso fue ', (respuesta1 asString) ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - La secuencia era ', sec1 ; cr.
+					Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
 					
 					].
 				
