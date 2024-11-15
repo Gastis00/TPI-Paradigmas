@@ -165,6 +165,7 @@ ifFalse: [
 				
 				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Tiene menor distancia entonces es el ganador' ; cr.
 				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero a acertar era ', (total1 asString) ; cr.
+				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - El numero que ingreso fue ', (respuesta1 asString) ; cr.
 				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - La secuencia era ', sec1 ; cr.
 				Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Quedo a una distancia de ', (distancia1 asString) ; cr.
 				Transcript cr.
