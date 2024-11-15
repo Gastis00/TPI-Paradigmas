@@ -23,7 +23,6 @@ Transcript cr.
 UIManager default request: 'Presione ENTER cuando esté listo'.
 
 
-
 "mientras no empaten"
 [empate] whileTrue: [
 	
@@ -42,9 +41,7 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	(opciones = 1) ifTrue: [
 		
 		error:= true. "para que entre obligatoriamente"
-		
-		[((codigo1 size) = 4) or: (error not)] whileFalse: [
-			codigo1 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
+		[((codigo1 size) ~= 4) or: (error)] whileTrue: [
 			
 			codigo1 do: [ :c| "controla error"
 				vecesRepetido := 0.
@@ -60,7 +57,13 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 				ifFalse: [
 					error:= false.
 					].
-				].	
+				
+				].
+			
+			(error) ifTrue: [ 
+				codigo1 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				].
+				
 			].
 		]
 	ifFalse: [ 
@@ -70,12 +73,13 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			listaNum add: (i asString) "cargo como string"
 			].
 		"controla que no se repitan"
-		listaNum do: [ :c| 
+		1 to: 4 do: [ :c| 
 			n := ((listaNum) atRandom). 
 			listaNum remove: (n).
 			codigo1 := (codigo1,n).
 			].
-		listaNum := nil.
+		
+		listaNum removeAll. "vacia toda la lista"
 		
 		].
 	
@@ -86,9 +90,7 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	(opciones = 1) ifTrue: [
 		
 		error:= true. "para que entre obligatoriamente"
-		
-		[((codigo2 size) = 4) or: (error not)] whileFalse: [
-			codigo2 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
+		[((codigo2 size) ~= 4) or: (error)] whileTrue: [
 			
 			codigo2 do: [ :c| "controla error"
 				vecesRepetido := 0.
@@ -104,7 +106,13 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 				ifFalse: [
 					error:= false.
 					].
-				].	
+				
+				].
+			
+			(error) ifTrue: [ 
+				codigo2 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				].
+
 			].
 		]
 	ifFalse: [ 
@@ -114,16 +122,15 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 			listaNum add: (i asString) "cargo como string"
 			].
 		"controla que no se repitan"
-		listaNum do: [ :c| 
+		1 to: 4 do: [ :i| 
 			n := ((listaNum) atRandom). 
 			listaNum remove: (n).
 			codigo2 := (codigo2,n).
 			].
 		
-		listaNum := nil.
+		listaNum removeAll. "vacia toda la lista"
 		
 		].
-	
 	
 	"AMBOS JUGADORES PASAN A JUGAR"
 	[(cantAciertos1 ~= 4) and: (cantAciertos2 ~= 4)] whileTrue: [
@@ -135,58 +142,95 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 		
 		"JUGADOR 1 JUEGA"
 		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
-		intentos1:= intentos1 + 1.
 		
+		error := true. "para que entre obligatoriamente"
+		[((rta1 size) ~= 4) or: (error)] whileTrue: [
+			
+			rta1 do: [ :c| "controla error"
+				vecesRepetido := 0.
+				"recorro todo el codigo, a ver si no se repite"
+				rta1 do: [ :pos| 
+					(c = pos) ifTrue: [ 
+						vecesRepetido := vecesRepetido + 1.
+						].
+					].
+				(vecesRepetido > 1) ifTrue: [ 
+					error := true.
+					]
+				ifFalse: [
+					error:= false.
+					].
+				
+				].
+			
+			(error) ifTrue: [ "error de repetido"
+				rta1 := (UIManager default request: 'Turno jugador', (jugador1 asString) ,' -Error intente denuevo, Adivine el codigo').
+				].
+			
+			].	
+
+		intentos1:= intentos1 + 1.
 		"BIEN(en posicion)"
 		1 to: (codigo1 size) do: [ :i |
 			
 			((codigo1 at: i) = (rta1 at: i)) ifTrue: [ 
 				cantAciertos1 := cantAciertos1 + 1.
-        		].
+        		]
+			ifFalse: [
+				"REGULAR(esta el codigo, no en la posicion)"
+				(codigo1 includes: (rta1 at: i)) ifTrue: [ 
+					cantRegular1:= cantRegular1 + 1.
+					].
+				].
 	
 			].
 		
-		"REGULAR(esta el numero, no en la posicion)"
-		1 to: (codigo1 size) do: [ :i|
+		"JUGADOR 2 JUEGA"
+		rta2 := (UIManager default request: 'Turno jugador', (jugador2 asString) ,' - Adivine el codigo').
+		
+		error := true. "para que entre obligatoriamente"
+		[((rta2 size) ~= 4) or: (error)] whileTrue: [
+			rta2 := (UIManager default request: 'Turno jugador', (jugador2 asString) ,' -Error intente denuevo, Adivine el codigo').
 			
-			"pregunta si esta incluido en el codigo pero no esta en su posicion"
-			(((codigo1 at: i) ~= (rta1 at: i)) and: ((codigo1) includes: (rta1 at: i))) ifTrue: [ 
-				cantRegular1:= cantRegular1 + 1.
+			rta2 do: [ :c| "controla error"
+				vecesRepetido := 0.
+				"recorro todo el codigo, a ver si no se repite"
+				rta2 do: [ :pos| 
+					(c = pos) ifTrue: [ 
+						vecesRepetido := vecesRepetido + 1.
+						].
+					].
+				(vecesRepetido > 1) ifTrue: [ 
+					error := true.
+					]
+				ifFalse: [
+					error:= false.
+					].
+				
 				].
 			
-			].
-"		cantRegular1 := cantRegular1 - cantAciertos1.
-		(cantRegular1 < 0) ifTrue: [
-			cantRegular1 := 0.
-			]."
+			(error) ifTrue: [ "error de repetido"
+				rta2 := (UIManager default request: 'Turno jugador', (jugador1 asString) ,' -Error intente denuevo, Adivine el codigo').
+				].	
+			
+			].	
+	
 		
-		
-		"JUGADOR 2 JUEGA"
-		rta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) ,' - Adivine el codigo').
 		intentos2:= intentos2 + 1.
-		
 		"BIEN(en posicion)"
 		1 to: (codigo2 size) do: [ :i |
 			
 			((codigo2 at: i) = (rta2 at: i)) ifTrue: [ 
 				cantAciertos2 := cantAciertos2 + 1.
-        		].
+        		]
+			ifFalse: [
+				"REGULAR(esta el codigo, no en la posicion)"
+				(codigo2 includes: (rta2 at: i)) ifTrue: [ 
+					cantRegular2:= cantRegular2 + 1.
+					].
+				].
 	
 			].
-		
-		"REGULAR(esta el codigo, no en la posicion)"
-		1 to: (codigo2 size) do: [ :i|
-			
-			"pregunta si esta incluido en el codigo pero no esta en su posicion"
-			(((codigo2 at: i) ~= (rta2 at: i)) and: ((codigo2) includes: (rta2 at: i))) ifTrue: [ 
-				cantRegular2:= cantRegular2 + 1.
-				].
-
-			].
-"		cantRegular2 := cantRegular2 - cantAciertos2.
-		(cantRegular2 < 0) ifTrue: [
-			cantRegular2 := 0.
-			]."
 		
 		
 		"INFORME PARCIAL DE CUANTOS ACERTARON"
