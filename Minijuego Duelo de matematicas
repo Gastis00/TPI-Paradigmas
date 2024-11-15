@@ -13,7 +13,7 @@ acerto2 := false.
 sec2:= ''.
 
 semaforo := Semaphore new.
-n := 10. "cantidad de numeros que se muestran"
+n := 6. "cantidad de numeros que se muestran"
 seg := 1. "tiempo que aparece en pantalla"
 nro := (-10 to: 10) atRandom. "inicializo"
 
