@@ -10,7 +10,6 @@ cantRegular2 := 0.
 jugador2 := 2. "id jugador, borrar"
 
 "empate total se asigna mas abajo"
-error:= false.
 empate := true. "empate parcial"
 numRonda:= 0. "partidas parciales"
 ganador:= 0. "determina el ganador"
@@ -37,8 +36,11 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	"GENERO CODIGO1"
    Transcript show: 'Jugador', (jugador2 asString) , ' - Ingrese el código que debe adivinar el jugador ', (jugador1 asString) ; cr.
 	
-	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
+	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO').
+	
 	(opciones = 1) ifTrue: [
+		
+		codigo1 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
 		
 		error:= true. "para que entre obligatoriamente"
 		[((codigo1 size) ~= 4) or: (error)] whileTrue: [
@@ -52,16 +54,17 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 						].
 					].
 				(vecesRepetido > 1) ifTrue: [ 
-					error := true.
+					error := true. "hay numeros repetidos"
 					]
 				ifFalse: [
-					error:= false.
+					error:= false. "no hay numeros repetidos"
 					].
 				
 				].
 			
-			(error) ifTrue: [ 
+			(((codigo1 size) ~= 4) or: (error)) ifTrue: [ 
 				codigo1 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				error:= true. "falta controlar error"
 				].
 				
 			].
@@ -89,6 +92,8 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
 	(opciones = 1) ifTrue: [
 		
+		codigo2 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
+		
 		error:= true. "para que entre obligatoriamente"
 		[((codigo2 size) ~= 4) or: (error)] whileTrue: [
 			
@@ -109,8 +114,9 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 				
 				].
 			
-			(error) ifTrue: [ 
+			(((codigo2 size) ~= 4) or: (error)) ifTrue: [ 
 				codigo2 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				error:= true. "falta controlar error"
 				].
 
 			].
@@ -163,8 +169,9 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 				
 				].
 			
-			(error) ifTrue: [ "error de repetido"
-				rta1 := (UIManager default request: 'Turno jugador', (jugador1 asString) ,' -Error intente denuevo, Adivine el codigo').
+			(((rta1 size) ~= 4) or: (error)) ifTrue: [ 
+				rta1 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				error:= true. "falta controlar error"
 				].
 			
 			].	
@@ -209,9 +216,10 @@ UIManager default request: 'Presione ENTER cuando esté listo'.
 				
 				].
 			
-			(error) ifTrue: [ "error de repetido"
-				rta2 := (UIManager default request: 'Turno jugador', (jugador1 asString) ,' -Error intente denuevo, Adivine el codigo').
-				].	
+			(((rta2 size) ~= 4) or: (error)) ifTrue: [ 
+				rta2 := (UIManager default requestPassword: 'Error, ingrese un código de 4 digitos').
+				error:= true. "falta controlar error"
+				].
 			
 			].	
 	
