@@ -1,0 +1,88 @@
+| tamaño dimension mapaMostrar posTesoro filaTesoro columnaTesoro jugador1 jugador2 acerto1 acerto2 intentos1 intentos2 mapa rta1 rta2|
+
+intentos1:=0.
+jugador1:= 1.
+acerto1:= false.
+
+intentos2:=0.
+acerto2:= false.
+jugador2:= 2.
+
+tamaño := 64. "tamaño del mapa"
+dimension := 8. "dimension del mapa"
+Transcript clear.
+Transcript show: '---MINIJUEGO BÚSQUEDA DEL TESORO---' ; cr.
+Transcript show: 'Se presentara un mapa de 64 jugadores' ; cr.
+Transcript show: 'Se jugara en diferido, cada uno en su turno' ; cr.
+Transcript show: 'El jugador que encuentre primero encuentre el tesoro, sera el ganador' ; cr.
+
+UIManager default request: 'Presione ENTER cuando este preparado'. 
+Transcript cr. "para que se vea mejor"
+
+"si uno de los dos acierta termina"
+[ (acerto1 not) and: (acerto2 not) ] whileTrue:[
+	
+	"CREA MAPA"
+	
+	"JUGADOR 1"
+	mapa:= Array new: tamaño.
+	mapaMostrar:= Array new: tamaño.
+
+	1 to: (tamaño) do: [:i|
+		mapa at: i put: 'F'.
+		mapaMostrar at: i put: (i asString).
+		i asInteger.
+		].
+
+	"posTesoro:= (1 to: 64) atRandom."
+	filaTesoro := (1 to: 8) atRandom.
+	columnaTesoro := (1 to: 8) atRandom.
+	posTesoro := filaTesoro * columnaTesoro.
+	mapa at: (posTesoro) put: 'TESORO'.
+	
+	mapa at: (posTesoro - 9) put: 'TIBIO'. 
+	mapa at: (posTesoro - 8) put: 'CALIENTE'.
+	mapa at: (posTesoro - 7) put: 'TIBIO'.
+	mapa at: (posTesoro - 1) put: 'CALIENTE '.
+	
+	mapa at: (posTesoro + 9) put: 'TIBIO'. 
+	mapa at: (posTesoro + 8) put: 'CALIENTE '.
+	mapa at: (posTesoro + 7) put: 'TIBIO'.
+	mapa at: (posTesoro + 1) put: 'CALIENTE '.
+	
+	Transcript clear.
+	Transcript show: 'TURNO DEL JUGADOR ', (jugador1 asString) ;cr.
+	
+	[acerto1 not] whileTrue: [
+		
+		Transcript clear.
+		1 to: (dimension) do:[ :fila|
+			Transcript show: '|'.
+			1 to: (dimension) do:[ :columna|
+				Transcript show: '  ', (mapaMostrar at: ((fila-1)*dimension)+columna) asString, '  '.
+				].
+			Transcript show: '|'.
+			Transcript cr.
+			].
+			
+		rta1:= UIManager default chooseFrom: mapaMostrar message: 'Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+		intentos1:= intentos1 + 1.
+		
+		"CONTROLO SI GANÓ"
+		(rta1 = posTesoro) ifTrue:[
+			acerto1:= true.
+			Transcript show: '¡ FELICIDADES HAS ENCONTRADO EL TESORO !'.
+			] 
+		ifFalse: [ 
+			Transcript show: (mapa at: rta1) asString.
+			mapaMostrar at: rta1 put: (mapa at:rta1) asString.
+			].
+			
+		].
+	
+	].
+
+
+
+"Transcript show: mapa asString;cr.
+Transcript show: mapaMostrar  asString"
