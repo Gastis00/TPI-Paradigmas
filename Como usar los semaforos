@@ -1,0 +1,30 @@
+| userInput result semaphore timeoutProcess inputProcess |
+
+semaphore := Semaphore new.
+userInput := ''.
+
+"Proceso para esperar el ingreso del usuario"
+inputProcess := [
+    userInput := UIManager default request: 'Escribí "si" (tenés 10 segundos)'.
+    semaphore signal.
+] fork.
+
+"Proceso para manejar el timeout"
+timeoutProcess := [
+    (Delay forSeconds: 10) wait.
+    semaphore signal.
+] fork.
+
+"Esperar la señal del semáforo"
+semaphore wait.
+
+"Terminar ambos procesos si aún están activos"
+timeoutProcess terminate.
+inputProcess terminate.
+
+"Validar la entrada del usuario"
+result := (userInput = 'si')
+    ifTrue: ['¡Correcto!']
+    ifFalse: ['Tiempo agotado o respuesta incorrecta.'].
+
+^result
