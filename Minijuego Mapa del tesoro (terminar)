@@ -189,7 +189,9 @@ mapa at: (posTesoro) put: ' X'.
 		mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 2)) put: ' T'.
 		].
 	].
-	
+
+
+
 	
 "PASAN A JUGAR"
 [(acerto1 not)] whileTrue: [ 	
