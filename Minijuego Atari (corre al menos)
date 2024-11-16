@@ -98,11 +98,11 @@ window on: #keyStroke send: #value: to: [ :event |
     ].
 
     "Mover la paleta 2 (Jugador 2 usa las flechas 'up' y 'down')"
-    key = Character arrowUp ifTrue: [
+    key = $o ifTrue: [
         paddle2 position: (paddle2 position x)@(paddle2 position y - paddleSpeed).
         (paddle2 top < gameArea top) ifTrue: [paddle2 position: (paddle2 position x)@gameArea top].
     ].
-    key = Character arrowDown ifTrue: [
+    key = $l ifTrue: [
         paddle2 position: (paddle2 position x)@(paddle2 position y + paddleSpeed).
         (paddle2 bottom > gameArea bottom) ifTrue: [paddle2 position: (paddle2 position x)@(gameArea bottom - paddle2 height)].
     ].
