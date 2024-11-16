@@ -27,7 +27,8 @@ Transcript cr. "para que se vea mejor"
 	"JUGADOR 1"
 	mapa:= Array new: tamaño.
 	mapaMostrar:= Array new: tamaño.
-
+	
+	"carga todas las posiciones con frio"
 	1 to: (tamaño) do: [:i|
 		mapa at: i put: 'F'.
 		mapaMostrar at: i put: (i asString).
@@ -40,15 +41,137 @@ Transcript cr. "para que se vea mejor"
 	posTesoro := filaTesoro * columnaTesoro.
 	mapa at: (posTesoro) put: 'TESORO'.
 	
-	mapa at: (posTesoro - 9) put: 'TIBIO'. 
-	mapa at: (posTesoro - 8) put: 'CALIENTE'.
-	mapa at: (posTesoro - 7) put: 'TIBIO'.
-	mapa at: (posTesoro - 1) put: 'CALIENTE '.
 	
-	mapa at: (posTesoro + 9) put: 'TIBIO'. 
-	mapa at: (posTesoro + 8) put: 'CALIENTE '.
-	mapa at: (posTesoro + 7) put: 'TIBIO'.
-	mapa at: (posTesoro + 1) put: 'CALIENTE '.
+	"uno Arriba"
+	((filaTesoro - 1) > (0)) ifTrue: [ 
+		
+		mapaMostrar at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro)) put: 'C'. "caliente"
+		
+		"controlo tibio porque si no esta caliente, no va a estar el tibio"
+		"dos Arriba"
+		(filaTesoro - 2) > (0) ifTrue: [ 
+			
+			mapaMostrar at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+			
+			"dos Arriba uno izquierda"
+			(((filaTesoro - 2) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
+				].
+			"dos Arriba uno derecha"
+			(((filaTesoro - 2) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
+				].
+			
+			].
+		].
+	
+	
+	"uno Abajo"
+	((filaTesoro + 1) <= (dimension)) ifTrue: [ 
+		
+		mapaMostrar at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro)) put: 'C'.
+		
+		"dos Abajo"
+		((filaTesoro + 2) <= (dimension)) ifTrue: [ 
+		
+			mapaMostrar at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+			
+			"dos Abajo uno izquierda"
+			(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
+				].
+			"dos Abajo uno derecha"
+			(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
+				].
+			
+			].
+		].
+	
+	
+	"uno Izquierda"
+	(columnaTesoro - 1) > (0) ifTrue: [ 
+		
+		mapaMostrar at: ((((filaTesoro) - 1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+		
+		"dos Izquierda"
+		(filaTesoro + 2) > (0) ifTrue: [ 
+		
+			mapaMostrar at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+			
+			"uno Arriba dos izquierda"
+			(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
+				].
+			"uno abajo dos izquierda"
+			(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
+				].
+			
+			].
+		].
+
+
+	"uno Derecha"
+	(columnaTesoro + 1) <= (dimension) ifTrue: [ 
+		
+		mapaMostrar at: (((filaTesoro - 1) * dimension) + (columnaTesoro + 1)) put: 'C'.
+		
+		"dos Derecha"
+		(columnaTesoro + 2) <= (dimension) ifTrue: [ 
+		
+			mapaMostrar at: ((((filaTesoro) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+			
+			"uno Arriba dos derecha"
+			(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+				].
+			"uno abajo dos derecha"
+			(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
+				
+				mapaMostrar at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+				].
+						
+			].
+		].
+	
+	
+	"Diagonal Arriba Izquierda"
+	(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+		
+		mapaMostrar at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+		
+		(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [
+			
+			
+			].
+		].	
+	
+	"Diagonal Arriba Derecha"
+	(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
+		
+		mapaMostrar at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
+		].
+	
+	"Diagonal Abajo Izquierda"
+	(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [
+		
+		mapaMostrar at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+		].	
+	
+	"Diagonal Abajo Derecha"
+	(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
+		
+		mapaMostrar at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
+		].
+	
 	
 	Transcript clear.
 	Transcript show: 'TURNO DEL JUGADOR ', (jugador1 asString) ;cr.
