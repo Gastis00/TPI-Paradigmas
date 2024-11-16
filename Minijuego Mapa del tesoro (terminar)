@@ -3,13 +3,14 @@
 intentos1:=0.
 jugador1:= 1.
 acerto1:= false.
+posTesoro:= 0.
 
 intentos2:=0.
 acerto2:= false.
 jugador2:= 2.
 
-tamaño := 64. "tamaño del mapa"
 dimension := 8. "dimension del mapa"
+tamaño := (dimension * dimension). "tamaño del mapa"
 Transcript clear.
 Transcript show: '---MINIJUEGO BÚSQUEDA DEL TESORO---' ; cr.
 Transcript show: 'Se presentara un mapa de 64 jugadores' ; cr.
@@ -19,215 +20,217 @@ Transcript show: 'El jugador que encuentre primero encuentre el tesoro, sera el 
 UIManager default request: 'Presione ENTER cuando este preparado'. 
 Transcript cr. "para que se vea mejor"
 
-"si uno de los dos acierta termina"
-[ (acerto1 not) and: (acerto2 not) ] whileTrue:[
+"CREA MAPA 1"
 	
-	"CREA MAPA 1"
+"JUGADOR 1"
+mapa:= Array new: tamaño. "mapa con los resultados (no se muestra)"
+mapaMostrar:= Array new: tamaño. "mapa que va marcando el jugador"
 	
-	"JUGADOR 1"
-	mapa:= Array new: tamaño. "mapa con los resultados (no se muestra)"
-	mapaMostrar:= Array new: tamaño. "mapa que va marcando el jugador"
-	
-	"carga todas las posiciones con frio"
-	1 to: (tamaño) do: [:i|
-		mapa at: i put: 'F'.
-		mapaMostrar at: i put: (i asString).
-		i asInteger.
-		].
+"carga los mapas"
+1 to: (tamaño) do: [:i|
+	mapa at: i put: 'F'. "carga todas las posiciones con frio"
+	mapaMostrar at: i put: (i asString). "carga todas las posiciones del 1 al 64"
+	i asInteger.
+	].
 
-	"posTesoro:= (1 to: 64) atRandom."
-	filaTesoro := (1 to: 8) atRandom.
-	columnaTesoro := (1 to: 8) atRandom.
-	posTesoro := filaTesoro * columnaTesoro.
-	mapa at: (posTesoro) put: 'TESORO'.
+filaTesoro := (1 to: dimension) atRandom.
+columnaTesoro := (1 to: dimension) atRandom.
+posTesoro := ( ( (filaTesoro-1) * dimension ) + columnaTesoro).
+mapa at: (posTesoro) put: 'TESORO'.
 	
 	
-	"uno Arriba"
-	((filaTesoro - 1) > (0)) ifTrue: [ 
+"uno Arriba"
+((filaTesoro - 1) > (0)) ifTrue: [ 
 		
-		mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro)) put: 'C'. "caliente"
+	mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro)) put: 'C'. "caliente"
 		
-		"controlo tibio porque si no esta caliente, no va a estar el tibio"
-		"dos Arriba"
-		(filaTesoro - 2) > (0) ifTrue: [ 
+	"controlo tibio porque si no esta caliente, no va a estar el tibio"
+	"dos Arriba"
+	(filaTesoro - 2) > (0) ifTrue: [ 
 			
-			mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+		mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
 			
-			"dos Arriba uno izquierda"
-			(((filaTesoro - 2) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+		"dos Arriba uno izquierda"
+		(((filaTesoro - 2) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
 				
-				mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
-				].
-			"dos Arriba uno derecha"
-			(((filaTesoro - 2) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
-				
-				mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
-				].
-			
+			mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
 			].
-		].
-	
-	
-	"uno Abajo"
-	((filaTesoro + 1) <= (dimension)) ifTrue: [ 
-		
-		mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro)) put: 'C'.
-		
-		"dos Abajo"
-		((filaTesoro + 2) <= (dimension)) ifTrue: [ 
-		
-			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
-			
-			"dos Abajo uno izquierda"
-			(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+		"dos Arriba uno derecha"
+		(((filaTesoro - 2) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
 				
-				mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
-				].
-			"dos Abajo uno derecha"
-			(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
-				
-				mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
-				].
-			
+			mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
 			].
+			
 		].
+	].
 	
 	
-	"uno Izquierda"
-	(columnaTesoro - 1) > (0) ifTrue: [ 
+"uno Abajo"
+((filaTesoro + 1) <= (dimension)) ifTrue: [ 
 		
-		mapa at: ((((filaTesoro) - 1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+	mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro)) put: 'C'.
 		
-		"dos Izquierda"
-		(filaTesoro + 2) > (0) ifTrue: [ 
+	"dos Abajo"
+	((filaTesoro + 2) <= (dimension)) ifTrue: [ 
 		
-			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+		mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
 			
-			"uno Arriba dos izquierda"
-			(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
+		"dos Abajo uno izquierda"
+		(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
 				
-				mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
-				].
-			"uno abajo dos izquierda"
-			(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
-				
-				mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
-				].
-			
+			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro - 1)) put: 'T'.
 			].
+		"dos Abajo uno derecha"
+		(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [ 
+				
+			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 1)) put: 'T'.
+			].
+			
 		].
+	].
+	
+	
+"uno Izquierda"
+(columnaTesoro - 1) > (0) ifTrue: [ 
+		
+	mapa at: ((((filaTesoro) - 1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+		
+	"dos Izquierda"
+	(filaTesoro + 2) > (0) ifTrue: [ 
+		
+		mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro)) put: 'T'.
+			
+		"uno Arriba dos izquierda"
+		(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
+				
+			mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
+			].
+		"uno abajo dos izquierda"
+		(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 2) > (0))) ifTrue: [ 
+				
+			mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
+			].
+			
+		].
+	].
 
 
-	"uno Derecha"
-	(columnaTesoro + 1) <= (dimension) ifTrue: [ 
+"uno Derecha"
+(columnaTesoro + 1) <= (dimension) ifTrue: [ 
 		
-		mapa at: (((filaTesoro - 1) * dimension) + (columnaTesoro + 1)) put: 'C'.
+	mapa at: (((filaTesoro - 1) * dimension) + (columnaTesoro + 1)) put: 'C'.
 		
-		"dos Derecha"
-		(columnaTesoro + 2) <= (dimension) ifTrue: [ 
+	"dos Derecha"
+	(columnaTesoro + 2) <= (dimension) ifTrue: [ 
 		
-			mapa at: ((((filaTesoro) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+		mapa at: ((((filaTesoro) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
 			
-			"uno Arriba dos derecha"
-			(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
+		"uno Arriba dos derecha"
+		(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
 				
-				mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
-				].
-			"uno abajo dos derecha"
-			(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
+			mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+			].
+		"uno abajo dos derecha"
+		(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [ 
 				
-				mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
-				].
+			mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+			].
 						
-			].
 		].
+	].
 	
 	
-	"Diagonal uno Arriba uno Izquierda"
-	(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
+"Diagonal uno Arriba uno Izquierda"
+(((filaTesoro - 1) > (0)) and: ((columnaTesoro - 1) > (0))) ifTrue: [ 
 		
-		mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+	mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
 		
-		"Diagonal dos Arriba dos Izquierda"
-		(((filaTesoro - 2) > (0)) and: ((columnaTesoro - 2) > (0))) ifTrue: [
+	"Diagonal dos Arriba dos Izquierda"
+	(((filaTesoro - 2) > (0)) and: ((columnaTesoro - 2) > (0))) ifTrue: [
 			
-			mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
-			].
-		].	
-	
-	
-	"Diagonal uno Arriba uno Derecha"
-	(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
-		
-		mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
-		
-		"Diagonal dos Arriba dos Derecha"
-		(((filaTesoro - 2) > (0)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [
-			
-			mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
-			].
+		mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
 		].
+	].	
 	
 	
-	"Diagonal uno Abajo uno Izquierda"
-	(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [
+"Diagonal uno Arriba uno Derecha"
+(((filaTesoro - 1) > (0)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
 		
-		mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+	mapa at: ((((filaTesoro - 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
 		
-		"Diagonal dos Abajo dos Izquierda"
-		(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro - 2) > (0))) ifTrue: [
+	"Diagonal dos Arriba dos Derecha"
+	(((filaTesoro - 2) > (0)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [
 			
-			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
-			].
-		].	
-	
-	
-	"Diagonal uno Abajo uno Derecha"
-	(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
-		
-		mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
-		
-		"Diagonal dos Abajo dos Derecha"
-		(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [
-			
-			mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
-			].
+		mapa at: ((((filaTesoro - 2) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
 		].
+	].
 	
+	
+"Diagonal uno Abajo uno Izquierda"
+(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro - 1) > (0))) ifTrue: [
+		
+	mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro - 1)) put: 'C'.
+		
+	"Diagonal dos Abajo dos Izquierda"
+	(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro - 2) > (0))) ifTrue: [
+			
+		mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro - 2)) put: 'T'.
+		].
+	].	
+	
+	
+"Diagonal uno Abajo uno Derecha"
+(((filaTesoro + 1) <= (dimension)) and: ((columnaTesoro + 1) <= (dimension))) ifTrue: [
+		
+	mapa at: ((((filaTesoro + 1) -1) * dimension) + (columnaTesoro + 1)) put: 'C'.
+		
+	"Diagonal dos Abajo dos Derecha"
+	(((filaTesoro + 2) <= (dimension)) and: ((columnaTesoro + 2) <= (dimension))) ifTrue: [
+			
+		mapa at: ((((filaTesoro + 2) -1) * dimension) + (columnaTesoro + 2)) put: 'T'.
+		].
+	].
+	
+	
+"PASAN A JUGAR"
+[(acerto1 not)] whileTrue: [ 	
 	
 	Transcript clear.
 	Transcript show: 'TURNO DEL JUGADOR ', (jugador1 asString) ;cr.
 	
-	[acerto1 not] whileTrue: [
-		
-		Transcript clear.
-		1 to: (dimension) do:[ :fila|
-			Transcript show: '|'.
-			1 to: (dimension) do:[ :columna|
-				Transcript show: '  ', (mapaMostrar at: ((fila-1)*dimension)+columna) asString, '  '.
-				].
-			Transcript show: '|'.
-			Transcript cr.
+	"MOSTRAR MATRIZ"
+	1 to: (dimension) do:[ :fila|
+		Transcript show: '|'.
+		1 to: (dimension) do:[ :columna|
+			Transcript show: ' ', (mapaMostrar at: ((fila-1)*dimension)+columna) asString , ' '.
 			].
+		Transcript show: '|'.
+		Transcript cr.
+		].
 			
-		rta1:= UIManager default chooseFrom: mapaMostrar message: 'Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
-		intentos1:= intentos1 + 1.
+	rta1:= UIManager default chooseFrom: mapaMostrar message: 'Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+	intentos1:= intentos1 + 1.
 		
-		"CONTROLO SI GANÓ"
-		(rta1 = posTesoro) ifTrue:[
-			acerto1:= true.
-			Transcript show: '¡ FELICIDADES HAS ENCONTRADO EL TESORO !'.
-			] 
-		ifFalse: [ 
-			Transcript show: (mapa at: rta1) asString.
-			mapaMostrar at: rta1 put: (mapa at:rta1) asString.
-			].
-			
+	"CONTROLO SI GANÓ"
+	(rta1 = posTesoro) ifTrue:[
+		acerto1:= true.
+		mapaMostrar at: rta1 put: (mapa at:rta1) asString. "carga el tesoro"
+		] 
+	ifFalse: [ 
+		Transcript show: (mapa at: rta1) asString.
+		mapaMostrar at: rta1 put: (mapa at:rta1) asString.
 		].
 	
 	].
 
+"MOSTRAR MATRIZ"
+1 to: (dimension) do:[ :fila|
+	Transcript show: '|'.
+	1 to: (dimension) do:[ :columna|
+		Transcript show: ' ', (mapaMostrar at: ((fila-1)*dimension)+columna) asString , ' '.
+		].
+	Transcript show: '|'.
+	Transcript cr.
+	].
 
-
-"Transcript show: mapa asString;cr.
-Transcript show: mapaMostrar  asString"
+Transcript show: '¡ FELICIDADES HAS ENCONTRADO EL TESORO !'.
