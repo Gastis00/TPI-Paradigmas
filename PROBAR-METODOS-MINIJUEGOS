@@ -1,0 +1,11 @@
+| juego jug1 jug2 |
+
+jug1 := Jugador new.
+jug2 := Jugador new.
+
+jug1 id: 1.
+jug2 id: 2.
+
+juego := Game new.
+juego atacante: jug1 defensor: jug2.
+^juego minijuegoDueloMatematicas.
