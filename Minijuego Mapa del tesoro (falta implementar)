@@ -520,15 +520,16 @@ Transcript cr.
 	
 	Transcript show: 'Empate, ambos acertaron a la vez' ; cr.
 	Transcript show: 'Gana el jugador' , (jugador2 asString) , ' por ser defensor' ; cr.
+	Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
 	]
 ifFalse: [ 
 	(acerto1) ifTrue: [ 
 		Transcript show: 'Gana el jugador' , (jugador1 asString) , ' por adivinar el mapa antes' ; cr.
-		Transcript show: 'Con ' , (numRonda asString) , ' intento/s' ; cr.
+		Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
 		]
 	ifFalse: [ 
 		Transcript show: 'Gana el jugador' , (jugador2 asString) , ' por adivinar el mapa antes' ; cr.
-		Transcript show: 'Con ' , (numRonda asString) , ' intento/s' ; cr.
+		Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
 		].
 	].
 Transcript show: 'Ambos pueden visualizar donde se encontraba el tesoro' ; cr.
