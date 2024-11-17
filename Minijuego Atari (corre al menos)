@@ -1,4 +1,4 @@
-| window ball paddle1 paddle2 ballDirectionX ballDirectionY paddleSpeed player1Score player2Score scoreText gameArea |
+| window ball paddle1 paddle2 ballDirectionX ballDirectionY paddleSpeed player1Score player2Score scoreText gameArea random |
 
 "Configuraciones iniciales"
 window := SystemWindow new.
@@ -6,34 +6,38 @@ window setLabel: 'Atari Pong'.
 window extent: 400@300. "Tamaño de la ventana"
 
 paddleSpeed := 10.
-ballDirectionX := 2. "Velocidad de la pelota en X"
-ballDirectionY := 2. "Velocidad de la pelota en Y"
+random := Random new.
+
+"Generar velocidades iniciales aleatorias para la pelota"
+ballDirectionX := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
+ballDirectionY := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
+
 player1Score := 0.
 player2Score := 0.
 
 "Crear la pelota"
 ball := EllipseMorph new.
-ball color: Color red.
+ball color: Color white.
 ball extent: 10@10.
-ball position: 195@145. "Posición inicial al centro"
+ball position: (window extent // 2) - (ball extent // 2). "Posicionar al centro"
 window addMorph: ball.
 
 "Crear la primera paleta"
 paddle1 := Morph new.
-paddle1 color: Color blue.
-paddle1 bounds: (10@125 corner: 20@175). "Posición y tamaño de la primera paleta"
+paddle1 color: Color red.
+paddle1 bounds: (10@125 corner: 20@175).
 window addMorph: paddle1.
 
 "Crear la segunda paleta"
 paddle2 := Morph new.
-paddle2 color: Color green.
-paddle2 bounds: (380@125 corner: 390@175). "Posición y tamaño de la segunda paleta"
+paddle2 color: Color blue.
+paddle2 bounds: (380@125 corner: 390@175).
 window addMorph: paddle2.
 
 "Crear el marcador de puntuación"
 scoreText := StringMorph new.
-scoreText contents: 'Jugador 1: 0 - Jugador 2: 0'.
-scoreText position: 150@10.
+scoreText contents: 'Jugador Atacante: 0 - Jugador Defensor: 0'.
+scoreText position: 120@35. "Posicionar en el medio casi arriba"
 window addMorph: scoreText.
 
 "Área de juego (límite de movimiento de la pelota)"
@@ -51,22 +55,32 @@ gameArea := window bounds insetBy: 5.
 
         "Rebotar en las paletas"
         (ball bounds intersects: paddle1 bounds)
-            ifTrue: [ballDirectionX := ballDirectionX negated].
+            ifTrue: [
+                ballDirectionX := ballDirectionX negated.
+                "Agregar variación a la dirección al rebotar"
+                ballDirectionY := (random next * 4 - 2). "Rango de -2 a 2"
+            ].
         (ball bounds intersects: paddle2 bounds)
-            ifTrue: [ballDirectionX := ballDirectionX negated].
+            ifTrue: [
+                ballDirectionX := ballDirectionX negated.
+                ballDirectionY := (random next * 4 - 2). "Rango de -2 a 2"
+            ].
 
         "Verificar si un jugador anota"
         (ball left < gameArea left)
             ifTrue: [
                 player2Score := player2Score + 1.
-                ball position: 195@145. "Reiniciar la pelota al centro"
-                ballDirectionX := 2. "Reiniciar la dirección"
+                ball position: (window extent // 2) - (ball extent // 2). "Reiniciar al centro"
+                "Reiniciar la dirección aleatoriamente"
+                ballDirectionX := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
+                ballDirectionY := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
             ].
         (ball right > gameArea right)
             ifTrue: [
                 player1Score := player1Score + 1.
-                ball position: 195@145.
-                ballDirectionX := -2.
+                ball position: (window extent // 2) - (ball extent // 2).
+                ballDirectionX := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
+                ballDirectionY := (random next * 2 + 1) * (random next < 0.5 ifTrue: [1] ifFalse: [-1]).
             ].
 
         "Actualizar el marcador"
@@ -97,7 +111,7 @@ window on: #keyStroke send: #value: to: [ :event |
         (paddle1 bottom > gameArea bottom) ifTrue: [paddle1 position: (paddle1 position x)@(gameArea bottom - paddle1 height)].
     ].
 
-    "Mover la paleta 2 (Jugador 2 usa las flechas 'up' y 'down')"
+    "Mover la paleta 2 (Jugador 2 usa las teclas 'o' y 'l')"
     key = $o ifTrue: [
         paddle2 position: (paddle2 position x)@(paddle2 position y - paddleSpeed).
         (paddle2 top < gameArea top) ifTrue: [paddle2 position: (paddle2 position x)@gameArea top].
