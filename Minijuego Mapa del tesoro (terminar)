@@ -109,9 +109,9 @@ mapa2 at: (posTesoro2) put: ' X'.
 	mapa1 at: ((((filaTesoro1) - 1) * dimension) + (columnaTesoro1 - 1)) put: ' C'.
 		
 	"dos Izquierda"
-	(filaTesoro1 + 2) <= (dimension) ifTrue: [ 
+	(columnaTesoro1 - 2) > (0) ifTrue: [ 
 		
-		mapa1 at: ((((filaTesoro1 + 2) -1) * dimension) + (columnaTesoro1)) put: ' T'.
+		mapa1 at: ((((filaTesoro1) -1) * dimension) + (columnaTesoro1 - 2)) put: ' T'.
 			
 		"uno Arriba dos izquierda"
 		(((filaTesoro1 - 1) > (0)) and: ((columnaTesoro1 - 2) > (0))) ifTrue: [ 
@@ -256,9 +256,9 @@ mapa2 at: (posTesoro2) put: ' X'.
 	mapa2 at: ((((filaTesoro2) - 1) * dimension) + (columnaTesoro2 - 1)) put: ' C'.
 		
 	"dos Izquierda"
-	(filaTesoro2 + 2) <= (dimension) ifTrue: [ 
+	(columnaTesoro2 - 2) > (0) ifTrue: [ 
 		
-		mapa2 at: ((((filaTesoro2 + 2) -1) * dimension) + (columnaTesoro2)) put: ' T'.
+		mapa2 at: ((((filaTesoro2) -1) * dimension) + (columnaTesoro2 - 2)) put: ' T'.
 			
 		"uno Arriba dos izquierda"
 		(((filaTesoro2 - 1) > (0)) and: ((columnaTesoro2 - 2) > (0))) ifTrue: [ 
@@ -345,7 +345,6 @@ mapa2 at: (posTesoro2) put: ' X'.
 		mapa2 at: ((((filaTesoro2 + 2) -1) * dimension) + (columnaTesoro2 + 2)) put: ' T'.
 		].
 	].
-
 
 
 	
@@ -458,7 +457,6 @@ mapaMostrar2 at: (posTesoro2) put: ' X'.
 Transcript clear.
 "MUESTRA AMBOS MAPAS"
 Transcript show: '-Duelo finalizado-', (jugador1 asString) ;cr.
-
 "MOSTRAR MAPA 1"
 Transcript cr.
 Transcript show: 'MAPA JUGADOR', (jugador1 asString) ;cr.
@@ -485,6 +483,8 @@ Transcript show: 'MAPA JUGADOR', (jugador1 asString) ;cr.
 	Transcript show: '|' ; cr.
 
 	].
+Transcript cr.
+Transcript show: 'El jugador', (jugador1 asString) , ' ingreso la posicion: ', (rta1 asString) , ' en la ultima ronda'; cr.
 "MOSTRAR MAPA 2"
 Transcript cr.
 Transcript show: 'MAPA JUGADOR', (jugador2 asString) ; cr.
@@ -510,6 +510,9 @@ Transcript show: 'MAPA JUGADOR', (jugador2 asString) ; cr.
 		
 	Transcript show: '|' ; cr.
 	].
+Transcript cr.
+Transcript show: 'El jugador', (jugador2 asString) , ' ingreso la posicion: ', (rta2 asString) , ' en la ultima ronda'; cr.
+
 
 "TERMINA EL JUEGO, INFORMA"
 Transcript cr.
