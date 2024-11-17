@@ -1,0 +1,81 @@
+| tablero modJuego minigame atacante defensor games vencedor decision primero segundo nickname window texto |
+
+Transcript clear.
+
+"Creo objetos"
+games := Game new.
+tablero := Tablero new.
+tablero mostrarModosDeJuego.
+window := SystemWindow new.
+texto := TextMorph new.
+
+"Inicializo modo de juego elegido"
+modJuego := tablero modoEntrada: 1.
+tablero cantJugadores: modJuego.
+
+Transcript clear.
+tablero mostrarMiniJuegos.
+
+"Creacion e inicializacion de jugadores"
+1 to: (tablero cantJugadores) do: [ :c|
+	((c = 25) or: (c = 50)) ifTrue: [ 
+		Transcript clear.
+		tablero mostrarMiniJuegos.
+		 ].
+	Transcript cr.
+	Transcript show: '*Cargar al jugador: ', (c) asString.
+	nickname := (UIManager default request: 'Ingrese su nickname').
+	minigame := tablero modoEntrada: 2.
+	tablero inicializarJugador: nickname minijuego: minigame tablero: tablero numero: c
+	 ].
+Transcript clear.
+
+"Cargo primeros contrincantes"
+(tablero listaJugadores) do: [ :j|
+	j contrincantes: ((j territorio) at: 1) dim: (tablero dimension) tablero: tablero.
+	 ].
+
+tablero sumarRonda.
+decision := false.
+tablero mostrarTablero: window texto: texto.
+
+[((tablero listaJugadores) size) ~= (2) ] whileTrue: [
+	(decision) ifFalse: [ atacante:= tablero tirarDadoJugador.] ifTrue: [
+		atacante := vencedor.
+		 ].
+	
+	"Duelo Normal"
+	vencedor := tablero procedimientoLucha: atacante objGame: games.
+	tablero sumarRonda.
+	tablero actualizarTablero: window texto: texto.
+	
+	((tablero dueloExtra) ~= nil) ifTrue: [  
+		((((tablero ronda) \\ (tablero dueloExtra))= 0))ifTrue: [
+			UIManager default request: 'INGRESE ENTER PARA CONTINUAR'.
+			Transcript clear.
+			"Duelo Extra"
+			primero := tablero jugadorConMasTerreno.
+			segundo := primero elegirRivalDueloExtra: tablero.
+			tablero procedimientoDueloExtra: primero defensor: segundo objgame: games tablero: tablero.
+		].
+	].
+
+	"Pregunto si desea seguir jugando"
+	UIManager default request: 'INGRESE ENTER PARA CONTINUAR'.
+	Transcript clear.
+	decision := vencedor continuarJugando.
+	].
+
+
+"Duelo Final"
+tablero previaFinal.
+[ ((tablero listaJugadores) size) = 2 ] whileTrue: [ 
+	primero := tablero jugadorConMasTerreno.
+	segundo := primero elegirRivalDueloExtra: tablero.
+	vencedor := tablero procedimientoDueloFinal: primero defensor: segundo objgame: games.
+	].
+
+"Resultados Finales"
+tablero actualizarTablero: window texto: texto.
+vencedor resultadoFinal.
+
