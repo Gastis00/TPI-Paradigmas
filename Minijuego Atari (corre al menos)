@@ -1,5 +1,5 @@
-| window ball paddle1 paddle2 ballDirectionX ballDirectionY paddleSpeed player1Score player2Score scoreText gameArea random |
 
+| window ball paddle1 paddle2 ballDirectionX ballDirectionY paddleSpeed player1Score player2Score scoreText gameArea random |
 "Configuraciones iniciales"
 window := SystemWindow new.
 window setLabel: 'Atari Pong'.
@@ -44,7 +44,7 @@ window addMorph: scoreText.
 gameArea := window bounds insetBy: 5.
 
 "Función para mover la pelota y manejar colisiones"
-[
+[ 
     [player1Score < 5 and: [player2Score < 5]] whileTrue: [
         "Mover la pelota"
         ball position: (ball position + (ballDirectionX@ballDirectionY)).
@@ -91,7 +91,7 @@ gameArea := window bounds insetBy: 5.
     ].
 
     "Mostrar quién ganó"
-    scoreText contents: (player1Score >= 3 ifTrue: ['¡Jugador 1 Gana!'] ifFalse: ['¡Jugador 2 Gana!']).
+    scoreText contents: (player1Score >= 5 ifTrue: ['¡Jugador 1 Gana!'] ifFalse: ['¡Jugador 2 Gana!']).
 ] fork. "Ejecutar el bucle del juego en un proceso separado"
 
 "Detectar las teclas para mover las paletas"
