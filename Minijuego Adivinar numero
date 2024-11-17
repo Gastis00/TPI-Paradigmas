@@ -1,186 +1,203 @@
-| numRonda opciones ganador codigo1 codigo2 jugador1 jugador2 cantRegular1 cantRegular2 cantAciertos1 cantAciertos2 acerto1 acerto2 rta1 rta2 intentos1 intentos2 numAcertados1 numAcertados2 empate empateTotal |
+minijuegoMemoriaNumeros
+	"Mini juego de Memorizar secuencia de numeros"
 
-acerto1 := false.
-cantAciertos1 := 0.
-cantRegular1 := 0.
-numAcertados1 :=''.
-jugador1 := 1. "id jugador, borrar"
+"MEMORIA DE NUMEROS"
+| semaforo seg pos secuencia1 secuencia2 jugador1 jugador2 Acerto1 Acerto2 cantAcertados1 cantAcertados2 respuesta1 respuesta2 salida |
 
-acerto2 := false.
-cantAciertos2 := 0.
-cantRegular2 := 0.
-numAcertados2 := ''.
-jugador2 := 2. "id jugador, borrar"
+"alt + .        esto hace que pare la ejecucion"
 
-empate := false.
-numRonda:= 0. "partidas parciales"
-ganador:= 0. "determina el ganador"
+jugador1 := atacante.
+cantAcertados1 := 0.
+Acerto1 := false.
+secuencia1 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
+
+jugador2 := defensor.
+cantAcertados2 := 0.
+Acerto2 := false.
+secuencia2 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
+
+"pos inicializo mas abajo"
+seg:= 3.
+semaforo := Semaphore new.
+
 Transcript clear.
-Transcript show: '---CODIGO SECRETO---' ; cr.
-Transcript show: 'Debera adivinar un numero de 4 digitos' ; cr.
-Transcript show: 'El primero que adivina gana' ; cr.
-Transcript show: 'Si ambos adivinan a la vez, se volvera a jugar' ; cr.
-Transcript cr.
-UIManager default request: 'Presione ENTER cuando esté listo'.
+Transcript show: '---MEMORIA DE NUMEROS---' ; cr.
+Transcript show: 'Vas a tener una secuencia de 10 numeros' ; cr.
+Transcript show: 'Para memorizar en ', (seg asString) ,' segundos, cada digito en orden' ; cr.
+Transcript show: 'El que acierte la secuencia gana, en caso de que ambos acierten: gana el defensor' ; cr.
+Transcript show: 'Si no aciertan, el que haya memorizado mayor cantidad de digitos gana' ; cr.
+Transcript show: 'En caso de que ambos hayan memorizado la misma cantidad de digitos: gana el defensor' ; cr.
+Transcript show: 'La secuencia aparece en la tercera linea, ejemplo:' ; cr.
+Transcript show: 'El numero a memorizar es XXXXXXXXXX' ; cr.
 
-"mientras no empaten"
-[empate not] whileTrue: [
-	
-	intentos1:= 0.
-	intentos2:= 0.
-	numRonda := numRonda + 1.
-	"GENERO CODIGO"
-   Transcript show: 'Jugador ', (jugador2 asString) , ' ingrese el código que debe adivinar el jugador ', (jugador1 asString) ; cr.
-   
-	opciones:= (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
-	(opciones = 1) ifTrue: [
-		
-		"falta controlar error con el metodo enteroError"
-		codigo1 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
-		[(codigo1 size) = 4] whileFalse: [
-			codigo1 := (UIManager default requestPassword: 'Respete el formato, ingrese un código de 4 digitos')
-			]. 
-		]
-	ifFalse:[
-		codigo1 := ((1000 to: 9999) atRandom) asString. 
-		].
-	
-	Transcript show: 'Jugador ', (jugador1 asString) , ' ingrese el código que debe adivinar el jugador ', (jugador2 asString) ; cr.
-	opciones := (UIManager default chooseFrom: #('Ingresar código por teclado' 'Generar un código random') message: 'SELECCIONE UNA OPCIÓN'  title: 'EL CODIGO SECRETO' ).
-	(opciones = 1) ifTrue: [
-		
-		"falta controlar error con el metodo enteroError"
-		codigo2 := (UIManager default requestPassword: 'Ingrese un código de 4 digitos').
-		[(codigo2 size) = 4] whileFalse: [
-			codigo2 := (UIManager default requestPassword: 'Respete el formato, ingrese un código de 4 digitos')
-			]. 
-		]
-	ifFalse:[
-		codigo2 := ((1000 to: 9999) atRandom) asString. 
-		].
-	
-	
-	"AMBOS JUGADORES PASAN A JUGAR"
-	[(cantAciertos1 ~= 4) and: (cantAciertos2 ~= 4)] whileTrue: [
-		
-		cantAciertos1 := 0.
-		cantRegular1 := 0.
-		cantAciertos2 := 0.
-		cantRegular2 := 0.
-		
-		"JUGADOR 1 JUEGA"
-		rta1:= (UIManager default request: 'Turno jugador', (jugador1 asString) ,' - Adivine el codigo').
-		intentos1:= intentos1 + 1.
-		
-		"BIEN(en posicion)"
-		1 to: (codigo1 size) do: [ :i |
-			
-			((codigo1 at: i) = (rta1 at: i)) ifTrue: [ 
-				cantAciertos1 := cantAciertos1 + 1.
-        		numAcertados1:= (numAcertados1,(rta1 at: i) asString). "para dps no contarlos en el regular"
-        		].
-	
-			].
-		
-		"REGULAR(esta el numero, no en la posicion)"
-		1 to: (codigo1 size) do: [ :i|
-			
-			"pregunta si esta incluido en el codigo pero no esta en su posicion"
-			(((codigo1) includes: (rta1 at: i)) and: (((numAcertados1) includes: (rta1 at: i)) not)) ifTrue: [ 
-				cantRegular1:= cantRegular1 + 1.
-				].
-			
-			].
-		
-		"JUGADOR 2 JUEGA"
-		rta2:= (UIManager default request: 'Turno jugador', (jugador2 asString) ,' - Adivine el codigo').
-		intentos2:= intentos2 + 1.
-		
-		"BIEN(en posicion)"
-		1 to: (codigo2 size) do: [ :i |
-			
-			((codigo2 at: i) = (rta2 at: i)) ifTrue: [ 
-				cantAciertos2 := cantAciertos2 + 1.
-        		numAcertados2 := (numAcertados2,(rta2 at: i) asString). "para dps no contarlos en el regular"
-        		].
-	
-			].
-		
-		"REGULAR(esta el codigo, no en la posicion)"
-		1 to: (codigo2 size) do: [ :i|
-			
-			"pregunta si esta incluido en el codigo pero no esta en su posicion"
-			(((codigo2) includes: (rta2 at: i)) and: (((numAcertados2) includes: (rta2 at: i)) not)) ifTrue: [ 
-				cantRegular2:= cantRegular2 + 1.
-				].
+UIManager default request: 'Presione enter cuando termine leer'.
+Transcript clear.
 
-			].		
-		
-		"INFORME PARCIAL DE CUANTOS ACERTARON"
-		Transcript cr.
-		Transcript show: '-Intento ', (intentos1 asString) , '-' ; cr. "intentos1 va hacer igual que intentos2"
-		Transcript show: 'Jugador', (jugador1 asString) , ' ingresó ' , (rta1 asString) ; cr.
- 		Transcript show: 'Jugador', (jugador1 asString) , ' acertó ' , (cantAciertos1 asString) , ' en su posicion' ; cr.
-		Transcript show: 'Jugador', (jugador1 asString) , ' acertó ' , (cantRegular1 asString) , ' pero no estan en su posicion' ; cr.
-		Transcript show: 'Jugador', (jugador2 asString) , ' ingresó ' , (rta2 asString) ; cr.
-		Transcript show: 'Jugador', (jugador2 asString) , ' acertó ' , (cantAciertos2 asString) , ' en su posicion' ; cr.
-		Transcript show: 'Jugador', (jugador2 asString) , ' acertó ' , (cantRegular2 asString) , ' pero no estan en su posicion' ; cr.
-		
-		].
+"JUEGA EL JUGADOR1"
+Transcript show: '-Turno ATACANTE-' ; cr.
+Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Estas listo?'.
+
+Transcript show: 'El numero a memorizar es ', (secuencia1) ; cr.
 	
-	"CONTROLO SI HAY UN GANADOR O EMPATE"
-	(intentos1 = intentos2) ifTrue: [ 
-		"empate"
-		empate:= true.
-		empateTotal:= true.
-		]
-	ifFalse: [
-		(intentos1 < intentos2) ifTrue: [ 
-			"gana el jugador1"
-			ganador:= 1.
-			empate:= false.
-			]
-		ifFalse: [ 
-			"gana el jugador2"
-			ganador:= 2.
-			empate:= false.
-			].
-		
+World doOneCycle. "fuerza a actualizar el transcript"
+(Delay forSeconds: seg) wait.
+Transcript clear.
+
+respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Ingrese resultado final').
+respuesta1 := self enteroError: respuesta1.
+
+[((respuesta1 asString) size) > 10] whileTrue: [ 
+	Transcript show: 'El numero erroneo era ', (respuesta1 asString) ; cr.
+	respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
+	respuesta1 := self enteroError: respuesta1.
+	].
+
+"JUEGA EL JUGADOR1"
+Transcript show: '-Turno DEFENSOR-' ; cr.
+Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr.
+UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Estas listo?'.
+
+Transcript show: 'El numero a memorizar es ', (secuencia2) ; cr.
+	
+World doOneCycle. "fuerza a actualizar el transcript"
+(Delay forSeconds: seg) wait.
+Transcript clear.
+
+respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Ingrese resultado final').
+respuesta2 := self enteroError: respuesta2.
+
+[((respuesta2 asString) size) > 10] whileTrue: [ 
+	Transcript show: 'El numero erroneo era ', (respuesta2 asString) ; cr.
+	respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
+	respuesta2 := self enteroError: respuesta2.
+	].
+
+
+"CALCULO CANTIDAD DE DIGITOS ACERTADOS"
+"JUGADOR1"
+pos:= 0.
+(respuesta1 asString) do: [ :c| "paso a string para poder recorrerlo"
+	
+	pos:= pos + 1.
+	(c = (secuencia1 at: pos)) ifTrue: [ 
+		cantAcertados1 := cantAcertados1 + 1
 		].
 	
 	].
-"termina si no hay empate"
 
-Transcript cr.
-Transcript show: '-Duelo finalizado-'.
-Transcript cr.
-
-(ganador = 1) ifTrue: [ 
+"JUGADOR2"
+pos:= 0.
+(respuesta2 asString) do: [ :c|
 	
-	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , 'y el codigo a adivinar era ', (codigo1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el codigo adivinar era ', (codigo2 asString) ; cr.		
-		]
-	ifFalse: [ 
-		"no hubo empate"
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Es el ganador y el codigo adivinar era ', (codigo1 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Con ', (intentos1 asString) , ' intento/s' ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Perdio y el codigo adivinar era ', (codigo2 asString) ; cr.
+	pos:= pos + 1.
+	(c = (secuencia2 at: pos)) ifTrue: [ 
+		cantAcertados2 := cantAcertados2 + 1
 		].
+	
+	].
+
+
+"ANALIZO QUIEN GANO"
+"Jugador 1"
+(cantAcertados1 = (secuencia1 size)) ifTrue: [ 
+	Acerto1 := true.
+	].
+
+"Jugador 2"
+(respuesta2 = (secuencia2 size)) ifTrue: [ 
+	Acerto2 := true.
+	].
+
+"INFORMO"
+Transcript show: '-Duelo finalizado-' ; cr.
+Transcript cr.
+
+(Acerto1 and: Acerto2) ifTrue: [ 
+	
+	Transcript show: 'Empate, ambos acertaron la secuencia entonces el ganador es el defensor (ID: ' , ((jugador2 id) asString) , ')' ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+	Transcript cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+	salida := defensor.
 	
 	]
 
-ifFalse: [  
-	
-	(empateTotal) ifTrue: [ 
-		Transcript show: 'Jugador' , (jugador2 asString) , ' - Es el ganador con desempate en la ronda ', (numRonda asString) , ' y el codigo a adivinar era ', (codigo2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) , ' - Perdio y el codigo adivinar era ', (codigo1 asString) ; cr.
+ifFalse: [
+	(Acerto1) ifTrue: [
+		
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+		Transcript cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' numeros'  ; cr.
+		salida := atacante.
+		
 		]
 	ifFalse: [ 
-		"no hubo empate"
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Es el ganador y el codigo adivinar era ', (codigo2 asString) ; cr.
-		Transcript show: 'Jugador' , (jugador2 asString) ,  ' - Con ', (intentos2 asString) , ' intento/s ' ; cr.
-		Transcript show: 'Jugador' , (jugador1 asString) ,  ' - Perdio y el codigo adivinar era ', (codigo1 asString) ; cr
+		(Acerto2) ifTrue: [ 
+			
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+			Transcript cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
+			salida := defensor.
+			
+			]
+		ifFalse: [ 
+			"ninguno Acertó, se define por cantidad acertados"
+			(cantAcertados1 > cantAcertados2) ifTrue: [ 
+				
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString)  , ' digitos' ; cr.
+				Transcript cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' digitos' ; cr.
+				salida := atacante.
+				
+				]
+			ifFalse: [ 
+				(cantAcertados1 < cantAcertados2) ifTrue: [ 
+					
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString) , ' digitos' ; cr.
+					Transcript cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
+					salida := defensor.
+					
+					]
+				ifFalse: [ 
+					
+					"empataron en distancia"
+					
+					Transcript show: 'Empate, ambos quedaron a la misma distancia. La secuencia entonces el ganador es el defensor (ID: ' , ((jugador2 id) asString) , ')' ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString) , ' digitos' ; cr.
+					Transcript cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
+					salida := defensor.
+					
+					].
+				
+				].
+		
+			].
+		
 		].
 	
 	].
+
+^salida.
