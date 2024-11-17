@@ -24,17 +24,23 @@ empateTotal := false. "guarda si hay empate en el juego completo"
 Transcript clear.
 Transcript show: '---ADIVINAR NUMERO---' ; cr.
 Transcript show: 'El numero a divinar es entre 1 y ' , (rango asString) ; cr.
-Transcript show: 'Con ', (intentosTotal asString) ,' intentos (', ((intentosTotal - 1) asString) ,' pistas)' ; cr.
+Transcript show: 'Con ', (intentosTotal asString) ,' intentos' ; cr.
 Transcript show: 'Aparte ' , ((intentosTotal - 1) asString) , ' pistas indicando si el numero es mayor o menor' ; cr.
 Transcript show: 'Gana el que este a menor distancia' ; cr.
-Transcript show: 'En caso de empate, se volvera a jugar' ; cr.
-Transcript cr. "para que se vea mejor"
+Transcript show: 'En caso de empate, se volvera a jugar con menos intentos y rango' ; cr.
+Transcript cr.
+Transcript show: '-ATACANTE-' ; cr.
+Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+Transcript show: '-DEFENSOR-' ; cr.
+Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr. "muestra el id"
+UIManager default request: 'Presione ENTER cuando termine de leer'.
 
 [empate] whileTrue: [ 
 	
 	[((acerto1 not) and: (acerto2 not)) and: ((intentos1 < intentosTotal) and: (intentos2 < intentosTotal))] whileTrue: [	 
 		
 		numRonda := numRonda + 1.
+		Transcript cr.
 		Transcript show: '-Ronda ' , (numRonda asString) , '-' ; cr.
 		
 		"SELECCIONA NUMERO"
@@ -43,16 +49,16 @@ Transcript cr. "para que se vea mejor"
 		respuesta1:= (UIManager default request: 'Turno jugador', ((jugador1 id) asString) , ' - Ingresa numero a adivinar'). 
 		respuesta1 := self enteroError: respuesta1."devuelve el numero cuando sea entero"
 		[(respuesta1 < 0) or: (respuesta1 > rango)] whileTrue: [
-			respuesta1 := (UIManager default request: 'Turno jugador', ((jugador1 id) asString) , ' - Ingresa numero a adivinar').  
-			self enteroError: respuesta1."devuelve el numero cuando sea entero"
+			respuesta1 := (UIManager default request: 'Turno jugador', ((jugador1 id) asString) , ' - Error el numero no esta en el rango, ingresa numero a adivinar').  
+			respuesta1 := self enteroError: respuesta1."devuelve el numero cuando sea entero"
 			].
 		
 		"JUGADOR 2"
 		respuesta2:= (UIManager default request: 'Turno jugador', ((jugador2 id) asString) , ' - Ingresa numero a adivinar'). 
 		respuesta2 := self enteroError: respuesta2. "devuelve el numero cuando sea entero"
 		[(respuesta2 < 0) or: (respuesta2 > rango)] whileTrue: [ "controla que no se pase del rango permitido"
-			respuesta2 := (UIManager default request: 'Turno jugador', ((jugador1 id) asString) , ' - Ingresa numero a adivinar').  
-			self enteroError: respuesta1."devuelve el numero cuando sea entero"
+			respuesta2 := (UIManager default request: 'Turno jugador', ((jugador2 id) asString) , ' - Error el numero no esta en el rango, ingresa numero a adivinar').  
+			respuesta2 := self enteroError: respuesta2."devuelve el numero cuando sea entero"
 			].
 	
 	
