@@ -1,63 +1,75 @@
-| jugador1 jugador2 victorias1 victorias2 respuesta1 respuesta2 |
+minijuegoPierdaPapelTijera
+	"Minijuego piedra papel o tijera"
+
+| numRonda victoriasTotales jugador1 jugador2 victorias1 victorias2 respuesta1 respuesta2 salida |
 
 "INICIALIZO VARIABLES"
-victorias1:= 0.
-jugador1:= 1.
+victorias1 := 0.
+jugador1 := atacante.
 
-victorias2:= 0.
-jugador2:= 2.
+victorias2 := 0.
+jugador2 := defensor.
 
+victoriasTotales := 3.
+numRonda := 0.
 Transcript clear.
 Transcript show: '---MINIJUEGO PIEDRA, PAPEL O TIJERA---' ; cr.
-Transcript show: '-AL MEJOR DE 5-' ; cr.
-Transcript cr. "para que se vea mejor"
-[(victorias1 ~= 3) and: (victorias2 ~= 3) ] whileTrue: [
+Transcript show: 'El primero en ganar 3 rondas, sera el vencedor' ; cr.
+Transcript show: 'Cada jugador tendra asignadas sus respectivas teclas:' ; cr.
+Transcript show: 'Jugador', ((jugador1 id) asString) , ' Piedra(A) - Papel(S) - Tijera(D)' ; cr.
+Transcript show: 'Jugador', ((jugador2 id) asString) , ' Piedra(U) - Papel(I) - Tijera(O)' ; cr.
+Transcript show: 'Aparte no se podra visualizar el ingreso por teclado, para evitar trampas' ; cr.
+
+[(victorias1 ~= victoriasTotales) and: (victorias2 ~= victoriasTotales) ] whileTrue: [
 	
+	numRonda := numRonda + 1.
 	"SELECCIONA PIEDRA, PAPEL O TIJERA"
 	
 	"JUGADOR 1"
-	respuesta1:= (UIManager default requestPassword: 'Elija una opcion entre parentesis: piedra(A), papel(S) y tijera(D)'). 
+	respuesta1 := (UIManager default requestPassword: 'Jugador', ((jugador1 id) asString) ,' - Elija una opcion entre parentesis: Piedra(A) - Papel(S) - Tijera(D)'). 
 
 	"si presiona boton cancel"
 	[respuesta1 isNil] whileTrue: [ 
-		respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(A), papel(S) y tijera(D)').
+		respuesta1 := (UIManager default requestPassword: 'Jugador', ((jugador1 id) asString) , '- Error no apreto ninguna tecla, vuelva a intentarlo: Piedra(A) - Papel(S) - Tijera(D)').
 		].
 
 	respuesta1:= respuesta1 asLowercase. "lo convierte a minuscula y string"
 
 	[(respuesta1 ~= 'a') and: ((respuesta1 ~= 's') and: (respuesta1 ~= 'd'))] whileTrue: [ 
-		respuesta1:= respuesta1 asLowercase.
-		respuesta1:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente: piedra(A), papel(S) y tijera(D)').
+		respuesta1 := respuesta1 asLowercase.
+		respuesta1 := (UIManager default requestPassword: 'Jugador', ((jugador1 id) asString) ,' - Error tecla equivocada, introduzca la tecla correctamente: Piedra(A) - Papel(S) - Tijera(D)').
 	
 		"si presiona boton cancel"
 		[respuesta1 isNil] whileTrue: [ 
-			respuesta1:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(A), papel(S) y tijera(D)').
+			respuesta1 := (UIManager default requestPassword: 'Jugador', ((jugador1 id) asString) , ' - Error no apreto ninguna tecla, vuelva a intentarlo: Piedra(A) - Papel(S) - Tijera(D)').
 			].
 		].
 
 	
 	"JUGADOR 2"
-	respuesta2:= (UIManager default requestPassword: 'Elija una opcion entre parentesis: piedra(U), papel(I) y tijera(O)'). 
+	respuesta2 := (UIManager default requestPassword: 'Jugador', ((jugador2 id) asString) ,' - Elija una opcion entre parentesis: Piedra(U) - Papel(I) - Tijera(O)'). 
 
 	"si presiona boton cancel"
 	[respuesta2 isNil] whileTrue: [ 
-		respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(U), papel(I) y tijera(O)').
+		respuesta2 := (UIManager default requestPassword: 'Jugador', ((jugador2 id) asString) , '- Error no apreto ninguna tecla, vuelva a intentarlo: Piedra(U) - Papel(I) - Tijera(O)').
 		].
 
 	respuesta2:= respuesta2 asLowercase. "lo convierte a minuscula y string"
 
 	[(respuesta2 ~= 'u') and: ((respuesta2 ~= 'i') and: (respuesta2 ~= 'o'))] whileTrue: [ 
-		respuesta2:= respuesta2 asLowercase.
-		respuesta2:= (UIManager default requestPassword: 'Error tecla equivocada, introduzca la tecla correctamente: piedra(U), papel(I) y tijera(O)').
+		respuesta2 := respuesta2 asLowercase.
+		respuesta2 := (UIManager default requestPassword: 'Jugador', ((jugador2 id) asString) ,' - Error tecla equivocada, introduzca la tecla correctamente: Piedra(U) - Papel(I) - Tijera(O)').
 	
 		"si presiona boton cancel"
 		[respuesta2 isNil] whileTrue: [ 
-			respuesta2:= (UIManager default requestPassword: 'Error no apreto ninguna tecla, vuelva a intentarlo: piedra(U), papel(I) y tijera(O)').
+			respuesta2 := (UIManager default requestPassword: 'Jugador', ((jugador2 id) asString) , ' - Error no apreto ninguna tecla, vuelva a intentarlo: Piedra(U) - Papel(I) - Tijera(O)').
 			].
 		].
 	
 	
 	"ENFRENTAMIENTO PARA VER QUIEN GANA"
+	Transcript cr.
+	Transcript show: '-Ronda', (numRonda asString) ,'-' ; cr.
 	
 	respuesta1 caseOf: {
 	"JUGADOR1 PIEDRA"	['a'] -> [
@@ -69,12 +81,12 @@ Transcript cr. "para que se vea mejor"
 			"JUGADOR2 PAPEL"
 			(respuesta2 = 'i') ifTrue: [ 
 				victorias2:= victorias2 + 1.
-				Transcript show: 'Victoria jugador' , (jugador2 asString) , ', papel le gana a piedra' ; cr.
+				Transcript show: 'Victoria jugador' , ((jugador2 id) asString) , ', papel le gana a piedra' ; cr.
 				]
 			ifFalse: [ 
 				"JUGADOR2 TIJERA"
 				victorias1:= victorias1 + 1.
-				Transcript show: 'Victoria jugador' , (jugador1 asString), ', piedra le gana a tijera' ; cr.
+				Transcript show: 'Victoria jugador' , ((jugador1 id) asString), ', piedra le gana a tijera' ; cr.
 				].
 			].
 		].
@@ -83,7 +95,7 @@ Transcript cr. "para que se vea mejor"
 		"JUGADOR2 SACA PIEDRA"
 		(respuesta2 = 'u') ifTrue: [ 
 			victorias1:= victorias1 + 1.
-			Transcript show: 'Victoria jugador' , (jugador1 asString), ', papel le gana a piedra' ; cr.
+			Transcript show: 'Victoria jugador' , ((jugador1 id) asString), ', papel le gana a piedra' ; cr.
 			]
 		ifFalse: [ 
 			"JUGADOR2 SACA PAPEL"
@@ -93,7 +105,7 @@ Transcript cr. "para que se vea mejor"
 			ifFalse: [ 
 				"JUGADOR2 SACA TIJERA"
 				victorias2:= victorias2 + 1.
-				Transcript show: 'Victoria jugador' , (jugador2 asString), ', tijera le gana a papel' ; cr.
+				Transcript show: 'Victoria jugador' , ((jugador2 id) asString), ', tijera le gana a papel' ; cr.
 				].
 			].
 		].
@@ -102,13 +114,13 @@ Transcript cr. "para que se vea mejor"
 		"JUGADOR2 SACA PIEDRA"
 		(respuesta2 = 'u') ifTrue: [ 
 			victorias2:= victorias2 + 1.
-			Transcript show: 'Victoria jugador' , (jugador2 asString), ', piedra le gana a tijera' ; cr.
+			Transcript show: 'Victoria jugador' , ((jugador2 id) asString), ', piedra le gana a tijera' ; cr.
 			]
 		ifFalse: [ 
 			"JUGADOR2 SACA PAPEL"
 			(respuesta2 = 'i') ifTrue: [ 
 				victorias1:= victorias1 + 1.
-				Transcript show: 'Victoria jugador' , (jugador1 asString), ', tijera le gana a papel' ; cr.
+				Transcript show: 'Victoria jugador' , ((jugador1 id) asString), ', tijera le gana a papel' ; cr.
 				]
 			ifFalse: [ 
 				"JUGADOR2 SACA TIJERA"
@@ -124,13 +136,22 @@ Transcript cr. "para que se vea mejor"
 
 "TERMINA EL DUELO, INFORMO GANADOR"
 Transcript cr. "para que se vea mejor"
+Transcript show: '-Duelo finalizado-' ; cr.
 
 "pregunto por victorias1 = 3, sino es 3 es porque gano el otro"
 (victorias1 = 3) ifTrue: [
-	Transcript show: 'Duelo finalizado, el resultado fue ', (victorias1 asString), '-' , (victorias2 asString) ; cr.
-	Transcript show: 'El ganador es el jugador', (jugador1 asString) ; cr.
+	Transcript show: 'El resultado fue ', (victorias1 asString), '-' , (victorias2 asString) ; cr.
+	Transcript show: 'El ganador es el jugador', ((jugador1 id) asString) ; cr.
+	Transcript show: 'El perdedor es el jugador', ((jugador2 id) asString) ; cr.
+	Transcript show: 'En la ronda ', (numRonda asString) ; cr.
+	salida := atacante.
 	]
 ifFalse: [ 
-	Transcript show: 'Duelo finalizado, el resultado fue ', (victorias2 asString), '-' , (victorias1 asString) ; cr.
-	Transcript show: 'El ganador es el jugador', (jugador2 asString) ; cr.
+	Transcript show: 'l resultado fue ', (victorias2 asString), '-' , (victorias1 asString) ; cr.
+	Transcript show: 'El ganador es el jugador', ((jugador2 id) asString) ; cr.
+	Transcript show: 'El perdedor es el jugador', ((jugador1 id) asString) ; cr.
+	Transcript show: 'En la ronda ', (numRonda asString) ; cr.
+	salida := defensor.
 	].
+
+^salida.
