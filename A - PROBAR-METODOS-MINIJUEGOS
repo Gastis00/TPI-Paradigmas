@@ -8,4 +8,4 @@ jug2 id: 2.
 
 juego := Game new.
 juego atacante: jug1 defensor: jug2.
-^juego minijuegoDueloMatematicas.
+^juego nombreMinijuego.
