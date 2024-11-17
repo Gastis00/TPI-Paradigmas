@@ -19,6 +19,11 @@ Transcript show: 'Cada jugador tendra asignadas sus respectivas teclas:' ; cr.
 Transcript show: 'Jugador', ((jugador1 id) asString) , ' Piedra(A) - Papel(S) - Tijera(D)' ; cr.
 Transcript show: 'Jugador', ((jugador2 id) asString) , ' Piedra(U) - Papel(I) - Tijera(O)' ; cr.
 Transcript show: 'Aparte no se podra visualizar el ingreso por teclado, para evitar trampas' ; cr.
+Transcript cr.
+Transcript show: '-ATACANTE-' ; cr.
+Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+Transcript show: '-DEFENSOR-' ; cr.
+Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr. "muestra el id"
 
 [(victorias1 ~= victoriasTotales) and: (victorias2 ~= victoriasTotales) ] whileTrue: [
 	
