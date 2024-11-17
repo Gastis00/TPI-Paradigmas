@@ -36,7 +36,7 @@ window addMorph: paddle2.
 
 "Crear el marcador de puntuación"
 scoreText := StringMorph new.
-scoreText contents: 'Jugador Atacante: 0 - Jugador Defensor: 0'.
+scoreText contents: 'Jugador 1: 0 - Jugador 2: 0'.
 scoreText position: 120@35. "Posicionar en el medio casi arriba"
 window addMorph: scoreText.
 
@@ -87,13 +87,11 @@ gameArea := window bounds insetBy: 5.
         scoreText contents: 'Jugador 1: ', player1Score asString, ' - Jugador 2: ', player2Score asString.
 
         World doOneCycle. "Actualizar el mundo"
-        (Delay forMilliseconds: 16) wait. "Controlar la velocidad del juego"
+        (Delay forMilliseconds: 4) wait. "Controlar la velocidad del juego"
     ].
 
     "Mostrar quién ganó"
-    scoreText contents: (player1Score >= 5
-        ifTrue: ['¡Jugador 1 Gana!']
-        ifFalse: ['¡Jugador 2 Gana!']).
+    scoreText contents: (player1Score >= 3 ifTrue: ['¡Jugador 1 Gana!'] ifFalse: ['¡Jugador 2 Gana!']).
 ] fork. "Ejecutar el bucle del juego en un proceso separado"
 
 "Detectar las teclas para mover las paletas"
