@@ -2,19 +2,19 @@ minijuegoMemoriaNumeros
 	"Mini juego de Memorizar secuencia de numeros"
 
 "MEMORIA DE NUMEROS"
-| semaforo seg pos nro1 nro2 jugador1 jugador2 Acerto1 Acerto2 cantAcertados1 cantAcertados2 respuesta1 respuesta2 salida |
+| semaforo seg pos secuencia1 secuencia2 jugador1 jugador2 Acerto1 Acerto2 cantAcertados1 cantAcertados2 respuesta1 respuesta2 salida |
 
 "alt + .        esto hace que pare la ejecucion"
 
 jugador1 := atacante.
 cantAcertados1 := 0.
 Acerto1 := false.
-nro1 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar"
+secuencia1 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
 
 jugador2 := defensor.
 cantAcertados2 := 0.
 Acerto2 := false.
-nro2 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar"
+secuencia2 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
 
 "pos inicializo mas abajo"
 seg:= 3.
@@ -36,51 +36,51 @@ Transcript clear.
 "JUEGA EL JUGADOR1"
 Transcript show: '-Turno ATACANTE-' ; cr.
 Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
-UIManager default request: 'Estas listo?'.
+UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Estas listo?'.
 
-Transcript show: 'El numero a memorizar es ', nro1 ; cr. "nro ya es un string"
+Transcript show: 'El numero a memorizar es ', (secuencia1) ; cr.
 	
 World doOneCycle. "fuerza a actualizar el transcript"
 (Delay forSeconds: seg) wait.
 Transcript clear.
 
 respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Ingrese resultado final').
-self enteroError: respuesta1.
+respuesta1 := self enteroError: respuesta1.
 
 [((respuesta1 asString) size) > 10] whileTrue: [ 
 	Transcript show: 'El numero erroneo era ', (respuesta1 asString) ; cr.
 	respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
-	self enteroError: respuesta1.
+	respuesta1 := self enteroError: respuesta1.
 	].
 
 "JUEGA EL JUGADOR1"
 Transcript show: '-Turno DEFENSOR-' ; cr.
 Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr.
-UIManager default request: 'Estas listo?'.
+UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Estas listo?'.
 
-Transcript show: 'El numero a memorizar es ', nro2 ; cr. "nro ya es un string"
+Transcript show: 'El numero a memorizar es ', (secuencia2) ; cr.
 	
 World doOneCycle. "fuerza a actualizar el transcript"
 (Delay forSeconds: seg) wait.
 Transcript clear.
 
 respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Ingrese resultado final').
-self enteroError: respuesta2.
+respuesta2 := self enteroError: respuesta2.
 
 [((respuesta2 asString) size) > 10] whileTrue: [ 
 	Transcript show: 'El numero erroneo era ', (respuesta2 asString) ; cr.
 	respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
-	self enteroError: respuesta2.
+	respuesta2 := self enteroError: respuesta2.
 	].
 
 
 "CALCULO CANTIDAD DE DIGITOS ACERTADOS"
 "JUGADOR1"
 pos:= 0.
-respuesta1 do: [ :c|
+(respuesta1 asString) do: [ :c| "paso a string para poder recorrerlo"
 	
 	pos:= pos + 1.
-	(c = (nro1 at: pos)) ifTrue: [ 
+	(c = (secuencia1 at: pos)) ifTrue: [ 
 		cantAcertados1 := cantAcertados1 + 1
 		].
 	
@@ -88,10 +88,10 @@ respuesta1 do: [ :c|
 
 "JUGADOR2"
 pos:= 0.
-respuesta2 do: [ :c|
+(respuesta2 asString) do: [ :c|
 	
 	pos:= pos + 1.
-	(c = (nro2 at: pos)) ifTrue: [ 
+	(c = (secuencia2 at: pos)) ifTrue: [ 
 		cantAcertados2 := cantAcertados2 + 1
 		].
 	
@@ -100,15 +100,14 @@ respuesta2 do: [ :c|
 
 "ANALIZO QUIEN GANO"
 "Jugador 1"
-(cantAcertados1 = (nro1 asInteger)) ifTrue: [ 
+(cantAcertados1 = (secuencia1 size)) ifTrue: [ 
 	Acerto1 := true.
 	].
 
 "Jugador 2"
-(respuesta2 = (nro1 asInteger)) ifTrue: [ 
+(respuesta2 = (secuencia2 size)) ifTrue: [ 
 	Acerto2 := true.
 	].
-
 
 "INFORMO"
 Transcript show: '-Duelo finalizado-' ; cr.
@@ -117,9 +116,9 @@ Transcript cr.
 (Acerto1 and: Acerto2) ifTrue: [ 
 	
 	Transcript show: 'Empate, ambos acertaron la secuencia entonces el ganador es el defensor (ID: ' , ((jugador2 id) asString) , ')' ; cr.
-	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 	Transcript cr.
-	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 	salida := defensor.
 	
 	]
@@ -128,10 +127,9 @@ ifFalse: [
 	(Acerto1) ifTrue: [
 		
 		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
-		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
-		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 		Transcript cr.
-		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
 		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' numeros'  ; cr.
 		salida := atacante.
@@ -141,10 +139,9 @@ ifFalse: [
 		(Acerto2) ifTrue: [ 
 			
 			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
-			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
-			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 			Transcript cr.
-			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
 			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
 			salida := defensor.
@@ -155,11 +152,11 @@ ifFalse: [
 			(cantAcertados1 > cantAcertados2) ifTrue: [ 
 				
 				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
-				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
 				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString)  , ' digitos' ; cr.
 				Transcript cr.
-				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
 				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' digitos' ; cr.
 				salida := atacante.
@@ -169,11 +166,11 @@ ifFalse: [
 				(cantAcertados1 < cantAcertados2) ifTrue: [ 
 					
 					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
-					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
 					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString) , ' digitos' ; cr.
 					Transcript cr.
-					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
 					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
 					salida := defensor.
@@ -184,11 +181,11 @@ ifFalse: [
 					"empataron en distancia"
 					
 					Transcript show: 'Empate, ambos quedaron a la misma distancia. La secuencia entonces el ganador es el defensor (ID: ' , ((jugador2 id) asString) , ')' ; cr.
-					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (nro2 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
 					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
 					Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString) , ' digitos' ; cr.
 					Transcript cr.
-					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (nro1 asString) ; cr.
+					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
 					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
 					Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
 					salida := defensor.
