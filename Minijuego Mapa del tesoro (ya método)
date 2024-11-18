@@ -1,9 +1,12 @@
-| numRonda bandera tamaño dimension posTesoro1 posTesoro2 filaTesoro1 columnaTesoro1 filaTesoro2 columnaTesoro2 jugador1 jugador2 acerto1 acerto2 mapa1 mapa2 mapaMostrar1 mapaMostrar2 rta1 rta2|
+minijuegoMapadelTesoro
+	"Mini juego de encontrar el tesoro en un mapa 8x8"
+	
+| numRonda bandera tamaño dimension posTesoro1 posTesoro2 filaTesoro1 columnaTesoro1 filaTesoro2 columnaTesoro2 jugador1 jugador2 acerto1 acerto2 mapa1 mapa2 mapaMostrar1 mapaMostrar2 rta1 rta2 salida |
 
-jugador1 := 1.
+jugador1 := atacante .
 acerto1 := false.
 
-jugador2 := 2.
+jugador2 := defensor.
 acerto2 := false.
 
 "bandera no hace falta inicializar"
@@ -357,7 +360,7 @@ Transcript clear.
 	
 	"JUGADOR 1"
 	Transcript cr.
-	Transcript show: 'MAPA JUGADOR', (jugador1 asString) ;cr.
+	Transcript show: 'MAPA JUGADOR', ((jugador1 id) asString) ;cr.
 	"MOSTRAR MAPA 1"
 	1 to: (dimension) do:[ :fila|
 		Transcript show: '|'.
@@ -385,12 +388,12 @@ Transcript clear.
 	
 	(numRonda > 1) ifTrue: [ 
 		Transcript cr.
-		Transcript show: 'El jugador', (jugador1 asString) , ' ingreso la posicion: ', (rta1 asString) , ' en la ronda anterior'; cr.
+		Transcript show: 'El jugador', ((jugador1 id) asString) , ' ingreso la posicion: ', (rta1 asString) , ' en la ronda anterior'; cr.
 		].
 	
 	"JUGADOR 2"
 	Transcript cr.
-	Transcript show: 'MAPA JUGADOR', (jugador2 asString) ; cr.
+	Transcript show: 'MAPA JUGADOR', ((jugador2 id) asString) ; cr.
 	"MOSTRAR MAPA 2"
 	1 to: (dimension) do:[ :fila|
 		Transcript show: '|'.
@@ -417,18 +420,18 @@ Transcript clear.
 	
 	(numRonda > 1) ifTrue: [ 
 		Transcript cr.
-		Transcript show: 'El jugador', (jugador2 asString) , ' ingreso la posicion: ', (rta2 asString) , ' en la ronda anterior'; cr.
+		Transcript show: 'El jugador', ((jugador2 id) asString) , ' ingreso la posicion: ', (rta2 asString) , ' en la ronda anterior'; cr.
 		].
 		
 	
-	rta1 := UIManager default chooseFrom: (mapaMostrar1) message: 'El jugador', (jugador1 asString) ,' - Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+	rta1 := UIManager default chooseFrom: (mapaMostrar1) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
 	[rta1 = 0] whileTrue: [  "controla si viene 0 por error"
-		rta1 := UIManager default chooseFrom: (mapaMostrar1) message: 'El jugador', (jugador1 asString) ,' - Error, Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+		rta1 := UIManager default chooseFrom: (mapaMostrar1) message: 'El jugador', ((jugador1 id) asString) ,' - Error, Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
 		].
 	
-	rta2 := UIManager default chooseFrom: (mapaMostrar2) message: 'El jugador', (jugador2 asString) ,' - Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+	rta2 := UIManager default chooseFrom: (mapaMostrar2) message: 'El jugador', ((jugador2 id) asString) ,' - Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
 	[rta2 = 0] whileTrue: [  "controla si viene 0 por error"
-		rta2 := UIManager default chooseFrom: (mapaMostrar2) message: 'El jugador', (jugador2 asString) ,' - Error, Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
+		rta2 := UIManager default chooseFrom: (mapaMostrar2) message: 'El jugador', ((jugador2 id) asString) ,' - Error, Seleccione un casillero' title: 'EL MAPA DEL TESORO'.
 		].
 	
 	"Controla si gano"
@@ -456,10 +459,10 @@ mapaMostrar2 at: (posTesoro2) put: ' X'.
 
 Transcript clear.
 "MUESTRA AMBOS MAPAS"
-Transcript show: '-Duelo finalizado-', (jugador1 asString) ;cr.
+Transcript show: '-Duelo finalizado-', ((jugador1 id) asString) ;cr.
 "MOSTRAR MAPA 1"
 Transcript cr.
-Transcript show: 'MAPA JUGADOR', (jugador1 asString) ;cr.
+Transcript show: 'MAPA JUGADOR', ((jugador1 id) asString) ;cr.
 1 to: (dimension) do:[ :fila|
 	Transcript show: '|'.
 	1 to: (dimension) do:[ :columna|
@@ -484,10 +487,10 @@ Transcript show: 'MAPA JUGADOR', (jugador1 asString) ;cr.
 
 	].
 Transcript cr.
-Transcript show: 'El jugador', (jugador1 asString) , ' ingreso la posicion: ', (rta1 asString) , ' en la ultima ronda'; cr.
+Transcript show: 'El jugador', ((jugador1 id) asString) , ' ingreso la posicion: ', (rta1 asString) , ' en la ultima ronda'; cr.
 "MOSTRAR MAPA 2"
 Transcript cr.
-Transcript show: 'MAPA JUGADOR', (jugador2 asString) ; cr.
+Transcript show: 'MAPA JUGADOR', ((jugador2 id) asString) ; cr.
 1 to: (dimension) do:[ :fila|
 	Transcript show: '|'.
 	1 to: (dimension) do:[ :columna|
@@ -511,7 +514,7 @@ Transcript show: 'MAPA JUGADOR', (jugador2 asString) ; cr.
 	Transcript show: '|' ; cr.
 	].
 Transcript cr.
-Transcript show: 'El jugador', (jugador2 asString) , ' ingreso la posicion: ', (rta2 asString) , ' en la ultima ronda'; cr.
+Transcript show: 'El jugador', ((jugador2 id) asString) , ' ingreso la posicion: ', (rta2 asString) , ' en la ultima ronda'; cr.
 
 
 "TERMINA EL JUEGO, INFORMA"
@@ -519,17 +522,21 @@ Transcript cr.
 (acerto1 and: acerto2) ifTrue: [ 
 	
 	Transcript show: 'Empate, ambos acertaron a la vez' ; cr.
-	Transcript show: 'Gana el jugador' , (jugador2 asString) , ' por ser defensor' ; cr.
+	Transcript show: 'Gana el jugador' , ((jugador2 id) asString) , ' por ser defensor' ; cr.
 	Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
+	salida:= defensor.
 	]
 ifFalse: [ 
 	(acerto1) ifTrue: [ 
-		Transcript show: 'Gana el jugador' , (jugador1 asString) , ' por adivinar el mapa antes' ; cr.
+		Transcript show: 'Gana el jugador' , ((jugador1 id) asString) , ' por adivinar la posicion del tesoro antes' ; cr.
 		Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
+		salida := atacante.
 		]
 	ifFalse: [ 
-		Transcript show: 'Gana el jugador' , (jugador2 asString) , ' por adivinar el mapa antes' ; cr.
+		Transcript show: 'Gana el jugador' , ((jugador2 id) asString) , ' por adivinar la posicion del tesoro antes' ; cr.
 		Transcript show: 'En la ronda ' , (numRonda asString) ; cr.
+		salida := defensor.
 		].
 	].
 Transcript show: 'Ambos pueden visualizar donde se encontraba el tesoro' ; cr.
+^salida.
