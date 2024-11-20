@@ -23,7 +23,7 @@ semaforo := Semaphore new.
 Transcript clear.
 Transcript show: '---MEMORIA DE NUMEROS---' ; cr.
 Transcript show: 'Vas a tener una secuencia de 10 numeros' ; cr.
-Transcript show: 'Para memorizar en ', (seg asString) ,' segundos, cada digito en orden' ; cr.
+Transcript show: 'Para memorizar en ', (seg asString) ,' segundos cada digito en orden' ; cr.
 Transcript show: 'El que acierte la secuencia gana, en caso de que ambos acierten: gana el defensor' ; cr.
 Transcript show: 'Si no aciertan, el que haya memorizado mayor cantidad de digitos gana' ; cr.
 Transcript show: 'En caso de que ambos hayan memorizado la misma cantidad de digitos: gana el defensor' ; cr.
