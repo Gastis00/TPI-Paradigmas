@@ -49,7 +49,7 @@ tablero mostrarTablero: window texto: texto.
 	tablero sumarRonda.
 	tablero actualizarTablero: window texto: texto.
 	
-	((tablero dueloExtra) ~= nil) ifTrue: [  
+	(((tablero dueloExtra) ~= nil) and: ((tablero listaJugadores) size ~= 2)) ifTrue: [  
 		((((tablero ronda) \\ (tablero dueloExtra))= 0))ifTrue: [
 			UIManager default request: 'INGRESE ENTER PARA CONTINUAR'.
 			Transcript clear.
@@ -63,7 +63,9 @@ tablero mostrarTablero: window texto: texto.
 	"Pregunto si desea seguir jugando"
 	UIManager default request: 'INGRESE ENTER PARA CONTINUAR'.
 	Transcript clear.
-	decision := vencedor continuarJugando.
+	((tablero listaJugadores) size = 2) ifFalse: [
+		decision := vencedor continuarJugando.
+		].
 	].
 
 
@@ -73,9 +75,14 @@ tablero previaFinal.
 	primero := tablero jugadorConMasTerreno.
 	segundo := primero elegirRivalDueloExtra: tablero.
 	vencedor := tablero procedimientoDueloFinal: primero defensor: segundo objgame: games.
+	(((tablero listaJugadores) size) = 2) ifTrue: [ 
+		UIManager default request: 'INGRESE ENTER PARA CONTINUAR'.
+		 ].
 	].
 
 "Resultados Finales"
 tablero actualizarTablero: window texto: texto.
+UIManager default request: 'INGRESE ENTER PARA AVANZAR A LOS RESULTADOS FINALES'.
+Transcript clear.
 vencedor resultadoFinal.
 
