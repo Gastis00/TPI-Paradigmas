@@ -1,3 +1,129 @@
+minijuegoMemoriaNumeros
+	"Mini juego de Memorizar secuencia de numeros"
+
+"MEMORIA DE NUMEROS"
+| empate semaforo seg pos secuencia1 secuencia2 jugador1 jugador2 cantAcertados1 cantAcertados2 respuesta1 respuesta2 salida |
+
+"alt + .        esto hace que pare la ejecucion"
+
+jugador1 := atacante.
+jugador2 := defensor.
+
+"pos inicializo mas abajo"
+seg:= 3.
+semaforo := Semaphore new.
+empate := true.
+Transcript clear.
+Transcript show: '---MEMORIA DE NUMEROS---' ; cr.
+Transcript show: 'Vas a tener una secuencia de 10 numeros' ; cr.
+Transcript show: 'Para memorizar en ', (seg asString) ,' segundos cada digito en orden' ; cr.
+Transcript show: 'El que acierte la secuencia gana, en caso de que ambos acierten se jugara el desempate' ; cr.
+Transcript show: 'Si no aciertan, el que haya memorizado mayor cantidad de digitos gana' ; cr.
+Transcript show: 'En caso de que ambos hayan memorizado la misma cantidad de digitos se jugara el desempate' ; cr.
+Transcript show: 'La secuencia aparece en la tercera linea, ejemplo:' ; cr.
+Transcript show: 'La secuencia a memorizar es XXXXXXXXXX' ; cr.
+
+UIManager default request: 'Presione enter cuando termine leer'.
+Transcript clear.
+
+[empate] whileTrue: [
+
+	"JUEGA EL JUGADOR1"
+	cantAcertados1 := 0.
+	secuencia1 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
+	Transcript show: '-Turno ATACANTE-' ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+	UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Estas listo?'.
+
+	Transcript show: 'La secuencia a memorizar es ', (secuencia1) ; cr.
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: seg) wait.
+	Transcript clear.
+
+	respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Ingrese resultado final').
+	respuesta1 := self enteroError: respuesta1.
+
+	[((respuesta1 asString) size) > 10] whileTrue: [ 
+		Transcript show: 'El numero erroneo era ', (respuesta1 asString) ; cr.
+		respuesta1 := (UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
+		respuesta1 := self enteroError: respuesta1.
+		].
+
+
+	"JUEGA EL JUGADOR1"
+	cantAcertados2 := 0.
+	secuencia2 := ((1000000000 to: 9999999999) atRandom) asString. "numero de 10 digitos a memorizar, lo dejo como string para recorrerlo"
+	Transcript show: '-Turno DEFENSOR-' ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr.
+	UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Estas listo?'.
+
+	Transcript show: 'La secuencia a memorizar es ', (secuencia2) ; cr.
+	
+	World doOneCycle. "fuerza a actualizar el transcript"
+	(Delay forSeconds: seg) wait.
+	Transcript clear.
+
+	respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Ingrese resultado final').
+	respuesta2 := self enteroError: respuesta2.
+
+	[((respuesta2 asString) size) > 10] whileTrue: [ 
+		Transcript show: 'El numero erroneo era ', (respuesta2 asString) ; cr.
+		respuesta2 := (UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Error, ingrese resultado final de 10 digitos').
+		respuesta2 := self enteroError: respuesta2.
+		].
+
+
+	"CALCULO CANTIDAD DE DIGITOS ACERTADOS"
+	"JUGADOR1"
+	pos:= 0.
+	(respuesta1 asString) do: [ :c| "paso a string para poder recorrerlo"
+	
+		pos:= pos + 1.
+		(c = (secuencia1 at: pos)) ifTrue: [ 
+			cantAcertados1 := cantAcertados1 + 1
+			].
+		].
+	"JUGADOR2"
+	pos:= 0.
+	(respuesta2 asString) do: [ :c|
+	
+		pos:= pos + 1.
+		(c = (secuencia2 at: pos)) ifTrue: [ 
+			cantAcertados2 := cantAcertados2 + 1
+			].
+		].
+
+	"ANALIZO SI HAY EMPATE"
+	(cantAcertados1 = cantAcertados2) ifTrue: [ 
+		empate := true.
+		(seg = 3) ifTrue: [ 
+			seg := seg - 1.
+			].		
+		Transcript show: 'Empate, ambos acertaron la misma cantidad de digitos' ; cr.
+		Transcript cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString)  , ' digitos' ; cr.
+		Transcript cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' digitos' ; cr.
+		Transcript cr.
+		Transcript show: 'Va a volver a salir una secuencia de 10 numeros pero en ' , (seg asString) , ' segundos' ; cr.
+		UIManager default request: 'Presione ENTER para jugar el desempate'.
+		Transcript clear.
+		]
+	ifFalse: [
+		empate := false.
+		].
+	
+	].
+
+"INFORMO"
+Transcript show: '-Duelo finalizado-' ; cr.
+Transcript cr.
+
 ((cantAcertados1 = 10)) ifTrue: [
 
 	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
@@ -54,3 +180,5 @@ ifFalse: [
 		].
 	
 	].
+
+^salida.
