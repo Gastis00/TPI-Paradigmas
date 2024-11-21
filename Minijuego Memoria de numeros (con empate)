@@ -1,0 +1,56 @@
+((cantAcertados1 = 10)) ifTrue: [
+
+	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+	Transcript cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' numeros'  ; cr.
+	salida := atacante.
+		
+	]
+ifFalse: [ 
+	((cantAcertados2 = 10)) ifTrue: [ 
+			
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó entonces es el ganador' ; cr.
+		Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+		Transcript cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+		Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
+		salida := defensor.
+			
+		]
+	ifFalse: [ 
+		"ninguno Acertó, se define por cantidad acertados"
+		(cantAcertados1 > cantAcertados2) ifTrue: [ 
+				
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString)  , ' digitos' ; cr.
+			Transcript cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString)  , ' digitos' ; cr.
+			salida := atacante.
+				
+			]
+		ifFalse: [ 
+			"(cantAcertados1 < cantAcertados2)"
+					
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Tiene mayor cantidad de acertados entonces es el ganador' ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia a acertar era ', (secuencia2) ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta2 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador2 id) asString) ,  ' - Acertó ', (cantAcertados2 asString) , ' digitos' ; cr.
+				Transcript cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia a acertar era ', (secuencia1) ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - La secuencia ingresada fue ', (respuesta1 asString) ; cr.
+				Transcript show: 'Jugador' , ((jugador1 id) asString) ,  ' - Acertó ', (cantAcertados1 asString) , ' digitos' ; cr.
+				salida := defensor.
+				
+			].
+		
+		].
+	
+	].
