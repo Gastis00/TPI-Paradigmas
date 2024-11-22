@@ -7,13 +7,13 @@ jugador1 := atacante.
 intentos1 := 0. "para mostrar al final nomas"
 pos1 := 0. "para controlar si gano"
 espacio1:= ''. "posiciones que se mueven en el transcript"
-espacioTotal1 := '                                                            |'. "meta"
+espacioTotal1 := ''. "meta"
 
 jugador2 := defensor.
 intentos2 := 0.
 pos2 := 0.
 espacio2:= ''.
-espacioTotal2 := '                                                            |'. "meta"
+espacioTotal2 := ''. "meta"
 
 meta := 5.
 cantNum := 3. "ocpiones para adivinar"
@@ -32,90 +32,92 @@ UIManager default request: 'Presione ENTER cuando termine de leer'.
 Transcript clear.
 
 burro := #(
-'    >>>>>\.'
-'    /_  )`.'
-'    /  _)`^)`.'
-'    (_,'' \  `^-'''
-'    `'''
+'    >>>>>\.       '
+'    /_  )`.       '
+'    /  _)`^)`.    '
+'    (_,'' \  `^-''  '
+'    `''            '
 ).
 gato := #(
-' /\_/\'  
+' /\_/\ ' 
 '( o.o )' 
-' > ^ <'
+' > ^ < '
 ).
 perro := #(
-'  / \__'
-' (    @\___'
+'  / \__     '
+' (    @\___ '
 ' /         O'
-'/   (_____/'
-'/_____/   U'
+'/   (_____/ '
+'/_____/   U '
 ).
 pez := #(
 '><(((º>'
 ).
 elefante:= #(
-'     _.-- ,.--.'
-'   .''   .''     /'
-'   | @       |''..--------._'
-'  /      \._/              ''.'
-' /  .-.-                     \'
-'(  /    \                     \'
+'     _.-- ,.--.                 '
+'   .''   .''     /                '
+'   | @       |''..--------._     '
+'  /      \._/              ''.   '
+' /  .-.-                     \  '
+'(  /    \                     \ '
 ' \\      ''.                  | #'
-'  \\       \   -.           /'
-'   :\       |    )._____.''   \'
-'            |   /  \  |  \    )'
-'            |   |./''  :__ \.-'''
-'            ''--'''
+'  \\       \   -.           /   '
+'   :\       |    )._____.''   \  '
+'            |   /  \  |  \    ) '
+'            |   |./''  :__ \.-''  '
+'            ''--''                '
 ).
 
 caballo := #(
-'....……./\’,|;\-,.¸ .¸¸ . . . ¸,.,¸.'
-'. . . . ¸,’ ¸,. . ¸ `-,”~-~’,¸,.¹-~-._¸,.'
-'. . . . ) . ‘”¨ . .):. .`-,;:.`,’;;‘¸,.¹¯¸¸,.-'
+'....……./\’,|;\-,.¸ .¸¸ . . . ¸,.,¸.              '
+'. . . . ¸,’ ¸,. . ¸ `-,”~-~’,¸,.¹-~-._¸,.        '
+'. . . . ) . ‘”¨ . .):. .`-,;:.`,’;;‘¸,.¹¯¸¸,.-   '
 '. . .,-’ , , , , ,-‘;:.. . .`-¸;:.`,’–~’`,¯-.,¸_,'
-'. . (. ,•¸,-~’¨|;;;::.. .. . “-,;:/,`,-¸,.-~–.¸_'
+'. . (. ,•¸,-~’¨|;;;::.. .. . “-,;:/,`,-¸,.-~–.¸_ '
 '. . . ¨`” . . . .|;;;:::.. . .. . ¯¯`*¬~-~~¬¬”~-`'
-'. . . . . . . . . .\;;;::… . … , . . . . . .'
+'. . . . . . . . . .\;;;::… . … , . . . . . .     '
 ).
 
 pingüino := #(
-'   .--.'
-'  |o_o |'
-'  |:_/ |'
-' //   \ \'
-'(|     | )'
-'/''\_   _/`\'
-'\___)=(___/'
+'   .--.     '
+'  |o_o |    '
+'  |:_/ |    '
+' //   \ \   '
+'(|     | )  ' 
+'/''\_   _/`\ '
+'\___)=(___/ '
 ).
 
 pajaro := #(
-'     \\'
+'     \\ '
 '     (o>'
-'\\_//)'
-' \_/_)'
-'  _|_'
+'\\_//)  '
+' \_/_)  '
+'  _|_   '
 ).
 
 conejo := #(
-'  (\(\  '
-' ( -.-)'
+'  (\(\   '
+' ( -.-)  '
 ' o_(")(")'
 ).
 
 mono := #(
-'             __,__'
-'     .--.  .-"     "-.  .--.'
-'    / .. \/  .-. .-.  \/ .. \'
-'   | |  ''|  /   Y   \  |''  |'
-'   | \   \  \ 0 | 0 /  /   /'
-'    \ ''- ,\.-""""""""""-./, -'''
-'     `''-'' /_   ^ ^   _\ ''-''`'
-'         |  \._     _./  |'
-'         \   \ ''~''~'' /   /'
-'          ''._ ''-.__.-'' _.'''
-'             ''""-----""'''
+'             __,__              ' 
+'     .--.  .-"     "-.  .--.    '
+'    / .. \/  .-. .-.  \/ .. \   '
+'   | |  ''|  /   Y   \  |''  |    '
+'   | \   \  \ 0 | 0 /  /   /    '
+'    \ ''- ,\.-""""""""""-./, -''  '
+'     `''-'' /_   ^ ^   _\ ''-''`    '
+'         |  \._     _./  |      '
+'         \   \ ''~''~'' /   /      '
+'          ''._ ''-.__.-'' _.''      '
+'             ''""-----""''        '
 ).
 
+
+"SELECCION DE QUE ANIMAL QUIEREN"
 opcionesMostrar := #('Burro' 'Gato' 'Perro' 'Pez' 'Elefante' 'Caballo' 'Pingüino' 'Pajaro' 'Conejo' 'Mono').
 
 
@@ -137,7 +139,6 @@ respuesta1 caseOf: {
 [10] -> [animal1 := mono].
 }.
 
-
 respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 [respuesta2 = 0] whileTrue: [  "controla si viene 0 por error"
 	respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione su avatar' title: 'CARRERA DE CABALLOS'.
@@ -156,14 +157,26 @@ respuesta2 caseOf: {
 [10] -> [animal2 := mono].
 }.
 
-"muestra los animles antes de arrancar"
-Transcript show: ('1 ').
-animal1 do: [:linea |
-	Transcript show: (espacio1,linea) ; cr.
+"MUESTRA LOS ANIMALES ANTES DE ARRANCAR"
+espacioTotal1 := ''.
+1 to: (meta - pos1) do: [ :i|
+	espacioTotal1 := (espacioTotal1,'            '). "agrega la meta"
 	].
-Transcript show: ('2 ').
+espacioTotal1 := (espacioTotal1,'| |').
+Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+Transcript show: ('1') ; cr.
+animal1 do: [:linea |
+	Transcript show: (espacio1,linea,espacioTotal1) ; cr.
+	].
+Transcript cr.
+espacioTotal2 := ''.
+1 to: (meta - pos2) do: [ :i|
+	espacioTotal2 := (espacioTotal2,'            ').
+	].
+espacioTotal2 := (espacioTotal2,'| |').
+Transcript show: ('2') ; cr.
 animal2 do: [:linea |
-	Transcript show: (espacio2,linea) ; cr.
+	Transcript show: (espacio2,linea,espacioTotal2) ; cr.
 	].
 
 opcionesMostrar := Array new: cantNum.
@@ -190,24 +203,37 @@ opcionesMostrar := Array new: cantNum.
 		(respuesta1 = numAdivinar1) ifTrue: [ 
 			pos1 := pos1 + 1.
 			espacio1 := (espacio1,'            '). "Agrega espacios para desplazar el caballo"
-			1 to: (meta - pos1) do: [ :i
-				
+			
+			espacioTotal1 := ''.
+			1 to: (meta - pos1) do: [ :i|
+				espacioTotal1 := (espacioTotal1,'            '). "agrega la meta"
 				].
+			espacioTotal1 := (espacioTotal1,'| |').
+			
 			"ACTUALIZA LA POSICION DE LOS CABALLOS"
 			Transcript clear.
-			Transcript show: ('1 ').
+			Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+			Transcript show: ('1') ; cr.
 			"avanzo el caballo 1"
 			animal1 do: [:linea |
-				Transcript show: (espacio1,linea) ; cr.
+				Transcript show: (espacio1,linea,espacioTotal1) ; cr.
 				].
-	
+			
+			espacioTotal2 := ''.
+			1 to: (meta - pos2) do: [ :i|
+				espacioTotal2 := (espacioTotal2,'            ').
+				].
+			espacioTotal2 := (espacioTotal2,'| |').
 			"se queda quieto"
-			Transcript show: ('2 ').
+			Transcript cr.
+			Transcript show: ('2') ; cr.
 			animal2 do: [:linea |
-				Transcript show: (espacio2,linea) ; cr.
+				Transcript show: (espacio2,linea,espacioTotal2) ; cr.
 				].
 			Transcript cr.
-			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Acerto el numero ' , (numAdivinar1 asString) , ' avanza una posicion'; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Acerto el numero ' , (numAdivinar1 asString) , ' avanza una posicion y vuelve a jugar'; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' esta en la posicion ' , (pos1 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' esta en la posicion ' , (pos2 asString) ; cr.
 	
 			].
 	
@@ -216,7 +242,7 @@ opcionesMostrar := Array new: cantNum.
 	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
 	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
 	intentos1 := intentos1 + 1. "para contar la opcion que erro"
-
+	
 	
 	"JUEGA EL JUGADOR2"
 	respuesta2 := 0. "pongo en 0 para que entre la primera vez"
@@ -237,21 +263,35 @@ opcionesMostrar := Array new: cantNum.
 			pos2 := pos2 + 1.
 			espacio2 := (espacio2,'            '). "Agrega espacios para desplazar el caballo"
 			
+			espacioTotal1 := ''.
+			1 to: (meta - pos1) do: [ :i|
+				espacioTotal1 := (espacioTotal1,'            ').
+				].
+			espacioTotal1 := (espacioTotal1,'| |').
 			"ACTUALIZA LA POSICION DE LOS CABALLOS"
 			Transcript clear.
-			Transcript show: ('1 ').
+			Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+			Transcript show: ('1') ; cr.
 			"se queda quieto"
 			animal1 do: [ :linea|
-				Transcript show: (espacio1,linea) ; cr.
+				Transcript show: (espacio1,linea,espacioTotal1) ; cr.
 				].
 			
+			espacioTotal2 := ''.
+			1 to: (meta - pos2) do: [ :i|
+				espacioTotal2 := (espacioTotal2,'            ').
+				].
+			espacioTotal2 := (espacioTotal2,'| |').
 			"avanza el caballo 2"
-			Transcript show: ('2 ').
+			Transcript cr.
+			Transcript show: ('2') ; cr.
 			animal2 do: [ :linea|
-				Transcript show: (espacio2,linea) ; cr.
+				Transcript show: (espacio2,linea,espacioTotal2) ; cr.
 				].
 			Transcript cr.
-			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Acerto el numero ' , (numAdivinar2 asString) , ' avanza una posicion'; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Acerto el numero ' , (numAdivinar2 asString) , ' avanza una posicion y vuelve a jugar'; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' esta en la posicion ' , (pos2 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' esta en la posicion ' , (pos1 asString) ; cr.
 	
 			].
 	
@@ -263,8 +303,72 @@ opcionesMostrar := Array new: cantNum.
 		Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - El numero que ingreso es ' , (respuesta2 asString) ; cr.
 		intentos2 := intentos2 + 1. "para contar la opcion que erro"		
 		].
-
+	
 	].
+
+
+"MUESTRA AL GANADOR PASANDO LA META"
+(pos1 = meta) ifTrue: [ 
+	
+	espacioTotal1 := ''.
+	1 to: (meta - pos1) do: [ :i|
+		espacioTotal1 := (espacioTotal1,'            ').
+		].
+	espacioTotal1 := (espacioTotal1,'| |').
+	"ACTUALIZA LA POSICION DE LOS CABALLOS"
+	Transcript clear.
+	Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+	Transcript show: ('1') ; cr.
+	"se queda quieto"
+	animal1 do: [ :linea|
+		Transcript show: (espacio1,espacioTotal1,linea) ; cr.
+		].
+	
+	espacioTotal2 := ''.
+	1 to: (meta - pos2) do: [ :i|
+		espacioTotal2 := (espacioTotal2,'            ').
+		].
+	espacioTotal2 := (espacioTotal2,'| |').
+	"avanza el caballo 2"
+	Transcript cr.
+	Transcript show: ('2') ; cr.
+	animal2 do: [ :linea|
+		Transcript show: (espacio2,linea,espacioTotal2) ; cr.
+		].	
+	
+	]
+
+ifFalse: [  
+	"pos2 = meta"
+	
+	espacioTotal1 := ''.
+	1 to: (meta - pos1) do: [ :i|
+		espacioTotal1 := (espacioTotal1,'            ').
+		].
+	espacioTotal1 := (espacioTotal1,'| |').
+	"ACTUALIZA LA POSICION DE LOS CABALLOS"
+	Transcript clear.
+	Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+	Transcript show: ('1') ; cr.
+	"se queda quieto"
+	animal1 do: [ :linea|
+		Transcript show: (espacio1,linea,espacioTotal1) ; cr.
+		].
+
+	espacioTotal2 := ''.
+	1 to: (meta - pos2) do: [ :i|
+		espacioTotal2 := (espacioTotal2,'            ').
+		].
+	espacioTotal2 := (espacioTotal2,'| |').
+	"avanza el caballo 2"
+	Transcript cr.
+	Transcript show: ('2') ; cr.
+	animal2 do: [ :linea|
+		Transcript show: (espacio2,espacioTotal2,linea) ; cr.
+		].	
+	
+	].
+
 
 
 "YA HAY UN GANADOR ENTONCES INFORMO"
