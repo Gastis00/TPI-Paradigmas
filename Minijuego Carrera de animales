@@ -20,7 +20,7 @@ cantNum := 3. "ocpiones para adivinar"
 Transcript clear.
 Transcript show: '---CARRERA DE ANIMALES---' ; cr.
 Transcript show: 'Cada jugador tendra un numero propio para adivinar entre 1 y ' , (cantNum asString), ' para poder avanzar una posicion' ; cr.
-Transcript show: 'Gana el primero en pasar la meta que esta a ' , ((meta + 1) asString) , ' posiciones, señalizada como: | |' ; cr.
+Transcript show: 'Gana el primero en pasar la meta que esta a ' , (meta asString) , ' posiciones, señalizada como: | |' ; cr.
 Transcript show: 'El que acierte podra volver a jugar hasta que erre el numero' ; cr.
 Transcript show: 'Por lo tanto no se podra empatar, tendra una ligera ventaja por empezar primero el defensor' ; cr.
 Transcript show: 'Podran elegir un avatar, y su meta es proporcional al tamaño del mismo' ; cr.
