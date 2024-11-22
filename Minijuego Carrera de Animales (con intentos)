@@ -20,13 +20,14 @@ Transcript show: '---CARRERA DE ANIMALES---' ; cr.
 Transcript show: 'Cada jugador tendra un numero propio para adivinar entre 1 y ' , (cantNum asString), ' para poder avanzar una posicion' ; cr.
 Transcript show: 'Gana el primero en llegar a la meta, que esta a ' , (meta asString) , ' posiciones' ; cr.
 Transcript show: 'El que acierte podra volver a jugar hasta que erre el numero' ; cr.
-Transcript show: 'Por lo tanto no se podra empatar, tendra una ligera por empezar primero el defensor' ; cr.
+Transcript show: 'Por lo tanto no se podra empatar, tendra una ligera ventaja por empezar primero el defensor' ; cr.
 Transcript cr.
 Transcript show: '-ATACANTE-' ; cr.
 Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
 Transcript show: '-DEFENSOR-' ; cr.
 Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr. "muestra el id"
 UIManager default request: 'Presione ENTER cuando termine de leer'.
+Transcript clear.
 
 opcionesMostrar := Array new: cantNum.
 1 to: (cantNum) do: [ :i|
@@ -48,12 +49,23 @@ caballo2 := #(
     '`'''
 ).
 
-[(pos1 ~= meta) and: (pos2 ~= meta)] whileTrue: [ 
-	
+
+"muestra los caballos antes de arrancar"
+Transcript show: ('1').
+caballo1 do: [:linea |
+	Transcript show: (espacio1,linea) ; cr.
+	].
+Transcript show: ('2').
+caballo2 do: [:linea |
+	Transcript show: (espacio2,linea) ; cr.
+	].
+
+[(pos1 < meta) and: (pos2 < meta)] whileTrue: [ 
+
 	"JUEGA EL JUGADOR1"
 	respuesta1 := 0. "pongo en 0 para que entre la primera vez"
 	numAdivinar1 := 0.
-	[respuesta1 = numAdivinar1] whileTrue: [	 
+	[(respuesta1 = numAdivinar1) and: ((pos1 < meta))] whileTrue: [	 
 		
 		numAdivinar1 := (1 to: 3) atRandom.
 		intentos1 := intentos1 + 1.
@@ -81,19 +93,23 @@ caballo2 := #(
 			caballo2 do: [:linea |
 				Transcript show: (espacio2,linea) ; cr.
 				].
+			
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Acerto el numero ' , (numAdivinar1 asString) , ' avanza una posicion'; cr.
 	
 			].
 	
 		].
+	Transcript cr.
 	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
 	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
 	intentos1 := intentos1 + 1. "para contar la opcion que erro"
-	
+
 	
 	"JUEGA EL JUGADOR2"
 	respuesta2 := 0. "pongo en 0 para que entre la primera vez"
 	numAdivinar2 := 0.
-	[respuesta2 = numAdivinar2] whileTrue: [	 
+	"pregunto si no adivino la respuesta1, asi ya termina y no juega el jugador2"
+	[((pos1 < meta)) and: ((respuesta2 = numAdivinar2) and: ((pos2 < meta)))] whileTrue: [	 
 		
 		numAdivinar2 := (1 to: 3) atRandom.
 		intentos2 := intentos2 + 1.
@@ -106,7 +122,7 @@ caballo2 := #(
 		"COMPRUEBA SI AVANZA UNA POSICION"
 		(respuesta2 = numAdivinar2) ifTrue: [ 
 			pos2 := pos2 + 1.
-			espacio2 := (espacio1,'            '). "Agrega espacios para desplazar el caballo"
+			espacio2 := (espacio2,'            '). "Agrega espacios para desplazar el caballo"
 			
 			"ACTUALIZA LA POSICION DE LOS CABALLOS"
 			Transcript clear.
@@ -121,12 +137,15 @@ caballo2 := #(
 			caballo2 do: [ :linea|
 				Transcript show: (espacio2,linea) ; cr.
 				].
+			
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Acerto el numero ' , (numAdivinar2 asString) , ' avanza una posicion'; cr.
 	
 			].
 	
 		].
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
+	Transcript cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Su numero adivinar era ' , (numAdivinar2 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - El numero que ingreso es ' , (respuesta2 asString) ; cr.
 	intentos2 := intentos2 + 1. "para contar la opcion que erro"
 
 	].
