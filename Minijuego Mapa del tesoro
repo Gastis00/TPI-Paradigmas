@@ -16,7 +16,7 @@ Transcript show: '---MINIJUEGO BÚSQUEDA DEL TESORO---' ; cr.
 Transcript show: 'Se presentara un mapa de ', (dimension asString) ,'x' , (dimension asString) ; cr.
 Transcript show: 'Se jugara por turnos, cada uno tendra su propio mapa y tesoro' ; cr.
 Transcript show: 'El jugador que encuentre primero encuentre el tesoro, sera el ganador' ; cr.
-Transcript show: 'Si ambos encuentran a la vez, ganara el defensor' ; cr.
+Transcript show: 'Si ambos encuentran a la vez, se volvera a jugar en un mapa mas chico' ; cr.
 Transcript show: 'No hay limites de intentos, cada vez que falles tendras una pista' ; cr.
 Transcript show: 'C: Caliente | T: Tibio | F: Frio | X: Tesoro' ; cr.
 
