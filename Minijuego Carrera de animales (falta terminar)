@@ -1,17 +1,19 @@
 minijuegoCarreraDeAnimales
 	"Minijuego de Adivinar Numero"
 	
-| conejo pajaro pingüino caballo gato elefante pez perro burro mono opcionesMostrar cantNum meta espacio1 espacio2 animal1 animal2 pos1 pos2 intentos1 intentos2 numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 salida |
+| espacioTotal1 espacioTotal2 conejo pajaro pingüino caballo gato elefante pez perro burro mono opcionesMostrar cantNum meta espacio1 espacio2 animal1 animal2 pos1 pos2 intentos1 intentos2 numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 salida |
 
 jugador1 := atacante.
 intentos1 := 0. "para mostrar al final nomas"
 pos1 := 0. "para controlar si gano"
 espacio1:= ''. "posiciones que se mueven en el transcript"
+espacioTotal1 := '                                                            |'. "meta"
 
 jugador2 := defensor.
 intentos2 := 0.
 pos2 := 0.
-espacio2:= ''. 
+espacio2:= ''.
+espacioTotal2 := '                                                            |'. "meta"
 
 meta := 5.
 cantNum := 3. "ocpiones para adivinar"
@@ -117,12 +119,12 @@ mono := #(
 opcionesMostrar := #('Burro' 'Gato' 'Perro' 'Pez' 'Elefante' 'Caballo' 'Pingüino' 'Pajaro' 'Conejo' 'Mono').
 
 
-respuesta1 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione un numero' title: 'CARRERA DE CABALLOS'.
+respuesta1 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 [respuesta1 = 0] whileTrue: [  "controla si viene 0 por error"
-	respuesta1 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione un numero' title: 'CARRERA DE CABALLOS'.
+	respuesta1 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 	].
 
-respuesta1 := {
+respuesta1 caseOf: {
 [1] -> [animal1 := burro].
 [2] -> [animal1 := gato].
 [3] -> [animal1 := perro].
@@ -136,12 +138,12 @@ respuesta1 := {
 }.
 
 
-respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione un numero' title: 'CARRERA DE CABALLOS'.
+respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 [respuesta2 = 0] whileTrue: [  "controla si viene 0 por error"
-	respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione un numero' title: 'CARRERA DE CABALLOS'.
+	respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 	].
 
-respuesta2 := {
+respuesta2 caseOf: {
 [1] -> [animal2 := burro].
 [2] -> [animal2 := gato].
 [3] -> [animal2 := perro].
@@ -155,13 +157,18 @@ respuesta2 := {
 }.
 
 "muestra los animles antes de arrancar"
-Transcript show: ('1').
+Transcript show: ('1 ').
 animal1 do: [:linea |
 	Transcript show: (espacio1,linea) ; cr.
 	].
-Transcript show: ('2').
+Transcript show: ('2 ').
 animal2 do: [:linea |
 	Transcript show: (espacio2,linea) ; cr.
+	].
+
+opcionesMostrar := Array new: cantNum.
+1 to: (cantNum) do: [ :i|
+	opcionesMostrar at: i put: i.
 	].
 
 [(pos1 < meta) and: (pos2 < meta)] whileTrue: [ 
@@ -183,17 +190,19 @@ animal2 do: [:linea |
 		(respuesta1 = numAdivinar1) ifTrue: [ 
 			pos1 := pos1 + 1.
 			espacio1 := (espacio1,'            '). "Agrega espacios para desplazar el caballo"
-			
+			1 to: (meta - pos1) do: [ :i
+				
+				].
 			"ACTUALIZA LA POSICION DE LOS CABALLOS"
 			Transcript clear.
-			Transcript show: ('1').
+			Transcript show: ('1 ').
 			"avanzo el caballo 1"
 			animal1 do: [:linea |
 				Transcript show: (espacio1,linea) ; cr.
 				].
 	
 			"se queda quieto"
-			Transcript show: ('2').
+			Transcript show: ('2 ').
 			animal2 do: [:linea |
 				Transcript show: (espacio2,linea) ; cr.
 				].
@@ -230,14 +239,14 @@ animal2 do: [:linea |
 			
 			"ACTUALIZA LA POSICION DE LOS CABALLOS"
 			Transcript clear.
-			Transcript show: ('1').
+			Transcript show: ('1 ').
 			"se queda quieto"
 			animal1 do: [ :linea|
 				Transcript show: (espacio1,linea) ; cr.
 				].
 			
 			"avanza el caballo 2"
-			Transcript show: ('2').
+			Transcript show: ('2 ').
 			animal2 do: [ :linea|
 				Transcript show: (espacio2,linea) ; cr.
 				].
