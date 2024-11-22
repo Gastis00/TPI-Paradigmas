@@ -15,7 +15,7 @@ pos2 := 1.
 espacio2:= ''.
 espacioTotal2 := ''. "meta"
 
-meta := 3. "la carrera son a 5 posiciones porque hay que pasar la meta"
+meta := 3. "la carrera son a 4 posiciones porque hay que pasar la meta"
 cantNum := 3. "ocpiones para adivinar"
 Transcript clear.
 Transcript show: '---CARRERA DE ANIMALES---' ; cr.
