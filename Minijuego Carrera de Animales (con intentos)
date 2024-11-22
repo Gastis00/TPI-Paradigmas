@@ -81,14 +81,12 @@ caballo2 := #(
 			caballo2 do: [:linea |
 				Transcript show: (espacio2,linea) ; cr.
 				].
-		
-			World doOneCycle. "fuerza a actualizar el transcript"
-			UIManager default request: 'continuar'. "aca iria que los jugadores vayan adivinando"
-			Transcript clear.
 	
 			].
-		
+	
 		].
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
 	intentos1 := intentos1 + 1. "para contar la opcion que erro"
 	
 	
@@ -123,16 +121,14 @@ caballo2 := #(
 			caballo2 do: [ :linea|
 				Transcript show: (espacio2,linea) ; cr.
 				].
-		
-			World doOneCycle. "fuerza a actualizar el transcript"
-			UIManager default request: 'continuar'. "aca iria que los jugadores vayan adivinando"
-			Transcript clear.
 	
 			].
-		
-		].
-	intentos2 := intentos2 + 1. "para contar la opcion que erro"
 	
+		].
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
+	intentos2 := intentos2 + 1. "para contar la opcion que erro"
+
 	].
 
 
