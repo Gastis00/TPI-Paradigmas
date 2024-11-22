@@ -15,7 +15,7 @@ pos2 := 1.
 espacio2:= ''.
 espacioTotal2 := ''. "meta"
 
-meta := 4. "la carrera son a 5 posiciones porque hay que pasar la meta"
+meta := 3. "la carrera son a 5 posiciones porque hay que pasar la meta"
 cantNum := 3. "ocpiones para adivinar"
 Transcript clear.
 Transcript show: '---CARRERA DE ANIMALES---' ; cr.
@@ -49,7 +49,7 @@ perro := #(
 ' (    @\___ '
 ' /         O'
 '/   (_____/ '
-'/_____/   U '
+'/_____/  U  '
 ).
 pez := #(
 '       '
@@ -101,17 +101,17 @@ conejo := #(
 ' o_(")(")'
 ).
 mono := #(
-'             __,__              ' 
-'     .--.  .-"     "-.  .--.    '
-'    / .. \/  .-. .-.  \/ .. \   '
-'   | |  ''|  /   Y   \  |''  |    '
-'   | \   \  \ 0 | 0 /  /   /    '
-'    \ ''- ,\.-""""""""""-./, -''  '
-'     `''-'' /_   ^ ^   _\ ''-''`    '
-'         |  \._     _./  |      '
-'         \   \ ''~''~'' /   /      '
-'          ''._ ''-.__.-'' _.''      '
-'             ''""-----""''        '
+'          __,__              ' 
+'  .--.  .-"     "-.  .--.    '
+' / .. \/  .-. .-.  \/ .. \   '
+'| |  ''|  /   Y   \  |''  |    '
+'| \   \  \ 0 | 0 /  /   /    '
+' \ ''- ,\.-""""""""""-./, -''  '
+'  `''-'' /_   ^ ^   _\ ''-''`    '
+'      |  \._     _./  |      '
+'      \   \ ''~''~'' /   /      '
+'       ''._ ''-.__.-'' _.''      '
+'          ''""-----""''        '
 ).
 
 
@@ -228,21 +228,50 @@ opcionesMostrar := Array new: cantNum.
 			animal2 do: [:linea |
 				Transcript show: (espacio2,linea,espacioTotal2) ; cr.
 				].
-			
-			
-			
+
 			Transcript cr.
 			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Acerto el numero ' , (numAdivinar1 asString) , ' avanza una posicion y vuelve a jugar'; cr.
 			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' esta en la posicion ' , (pos1 asString) ; cr.
 			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' esta en la posicion ' , (pos2 asString) ; cr.
 	
+			]
+		
+		"para cuando FALLE"
+		ifFalse: [ 
+			
+			espacioTotal1 := ''.
+			1 to: (meta - pos1) do: [ :i|
+				espacioTotal1 := (espacioTotal1,'            ').
+				].
+			espacioTotal1 := (espacioTotal1,'| |').
+			"MANTIENE LA POSICION DE LOS CABALLOS"
+			Transcript clear.
+			Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+			Transcript show: ('1') ; cr.
+			"se queda quieto"
+			animal1 do: [ :linea|
+				Transcript show: (espacio1,linea,espacioTotal1) ; cr.
+				].
+			
+			espacioTotal2 := ''.
+			1 to: (meta - pos2) do: [ :i|
+				espacioTotal2 := (espacioTotal2,'            ').
+				].
+			espacioTotal2 := (espacioTotal2,'| |').
+			"se queda quieto"
+			Transcript cr.
+			Transcript show: ('2') ; cr.
+			animal2 do: [ :linea|
+				Transcript show: (espacio2,linea,espacioTotal2) ; cr.
+				].	
+			
+			Transcript cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.		
 			].
-	
+		
 		].
-	Transcript cr.
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Su numero adivinar era ' , (numAdivinar1 asString) ; cr.
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - El numero que ingreso es ' , (respuesta1 asString) ; cr.
-	intentos1 := intentos1 + 1. "para contar la opcion que erro"
+
 	
 	
 	"JUEGA EL JUGADOR2"
@@ -294,15 +323,42 @@ opcionesMostrar := Array new: cantNum.
 			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' esta en la posicion ' , (pos2 asString) ; cr.
 			Transcript show: 'Jugador' , ((jugador1 id) asString) , ' esta en la posicion ' , (pos1 asString) ; cr.
 	
+			]
+		
+		"para cuando FALLE"
+		ifFalse: [ 
+			
+			espacioTotal1 := ''.
+			1 to: (meta - pos1) do: [ :i|
+				espacioTotal1 := (espacioTotal1,'            ').
+				].
+			espacioTotal1 := (espacioTotal1,'| |').
+			"MANTIENE LA POSICION DE LOS CABALLOS"
+			Transcript clear.
+			Transcript show: '---CARRERA DE ANIMALES---' ; cr.
+			Transcript show: ('1') ; cr.
+			"se queda quieto"
+			animal1 do: [ :linea|
+				Transcript show: (espacio1,linea,espacioTotal1) ; cr.
+				].
+			
+			espacioTotal2 := ''.
+			1 to: (meta - pos2) do: [ :i|
+				espacioTotal2 := (espacioTotal2,'            ').
+				].
+			espacioTotal2 := (espacioTotal2,'| |').
+			"se queda quieto"
+			Transcript cr.
+			Transcript show: ('2') ; cr.
+			animal2 do: [ :linea|
+				Transcript show: (espacio2,linea,espacioTotal2) ; cr.
+				].	
+			
+			Transcript cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Su numero adivinar era ' , (numAdivinar2 asString) ; cr.
+			Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - El numero que ingreso es ' , (respuesta2 asString) ; cr.
 			].
 	
-		].
-	
-	(pos1 <= meta) ifTrue: [ 
-		Transcript cr.
-		Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Su numero adivinar era ' , (numAdivinar2 asString) ; cr.
-		Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - El numero que ingreso es ' , (respuesta2 asString) ; cr.
-		intentos2 := intentos2 + 1. "para contar la opcion que erro"		
 		].
 	
 	].
@@ -371,23 +427,22 @@ ifFalse: [
 	].
 
 
-
 "YA HAY UN GANADOR ENTONCES INFORMO"
 Transcript cr.
 Transcript show: '-Duelo finalizado-' ; cr.
 
 (pos1 > meta) ifTrue: [ 
 	
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Es el ganador de la carrera' ; cr.
-	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Perdio y quedo en la posicion ', (pos2 asString) ; cr.		
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Es el ganador de la carrera con ' , (intentos1 asString), ' intentos' ; cr.
+	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Perdio con ', (intentos2 asString),' intentos y quedo en la posicion ', (pos2 asString) ; cr.		
 	salida := atacante.
 	
 	]
 
 ifFalse: [  
 	"pos2 > meta"
-	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Es el ganador de la carrera' ; cr.
-	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Perdio y quedo en la posicion ', (pos1 asString) ; cr.		
+	Transcript show: 'Jugador' , ((jugador2 id) asString) , ' - Es el ganador de la carrera con ' , (intentos2 asString), ' intentos' ; cr.
+	Transcript show: 'Jugador' , ((jugador1 id) asString) , ' - Perdio con ', (intentos1 asString),' intentos y quedo en la posicion ', (pos1 asString) ; cr.			
 	salida := defensor.
 	
 	].
