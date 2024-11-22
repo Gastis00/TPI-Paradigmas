@@ -16,7 +16,7 @@ acerto2 := false.
 sec2:= ''.
 
 cantNum := 6. "cantidad de numeros que salen"
-seg := 1. "cada cuanto salen los numeros"
+seg := 0.7. "cada cuanto salen los numeros"
 semaforo := Semaphore new.
 nro := (-10 to: 10) atRandom. "inicializo"
 
@@ -31,11 +31,16 @@ Transcript show: 'En caso de que ambos queden a la misma distancia: gana el defe
 Transcript show: 'Este sería un ejemplo, n es la cantidad de números que van y N el número a sumar/restar' ; cr.
 Transcript show: 'n) El número a sumar/restar es N' ; cr.
 
+Transcript cr.
+Transcript show: '-ATACANTE-' ; cr.
+Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+Transcript show: '-DEFENSOR-' ; cr.
+Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr. "muestra el id"
 UIManager default request: 'Presione ENTER cuando termine de leer'.
+
 "JUEGA EL JUGADOR1"
 Transcript clear.
-Transcript show: '-Turno ATACANTE-' ; cr.
-Transcript show: 'Jugador' , ((jugador1 id) asString) ; cr. "muestra el id"
+Transcript show: '-Turno Jugador', ((jugador1 id) asString) , '-' ; cr.
 UIManager default request: 'Jugador' , ((jugador1 id) asString) , ' - Estas listo?'.
 Transcript clear.
 1 to: (cantNum) do: [ :i|
@@ -62,8 +67,7 @@ respuesta1 := self enteroError: respuesta1.
 
 "JUEGA EL JUGADOR 2"
 Transcript clear.
-Transcript show: '-Turno DEFENSOR-' ; cr.
-Transcript show: 'Jugador' , ((jugador2 id) asString) ; cr.
+Transcript show: '-Turno Jugador', ((jugador1 id) asString) ,'-' ; cr.
 UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Estas listo?'.
 Transcript clear.
 1 to: cantNum do: [ :i|
