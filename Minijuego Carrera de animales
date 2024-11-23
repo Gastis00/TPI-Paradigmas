@@ -1,5 +1,5 @@
 minijuegoCarreraDeAnimales
-	"Minijuego de Adivinar Numero"
+	"Minijuego Carrera de animales"
 	
 | espacioTotal1 espacioTotal2 conejo pajaro pingüino caballo gato elefante pez perro burro mono opcionesMostrar cantNum meta espacio1 espacio2 animal1 animal2 pos1 pos2 intentos1 intentos2 numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 salida |
 
