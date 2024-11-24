@@ -67,7 +67,7 @@ respuesta1 := self enteroError: respuesta1.
 
 "JUEGA EL JUGADOR 2"
 Transcript clear.
-Transcript show: '-Turno Jugador', ((jugador1 id) asString) ,'-' ; cr.
+Transcript show: '-Turno Jugador', ((jugador2 id) asString) ,'-' ; cr.
 UIManager default request: 'Jugador' , ((jugador2 id) asString) , ' - Estas listo?'.
 Transcript clear.
 1 to: cantNum do: [ :i|
