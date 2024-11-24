@@ -26,7 +26,7 @@ tablero mostrarMiniJuegos.
 	Transcript show: '*Cargar al jugador: ', (c) asString.
 	nickname := (UIManager default request: 'Ingrese su nickname').
 	minigame := tablero modoEntrada: 2.
-	tablero inicializarJugador: nickname minijuego: minigame tablero: tablero numero: c
+	tablero inicializarJugador: nickname minijuego: minigame numero: c
 	 ].
 Transcript clear.
 
@@ -56,7 +56,7 @@ tablero mostrarTablero: window texto: texto.
 			"Duelo Extra"
 			primero := tablero jugadorConMasTerreno.
 			segundo := primero elegirRivalDueloExtra: tablero.
-			tablero procedimientoDueloExtra: primero defensor: segundo objgame: games tablero: tablero.
+			tablero procedimientoDueloExtra: primero defensor: segundo objgame: games.
 		].
 	].
 
@@ -85,4 +85,3 @@ tablero actualizarTablero: window texto: texto.
 UIManager default request: 'INGRESE ENTER PARA AVANZAR A LOS RESULTADOS FINALES'.
 Transcript clear.
 vencedor resultadoFinal.
-
