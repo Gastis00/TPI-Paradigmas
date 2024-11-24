@@ -1,5 +1,5 @@
 minijuegoAdivinarNumero
-	"Minijuego de Adivinar Numero"
+	"Minijuego de AdivinarNumero"
 	
 | rango intentosTotal empateTotal numRonda ganador empate acerto1 acerto2 distancia1 distancia2 intentos1 intentos2  numAdivinar1 numAdivinar2 jugador1 jugador2 respuesta1 respuesta2 salida |
 
