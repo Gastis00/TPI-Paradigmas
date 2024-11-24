@@ -33,11 +33,11 @@ UIManager default request: 'Presione ENTER cuando termine de leer'.
 Transcript clear.
 
 burro := #(
-'    >>>>>\.       '
-'    /_  )`.       '
-'    /  _)`^)`.    '
-'    (_,'' \  `^-''  '
-'    `''            '
+'  >>>>>\.       '
+'  /_  )`.       '
+' /  _)`^)`.     '
+'(_,'' \  `^-''  '
+' `''            '
 ).
 gato := #(
 ' /\_/\ ' 
@@ -137,9 +137,9 @@ respuesta1 caseOf: {
 [10] -> [animal1 := mono].
 }.
 
-respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Seleccione su avatar' title: 'CARRERA DE CABALLOS'.
+respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador2 id) asString) ,' - Seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 [respuesta2 = 0] whileTrue: [  "controla si viene 0 por error"
-	respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador1 id) asString) ,' - Error, seleccione su avatar' title: 'CARRERA DE CABALLOS'.
+	respuesta2 := UIManager default chooseFrom: (opcionesMostrar) message: 'El jugador', ((jugador2 id) asString) ,' - Error, seleccione su avatar' title: 'CARRERA DE CABALLOS'.
 	].
 
 respuesta2 caseOf: {
