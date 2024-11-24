@@ -152,7 +152,7 @@ Transcript show: '-Duelo finalizado-' ; cr.
 	salida := atacante.
 	]
 ifFalse: [ 
-	Transcript show: 'l resultado fue ', (victorias2 asString), '-' , (victorias1 asString) ; cr.
+	Transcript show: 'El resultado fue ', (victorias2 asString), '-' , (victorias1 asString) ; cr.
 	Transcript show: 'El ganador es el jugador', ((jugador2 id) asString) ; cr.
 	Transcript show: 'El perdedor es el jugador', ((jugador1 id) asString) ; cr.
 	Transcript show: 'En la ronda ', (numRonda asString) ; cr.
